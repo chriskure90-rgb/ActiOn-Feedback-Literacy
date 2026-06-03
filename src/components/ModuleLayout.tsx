@@ -11,6 +11,7 @@ const LOGO_URL = "/logo.png";
 interface ModuleLayoutProps {
   current: number;
   children: ReactNode;
+  fullHeight?: boolean;
 }
 interface ModuleHeaderProps {
   eyebrow: string;
@@ -25,11 +26,14 @@ interface NavFooterProps {
 
 /* ─── ModuleLayout ───────────────────────────────────────────── */
 
-export function ModuleLayout({ current, children }: ModuleLayoutProps) {
+export function ModuleLayout({ current, children, fullHeight }: ModuleLayoutProps) {
   return (
-    <div className="min-h-screen bg-background">
+    <div className={cn(
+      "bg-background",
+      fullHeight ? "h-screen flex flex-col overflow-hidden" : "min-h-screen",
+    )}>
       {/* Navy header — bg-primary (#163A5F) */}
-      <header className="sticky top-0 z-40 border-b border-primary/30 bg-primary shadow-[0_2px_8px_0_rgb(22_58_95/0.35)]">
+      <header className="shrink-0 sticky top-0 z-40 border-b border-primary/30 bg-primary shadow-[0_2px_8px_0_rgb(22_58_95/0.35)]">
         <div className="mx-auto max-w-6xl px-5 py-3">
 
           {/* Brand row */}
@@ -60,11 +64,20 @@ export function ModuleLayout({ current, children }: ModuleLayoutProps) {
         </div>
       </header>
 
-      <main className="mx-auto max-w-6xl px-5 py-10 md:py-14">{children}</main>
+      <main className={cn(
+        "mx-auto w-full max-w-6xl px-5",
+        fullHeight
+          ? "flex-1 min-h-0 flex flex-col overflow-hidden py-4"
+          : "py-10 md:py-14",
+      )}>
+        {children}
+      </main>
 
-      <footer className="border-t border-border mt-16 py-6 text-center text-xs text-muted-foreground">
-        ActiOn · Feedback to Action · Adaptive Learning Prototype
-      </footer>
+      {!fullHeight && (
+        <footer className="border-t border-border mt-16 py-6 text-center text-xs text-muted-foreground">
+          ActiOn · Feedback to Action · Adaptive Learning Prototype
+        </footer>
+      )}
     </div>
   );
 }

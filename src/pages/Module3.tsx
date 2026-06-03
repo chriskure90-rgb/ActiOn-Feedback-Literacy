@@ -10,6 +10,7 @@ import {
   Sparkles,
   User,
 } from "lucide-react";
+import { Link } from "react-router";
 import { ModuleLayout, ModuleHeader, NavFooter } from "@/components/ModuleLayout";
 import { cn } from "@/lib/utils";
 import type { Dimension } from "@/lib/constants";
@@ -134,25 +135,32 @@ export default function Module3() {
     );
   }
 
-  /* ── Step 2: Coaching ──────────────────────────────────────── */
+  /* ── Step 2: Coaching — full-height viewport layout ───────── */
 
   return (
-    <ModuleLayout current={3}>
-      <ModuleHeader
-        eyebrow="Module 3 · Practice · Step 2 of 2"
-        title="Build your improvement plan with an AI coach"
-        description="The coach guides you through each feedback literacy dimension and helps you draft a concrete next step."
-      />
+    <ModuleLayout current={3} fullHeight>
 
-      <div className="grid gap-5 lg:grid-cols-12">
-        {/* ── Left sidebar ── */}
-        <div className="lg:col-span-4 space-y-4">
+      {/* Compact page header — shrink-0 so it doesn't steal flex space */}
+      <div className="shrink-0 mb-3">
+        <p className="text-[11px] font-bold uppercase tracking-widest text-teal mb-1">
+          Module 3 · Practice · Step 2 of 2
+        </p>
+        <h1 className="text-xl font-extrabold text-primary tracking-tight leading-tight">
+          Build your improvement plan with an AI coach
+        </h1>
+      </div>
+
+      {/* Grid — grows to fill all remaining vertical space */}
+      <div className="flex-1 min-h-0 grid gap-4 lg:grid-cols-12">
+
+        {/* ── Left sidebar — scrolls internally if needed ── */}
+        <div className="lg:col-span-4 min-h-0 overflow-y-auto space-y-3 pr-1">
           <AssignmentCard title={setup.title} />
 
-          <div className="rounded-xl border border-border bg-white p-5 shadow-card">
+          <div className="rounded-xl border border-border bg-white p-4 shadow-card">
             <label
               htmlFor="feedback-input"
-              className="block text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-3"
+              className="block text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2"
             >
               Teacher's feedback
             </label>
@@ -160,7 +168,7 @@ export default function Module3() {
               id="feedback-input"
               value={setup.feedback}
               onChange={(e) => setSetup((prev) => ({ ...prev, feedback: e.target.value }))}
-              className="w-full min-h-[130px] rounded-lg border border-border bg-background px-3 py-2.5 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 resize-none text-foreground placeholder:text-muted-foreground transition"
+              className="w-full min-h-[100px] rounded-lg border border-border bg-background px-3 py-2 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 resize-none text-foreground placeholder:text-muted-foreground transition"
               placeholder="Paste your teacher's feedback here…"
             />
           </div>
@@ -168,12 +176,12 @@ export default function Module3() {
           <ProgressTracker progress={PROGRESS} />
         </div>
 
-        {/* ── Main chat panel ── */}
-        <div className="lg:col-span-8">
-          <div className="rounded-xl border-2 border-primary bg-white overflow-hidden shadow-card-lg flex flex-col" style={{ minHeight: 540 }}>
+        {/* ── Chat panel — fills column height exactly ── */}
+        <div className="lg:col-span-8 min-h-0 flex flex-col">
+          <div className="flex-1 min-h-0 rounded-xl border-2 border-primary bg-white overflow-hidden shadow-card-lg flex flex-col">
 
             {/* Chat header */}
-            <div className="bg-primary px-5 py-3.5 flex items-center justify-between shrink-0">
+            <div className="bg-primary px-5 py-3 flex items-center justify-between shrink-0">
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-lg bg-white/15 text-white flex items-center justify-center">
                   <Sparkles className="w-4 h-4" />
@@ -197,7 +205,7 @@ export default function Module3() {
             </div>
 
             {/* Dimension progress strip */}
-            <div className="bg-primary-soft border-b border-border px-5 py-2 flex items-center gap-3">
+            <div className="bg-primary-soft border-b border-border px-5 py-2 flex items-center gap-3 shrink-0">
               {PROGRESS.map((p) => (
                 <div key={p.dim} className="flex items-center gap-1.5">
                   {p.status === "done" ? (
@@ -217,8 +225,8 @@ export default function Module3() {
               ))}
             </div>
 
-            {/* Messages */}
-            <div className="flex-1 overflow-y-auto px-5 py-5 space-y-4 bg-surface/40">
+            {/* Messages — the only scrolling region */}
+            <div className="flex-1 min-h-0 overflow-y-auto px-5 py-5 space-y-4 bg-surface/40">
               {chat.map((m, i) => (
                 <ChatBubble key={i} message={m} />
               ))}
@@ -260,7 +268,7 @@ export default function Module3() {
                   <Send className="w-4 h-4" />
                 </button>
               </div>
-              <p className="text-[10px] text-muted-foreground mt-1.5 ml-0.5">
+              <p className="text-[10px] text-muted-foreground mt-1 ml-0.5">
                 Shift + Enter for new line
               </p>
             </div>
@@ -268,10 +276,22 @@ export default function Module3() {
         </div>
       </div>
 
-      <NavFooter
-        prev={{ path: "/module/2", label: "Back to Assess" }}
-        next={{ path: "/module/4", label: "Continue to Transfer" }}
-      />
+      {/* Compact bottom nav — replaces NavFooter's large mt-14 */}
+      <div className="shrink-0 mt-3 flex items-center justify-between border-t border-border pt-3">
+        <Link
+          to="/module/2"
+          className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+        >
+          ← Back to Assess
+        </Link>
+        <Link
+          to="/module/4"
+          className="inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-2 text-sm font-bold text-white shadow-card hover:bg-accent/90 active:scale-[0.98] transition-all"
+        >
+          Continue to Transfer →
+        </Link>
+      </div>
+
     </ModuleLayout>
   );
 }
@@ -288,19 +308,19 @@ function SetupStep({ setup, onChange, onBegin }: SetupStepProps) {
   const canBegin = setup.title.trim().length > 0 && setup.feedback.trim().length > 0;
 
   return (
-    <div className="max-w-2xl space-y-6">
+    <div className="max-w-2xl space-y-4">
 
       {/* Info callout */}
-      <div className="flex gap-3 rounded-xl border border-primary/20 bg-primary/5 px-4 py-3.5">
+      <div className="flex gap-3 rounded-xl border border-primary/20 bg-primary/5 px-4 py-3">
         <Info className="w-4 h-4 text-primary shrink-0 mt-0.5" />
         <p className="text-sm text-primary/80 leading-relaxed">
-          Your entries stay on this page only — nothing is sent to a server. This lets the AI coach
-          tailor its questions to your real assignment and feedback rather than using a generic example.
+          Your entries stay on this page only — nothing is sent to a server. The AI coach uses this
+          to personalise every question to your specific situation.
         </p>
       </div>
 
       {/* Field 1: Assignment Title */}
-      <div className="rounded-xl border border-border bg-white p-6 shadow-card space-y-3">
+      <div className="rounded-xl border border-border bg-white p-5 shadow-card space-y-2">
         <div className="flex items-center gap-2">
           <FileText className="w-4 h-4 text-teal shrink-0" />
           <label
@@ -310,9 +330,8 @@ function SetupStep({ setup, onChange, onBegin }: SetupStepProps) {
             Assignment Title <span className="text-accent normal-case font-semibold tracking-normal">· required</span>
           </label>
         </div>
-        <p className="text-xs text-muted-foreground leading-relaxed">
-          Enter the name of the piece of work you received feedback on. The coach will refer to it
-          by name throughout your session.
+        <p className="text-xs text-muted-foreground">
+          The name of the work you received feedback on. The coach will refer to it by name.
         </p>
         <input
           id="assignment-title"
@@ -325,7 +344,7 @@ function SetupStep({ setup, onChange, onBegin }: SetupStepProps) {
       </div>
 
       {/* Field 2: Assignment Instructions */}
-      <div className="rounded-xl border border-border bg-white p-6 shadow-card space-y-3">
+      <div className="rounded-xl border border-border bg-white p-5 shadow-card space-y-2">
         <div className="flex items-center gap-2">
           <ClipboardList className="w-4 h-4 text-teal shrink-0" />
           <label
@@ -335,22 +354,21 @@ function SetupStep({ setup, onChange, onBegin }: SetupStepProps) {
             Assignment Instructions / Task Description <span className="text-muted-foreground/60 normal-case font-normal tracking-normal text-[10px]">· optional</span>
           </label>
         </div>
-        <p className="text-xs text-muted-foreground leading-relaxed">
-          Paste the original task brief or marking criteria if you have it. This helps the coach
-          understand what the assignment was asking for, so it can help you judge your work more precisely.
+        <p className="text-xs text-muted-foreground">
+          Paste the task brief or marking criteria so the coach understands what the assignment required.
         </p>
         <textarea
           id="assignment-instructions"
           value={setup.instructions}
           onChange={(e) => onChange({ instructions: e.target.value })}
-          rows={6}
+          rows={4}
           placeholder="Paste the assignment brief, task instructions, or marking criteria here…"
           className="w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 resize-y text-foreground placeholder:text-muted-foreground transition"
         />
       </div>
 
       {/* Field 3: Teacher Feedback */}
-      <div className="rounded-xl border border-border bg-white p-6 shadow-card space-y-3">
+      <div className="rounded-xl border border-border bg-white p-5 shadow-card space-y-2">
         <div className="flex items-center gap-2">
           <Bot className="w-4 h-4 text-teal shrink-0" />
           <label
@@ -360,30 +378,29 @@ function SetupStep({ setup, onChange, onBegin }: SetupStepProps) {
             Teacher Feedback <span className="text-accent normal-case font-semibold tracking-normal">· required</span>
           </label>
         </div>
-        <p className="text-xs text-muted-foreground leading-relaxed">
-          Copy and paste exactly what your teacher wrote. Include all comments — even ones that feel
-          harsh or confusing. The coach is designed to help you work through difficult feedback, not
-          just the positive parts.
+        <p className="text-xs text-muted-foreground">
+          Copy exactly what your teacher wrote — including comments that feel harsh or confusing.
+          The coach is designed to help you work through all of it.
         </p>
         <textarea
           id="teacher-feedback"
           value={setup.feedback}
           onChange={(e) => onChange({ feedback: e.target.value })}
-          rows={8}
+          rows={5}
           placeholder="Paste your teacher's written feedback here…"
           className="w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 resize-y text-foreground placeholder:text-muted-foreground transition"
         />
       </div>
 
       {/* Begin button */}
-      <div className="flex items-center justify-between pt-2">
+      <div className="flex items-center justify-between pt-1">
         <p className="text-xs text-muted-foreground">
           {!canBegin && "Complete the required fields to continue."}
         </p>
         <button
           onClick={onBegin}
           disabled={!canBegin}
-          className="inline-flex items-center gap-2 rounded-lg bg-accent px-7 py-3 text-sm font-bold text-white shadow-card hover:bg-accent/90 active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+          className="inline-flex items-center gap-2 rounded-lg bg-accent px-7 py-2.5 text-sm font-bold text-white shadow-card hover:bg-accent/90 active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed transition-all"
         >
           <Sparkles className="w-4 h-4" />
           Begin Coaching →
