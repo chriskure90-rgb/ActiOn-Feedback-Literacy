@@ -28,12 +28,20 @@ interface NavFooterProps {
 
 export function ModuleLayout({ current, children, fullHeight }: ModuleLayoutProps) {
   return (
+    /*
+     * CSS Grid with grid-rows guarantees <main> always occupies the row
+     * strictly below <header>, whatever the header's actual rendered height.
+     * This avoids the sticky-inside-overflow-hidden browser bug where the
+     * header is removed from flow and overlaps the content area.
+     */
     <div className={cn(
       "bg-background",
-      fullHeight ? "h-screen flex flex-col overflow-hidden" : "min-h-screen",
+      fullHeight
+        ? "h-screen grid grid-rows-[auto_1fr]"
+        : "min-h-screen grid grid-rows-[auto_1fr_auto]",
     )}>
       {/* Navy header — bg-primary (#163A5F) */}
-      <header className="shrink-0 sticky top-0 z-40 border-b border-primary/30 bg-primary shadow-[0_2px_8px_0_rgb(22_58_95/0.35)]">
+      <header className="sticky top-0 z-40 border-b border-primary/30 bg-primary shadow-[0_2px_8px_0_rgb(22_58_95/0.35)]">
         <div className="mx-auto max-w-6xl px-5 py-3">
 
           {/* Brand row */}
@@ -67,7 +75,7 @@ export function ModuleLayout({ current, children, fullHeight }: ModuleLayoutProp
       <main className={cn(
         "mx-auto w-full max-w-6xl px-5",
         fullHeight
-          ? "flex-1 min-h-0 flex flex-col overflow-hidden py-4"
+          ? "min-h-0 overflow-hidden flex flex-col py-4"
           : "py-10 md:py-14",
       )}>
         {children}
