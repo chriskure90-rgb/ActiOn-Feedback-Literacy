@@ -3,7 +3,9 @@ import {
   Bot,
   CheckCircle2,
   Circle,
+  ClipboardList,
   FileText,
+  Info,
   Send,
   Sparkles,
   User,
@@ -33,6 +35,12 @@ interface ProgressItem {
   status: ProgressStatus;
 }
 
+interface SetupData {
+  title: string;
+  instructions: string;
+  feedback: string;
+}
+
 /* ─── Static data ────────────────────────────────────────────── */
 
 const PROGRESS: ProgressItem[] = [
@@ -40,21 +48,6 @@ const PROGRESS: ProgressItem[] = [
   { dim: "Appreciating Feedback", status: "done"   },
   { dim: "Making Judgments",      status: "active" },
   { dim: "Taking Action",         status: "todo"   },
-];
-
-const SEED_MESSAGES: ChatMessage[] = [
-  {
-    role: "ai",
-    text: "Hi! I'm here to help you turn your teacher's feedback into a concrete improvement plan. Let's start with how the feedback made you feel.",
-  },
-  {
-    role: "user",
-    text: "Honestly, a bit discouraged. The teacher said my argument was unclear.",
-  },
-  {
-    role: "ai",
-    text: "That's a very human reaction. Naming the feeling already helps. Let's reframe — what specifically did the teacher highlight as unclear?",
-  },
 ];
 
 export const COACH_SYSTEM_PROMPT = `You are an expert AI feedback literacy coach for university students. Your role is to help students work through teacher feedback using the four feedback literacy dimensions:
@@ -68,17 +61,29 @@ Keep responses concise (2–4 sentences). Ask one focused follow-up question per
 /* ─── Module 3 ───────────────────────────────────────────────── */
 
 export default function Module3() {
-  const [feedback, setFeedback] = useState(
-    "Your argument is interesting but the structure makes it hard to follow. The introduction promises three points, but only two are developed. Evidence is solid where present, however several claims in section 2 lack sources.",
-  );
+  const [step, setStep] = useState<"setup" | "coach">("setup");
+  const [setup, setSetup] = useState<SetupData>({
+    title: "",
+    instructions: "",
+    feedback: "",
+  });
   const [message, setMessage] = useState("");
-  const [chat, setChat] = useState<ChatMessage[]>(SEED_MESSAGES);
+  const [chat, setChat] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const chatBottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     chatBottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chat, isLoading]);
+
+  function handleBeginCoaching() {
+    const greeting: ChatMessage = {
+      role: "ai",
+      text: `Hi! I can see you're working on "${setup.title}". I'm here to help you turn your teacher's feedback into a concrete improvement plan. Let's start with how the feedback made you feel when you first read it.`,
+    };
+    setChat([greeting]);
+    setStep("coach");
+  }
 
   const send = useCallback(async () => {
     const text = message.trim();
@@ -92,7 +97,7 @@ export default function Module3() {
 
     try {
       // ── Mock: replace `getMockCoachReply` import to go live ──────────────
-      const aiText = await getMockCoachReply(nextChat, feedback);
+      const aiText = await getMockCoachReply(nextChat, setup.feedback);
       // ─────────────────────────────────────────────────────────────────────
       setChat((prev) => [...prev, { role: "ai", text: aiText }]);
     } catch {
@@ -103,20 +108,46 @@ export default function Module3() {
     } finally {
       setIsLoading(false);
     }
-  }, [message, chat, isLoading, feedback]);
+  }, [message, chat, isLoading, setup.feedback]);
+
+  /* ── Step 1: Setup ─────────────────────────────────────────── */
+
+  if (step === "setup") {
+    return (
+      <ModuleLayout current={3}>
+        <ModuleHeader
+          eyebrow="Module 3 · Practice · Step 1 of 2"
+          title="Set up your assignment & feedback"
+          description="Tell us about your assignment and paste your teacher's feedback. The AI coach uses this to personalise every question to your specific situation."
+        />
+
+        <SetupStep
+          setup={setup}
+          onChange={(patch) => setSetup((prev) => ({ ...prev, ...patch }))}
+          onBegin={handleBeginCoaching}
+        />
+
+        <NavFooter
+          prev={{ path: "/module/2", label: "Back to Assess" }}
+        />
+      </ModuleLayout>
+    );
+  }
+
+  /* ── Step 2: Coaching ──────────────────────────────────────── */
 
   return (
     <ModuleLayout current={3}>
       <ModuleHeader
-        eyebrow="Module 3 · Practice · Core"
+        eyebrow="Module 3 · Practice · Step 2 of 2"
         title="Build your improvement plan with an AI coach"
-        description="Paste your teacher's feedback below. The coach guides you through each dimension and helps you draft a concrete next step."
+        description="The coach guides you through each feedback literacy dimension and helps you draft a concrete next step."
       />
 
       <div className="grid gap-5 lg:grid-cols-12">
         {/* ── Left sidebar ── */}
         <div className="lg:col-span-4 space-y-4">
-          <AssignmentCard />
+          <AssignmentCard title={setup.title} />
 
           <div className="rounded-xl border border-border bg-white p-5 shadow-card">
             <label
@@ -127,8 +158,8 @@ export default function Module3() {
             </label>
             <textarea
               id="feedback-input"
-              value={feedback}
-              onChange={(e) => setFeedback(e.target.value)}
+              value={setup.feedback}
+              onChange={(e) => setSetup((prev) => ({ ...prev, feedback: e.target.value }))}
               className="w-full min-h-[130px] rounded-lg border border-border bg-background px-3 py-2.5 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 resize-none text-foreground placeholder:text-muted-foreground transition"
               placeholder="Paste your teacher's feedback here…"
             />
@@ -216,12 +247,12 @@ export default function Module3() {
                   onKeyDown={(e) => {
                     if (e.key === "Enter" && !e.shiftKey) {
                       e.preventDefault();
-                      send();
+                      void send();
                     }
                   }}
                 />
                 <button
-                  onClick={send}
+                  onClick={() => void send()}
                   disabled={isLoading || !message.trim()}
                   className="rounded-lg bg-primary text-white p-3 hover:bg-primary/90 disabled:opacity-40 disabled:cursor-not-allowed active:scale-95 transition-all shadow-card"
                   aria-label="Send message"
@@ -245,27 +276,132 @@ export default function Module3() {
   );
 }
 
+/* ─── SetupStep ──────────────────────────────────────────────── */
+
+interface SetupStepProps {
+  setup: SetupData;
+  onChange: (patch: Partial<SetupData>) => void;
+  onBegin: () => void;
+}
+
+function SetupStep({ setup, onChange, onBegin }: SetupStepProps) {
+  const canBegin = setup.title.trim().length > 0 && setup.feedback.trim().length > 0;
+
+  return (
+    <div className="max-w-2xl space-y-6">
+
+      {/* Info callout */}
+      <div className="flex gap-3 rounded-xl border border-primary/20 bg-primary/5 px-4 py-3.5">
+        <Info className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+        <p className="text-sm text-primary/80 leading-relaxed">
+          Your entries stay on this page only — nothing is sent to a server. This lets the AI coach
+          tailor its questions to your real assignment and feedback rather than using a generic example.
+        </p>
+      </div>
+
+      {/* Field 1: Assignment Title */}
+      <div className="rounded-xl border border-border bg-white p-6 shadow-card space-y-3">
+        <div className="flex items-center gap-2">
+          <FileText className="w-4 h-4 text-teal shrink-0" />
+          <label
+            htmlFor="assignment-title"
+            className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground"
+          >
+            Assignment Title <span className="text-accent normal-case font-semibold tracking-normal">· required</span>
+          </label>
+        </div>
+        <p className="text-xs text-muted-foreground leading-relaxed">
+          Enter the name of the piece of work you received feedback on. The coach will refer to it
+          by name throughout your session.
+        </p>
+        <input
+          id="assignment-title"
+          type="text"
+          value={setup.title}
+          onChange={(e) => onChange({ title: e.target.value })}
+          placeholder="e.g. Essay: Climate Policy in the EU"
+          className="w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 text-foreground placeholder:text-muted-foreground transition"
+        />
+      </div>
+
+      {/* Field 2: Assignment Instructions */}
+      <div className="rounded-xl border border-border bg-white p-6 shadow-card space-y-3">
+        <div className="flex items-center gap-2">
+          <ClipboardList className="w-4 h-4 text-teal shrink-0" />
+          <label
+            htmlFor="assignment-instructions"
+            className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground"
+          >
+            Assignment Instructions / Task Description <span className="text-muted-foreground/60 normal-case font-normal tracking-normal text-[10px]">· optional</span>
+          </label>
+        </div>
+        <p className="text-xs text-muted-foreground leading-relaxed">
+          Paste the original task brief or marking criteria if you have it. This helps the coach
+          understand what the assignment was asking for, so it can help you judge your work more precisely.
+        </p>
+        <textarea
+          id="assignment-instructions"
+          value={setup.instructions}
+          onChange={(e) => onChange({ instructions: e.target.value })}
+          rows={6}
+          placeholder="Paste the assignment brief, task instructions, or marking criteria here…"
+          className="w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 resize-y text-foreground placeholder:text-muted-foreground transition"
+        />
+      </div>
+
+      {/* Field 3: Teacher Feedback */}
+      <div className="rounded-xl border border-border bg-white p-6 shadow-card space-y-3">
+        <div className="flex items-center gap-2">
+          <Bot className="w-4 h-4 text-teal shrink-0" />
+          <label
+            htmlFor="teacher-feedback"
+            className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground"
+          >
+            Teacher Feedback <span className="text-accent normal-case font-semibold tracking-normal">· required</span>
+          </label>
+        </div>
+        <p className="text-xs text-muted-foreground leading-relaxed">
+          Copy and paste exactly what your teacher wrote. Include all comments — even ones that feel
+          harsh or confusing. The coach is designed to help you work through difficult feedback, not
+          just the positive parts.
+        </p>
+        <textarea
+          id="teacher-feedback"
+          value={setup.feedback}
+          onChange={(e) => onChange({ feedback: e.target.value })}
+          rows={8}
+          placeholder="Paste your teacher's written feedback here…"
+          className="w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 resize-y text-foreground placeholder:text-muted-foreground transition"
+        />
+      </div>
+
+      {/* Begin button */}
+      <div className="flex items-center justify-between pt-2">
+        <p className="text-xs text-muted-foreground">
+          {!canBegin && "Complete the required fields to continue."}
+        </p>
+        <button
+          onClick={onBegin}
+          disabled={!canBegin}
+          className="inline-flex items-center gap-2 rounded-lg bg-accent px-7 py-3 text-sm font-bold text-white shadow-card hover:bg-accent/90 active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+        >
+          <Sparkles className="w-4 h-4" />
+          Begin Coaching →
+        </button>
+      </div>
+    </div>
+  );
+}
+
 /* ─── Sub-components ─────────────────────────────────────────── */
 
-function AssignmentCard() {
+function AssignmentCard({ title }: { title: string }) {
   return (
     <div className="rounded-xl border border-border bg-white p-5 shadow-card">
       <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-3">
         <FileText className="w-3.5 h-3.5" /> Assignment
       </div>
-      <h3 className="font-bold text-primary text-sm mb-3">Essay: Climate policy in the EU</h3>
-      <dl className="space-y-2">
-        {[
-          { label: "Course",    value: "POL 204" },
-          { label: "Grade",     value: "B−" },
-          { label: "Submitted", value: "Mar 12" },
-        ].map(({ label, value }) => (
-          <div key={label} className="flex justify-between items-center text-sm">
-            <dt className="text-muted-foreground">{label}</dt>
-            <dd className="font-semibold text-foreground">{value}</dd>
-          </div>
-        ))}
-      </dl>
+      <h3 className="font-bold text-primary text-sm mb-1 leading-snug">{title}</h3>
     </div>
   );
 }
