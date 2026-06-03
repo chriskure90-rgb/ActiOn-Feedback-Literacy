@@ -1,0 +1,133 @@
+@import "tailwindcss" source(none);
+@source "../";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --color-background:        var(--background);
+  --color-foreground:        var(--foreground);
+  --color-card:              var(--card);
+  --color-card-foreground:   var(--card-foreground);
+  --color-popover:           var(--popover);
+  --color-popover-foreground:var(--popover-foreground);
+  --color-primary:           var(--primary);
+  --color-primary-foreground:var(--primary-foreground);
+  --color-primary-soft:      var(--primary-soft);
+  --color-teal:              var(--teal);
+  --color-teal-foreground:   var(--teal-foreground);
+  --color-teal-soft:         var(--teal-soft);
+  --color-secondary:         var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted:             var(--muted);
+  --color-muted-foreground:  var(--muted-foreground);
+  --color-accent:            var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-soft:       var(--accent-soft);
+  --color-destructive:       var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success:           var(--success);
+  --color-success-foreground:var(--success-foreground);
+  --color-warning:           var(--warning);
+  --color-warning-foreground:var(--warning-foreground);
+  --color-border:            var(--border);
+  --color-input:             var(--input);
+  --color-ring:              var(--ring);
+  --color-surface:           var(--surface);
+}
+
+/* ─── Brand palette ───────────────────────────────────────────────
+   Primary Navy   #163A5F  →  oklch(0.285 0.072 243)
+   Secondary Teal #4D9BA8  →  oklch(0.624 0.068 211)
+   Accent Orange  #F4A037  →  oklch(0.742 0.158 60)
+   Background     #F7F9FB  →  oklch(0.980 0.004 228)
+──────────────────────────────────────────────────────────────── */
+
+:root {
+  --radius: 0.625rem;
+
+  /* Page backgrounds */
+  --background: oklch(0.980 0.004 228);   /* #F7F9FB — spec background */
+  --surface:    oklch(0.966 0.006 225);   /* one step darker for subtle surfaces */
+  --card:       oklch(1 0 0);             /* pure white cards */
+  --card-foreground: oklch(0.185 0.048 243);
+  --popover:    oklch(1 0 0);
+  --popover-foreground: oklch(0.185 0.048 243);
+
+  /* Body text — dark navy tint for warmth and brand coherence */
+  --foreground: oklch(0.185 0.048 243);
+
+  /* Primary — Navy #163A5F */
+  --primary:           oklch(0.285 0.072 243);
+  --primary-foreground: oklch(0.99 0 0);
+  --primary-soft:      oklch(0.940 0.018 232);  /* very light navy wash for active bg */
+
+  /* Teal — #4D9BA8 (completed states, progress indicators, calm accents) */
+  --teal:              oklch(0.624 0.068 211);
+  --teal-foreground:   oklch(0.99 0 0);
+  --teal-soft:         oklch(0.942 0.022 212);  /* light teal wash */
+
+  /* Accent — Orange #F4A037 (CTA buttons, action elements only) */
+  --accent:            oklch(0.742 0.158 60);
+  --accent-foreground: oklch(0.99 0 0);
+  --accent-soft:       oklch(0.968 0.030 67);
+
+  /* Secondary — neutral surface tint */
+  --secondary:           oklch(0.938 0.012 230);
+  --secondary-foreground: oklch(0.260 0.055 243);
+
+  /* Muted — for placeholder text, subtitles, secondary labels */
+  --muted:            oklch(0.942 0.008 228);
+  --muted-foreground: oklch(0.465 0.022 236);
+
+  /* Semantic */
+  --destructive:            oklch(0.570 0.220 25);
+  --destructive-foreground: oklch(0.99 0 0);
+  --success:                oklch(0.624 0.068 211);  /* teal = success */
+  --success-foreground:     oklch(0.99 0 0);
+  --warning:                oklch(0.742 0.158 60);   /* orange = warning */
+  --warning-foreground:     oklch(0.99 0 0);
+
+  /* Borders, inputs, focus ring */
+  --border: oklch(0.875 0.010 230);
+  --input:  oklch(0.875 0.010 230);
+  --ring:   oklch(0.285 0.072 243);  /* navy focus ring — AA accessible */
+}
+
+/* ─── Base resets ────────────────────────────────────────────── */
+@layer base {
+  * {
+    border-color: var(--color-border);
+    box-sizing: border-box;
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* ─── Brand utility classes ──────────────────────────────────── */
+@layer utilities {
+  /* Teal — completed states, progress, calm elements */
+  .bg-teal       { background-color: var(--color-teal); }
+  .text-teal     { color: var(--color-teal); }
+  .border-teal   { border-color: var(--color-teal); }
+  .bg-teal-soft  { background-color: var(--color-teal-soft); }
+  .ring-teal     { --tw-ring-color: var(--color-teal); }
+
+  /* Accent soft fill */
+  .bg-accent-soft { background-color: var(--color-accent-soft); }
+
+  /* Card shadows — navy-tinted at #163A5F rgb(22 58 95) */
+  .shadow-card    { box-shadow: 0 1px 3px 0 rgb(22 58 95 / 0.08), 0 1px 2px -1px rgb(22 58 95 / 0.06); }
+  .shadow-card-md { box-shadow: 0 4px 12px -2px rgb(22 58 95 / 0.10), 0 2px 6px -2px rgb(22 58 95 / 0.07); }
+  .shadow-card-lg { box-shadow: 0 8px 24px -4px rgb(22 58 95 / 0.13), 0 4px 10px -4px rgb(22 58 95 / 0.08); }
+}
