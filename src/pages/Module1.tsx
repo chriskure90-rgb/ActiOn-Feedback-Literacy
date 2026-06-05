@@ -1,42 +1,79 @@
-import { BookOpen, Heart, Play, Rocket, Scale, ThumbsUp } from "lucide-react";
+import { useState } from "react";
+import { ChevronDown, Heart, Play, Rocket, Scale, ThumbsUp, Video } from "lucide-react";
 import { ModuleLayout, ModuleHeader, NavFooter } from "@/components/ModuleLayout";
 
-const FRAMEWORK = [
+const DIMENSIONS = [
   {
     icon: Heart,
     title: "Managing Affect",
-    desc: "Recognize and regulate emotional reactions to feedback so they don't block learning.",
+    explanation:
+      "Managing affect means recognising emotional reactions to feedback and preventing them from blocking learning.",
+    howTo: [
+      "Pause before reacting to feedback.",
+      "Identify your emotions, such as frustration, embarrassment, or disappointment.",
+      "Separate the feedback from your self-worth.",
+      "Ask yourself what can be improved.",
+    ],
     iconBg: "bg-rose-50",
     iconColor: "text-rose-600",
-    accent: "border-l-rose-400",
+    accentBorder: "border-l-rose-400",
+    bulletColor: "text-rose-400",
   },
   {
     icon: ThumbsUp,
     title: "Appreciating Feedback",
-    desc: "Value feedback as a resource, understand its purpose and the giver's intent.",
+    explanation:
+      "Appreciating feedback means understanding that feedback is information designed to support learning, not a personal attack.",
+    howTo: [
+      "Ask what the instructor is trying to help you improve.",
+      "Look for the learning purpose behind each comment.",
+      "Focus on how the feedback can help future work.",
+      "Treat feedback as a learning resource.",
+    ],
     iconBg: "bg-amber-50",
     iconColor: "text-amber-600",
-    accent: "border-l-amber-400",
+    accentBorder: "border-l-amber-400",
+    bulletColor: "text-amber-400",
   },
   {
     icon: Scale,
-    title: "Making Judgments",
-    desc: "Evaluate the quality of your own work and weigh feedback against criteria.",
+    title: "Making Judgements",
+    explanation:
+      "Making judgements means deciding which feedback is most useful, relevant, and important for improvement.",
+    howTo: [
+      "Identify repeated or major issues.",
+      "Compare feedback with assignment criteria.",
+      "Decide which comments should be prioritised.",
+      "Focus first on feedback that will most improve the quality of your work.",
+    ],
     iconBg: "bg-sky-50",
     iconColor: "text-sky-600",
-    accent: "border-l-sky-400",
+    accentBorder: "border-l-sky-400",
+    bulletColor: "text-sky-400",
   },
   {
     icon: Rocket,
     title: "Taking Action",
-    desc: "Translate feedback into concrete next steps and revised work.",
+    explanation:
+      "Taking action means transforming feedback into a specific improvement plan.",
+    howTo: [
+      "Choose one or two priority feedback points.",
+      "Write a concrete revision or improvement step.",
+      "Set a realistic deadline.",
+      "Apply the plan to your next assignment.",
+    ],
     iconBg: "bg-teal-soft",
     iconColor: "text-teal",
-    accent: "border-l-teal",
+    accentBorder: "border-l-teal",
+    bulletColor: "text-teal",
   },
-] as const;
+];
 
 export default function Module1() {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const toggle = (i: number) => setOpenIndex(openIndex === i ? null : i);
+
   return (
     <ModuleLayout current={1}>
       <ModuleHeader
@@ -45,74 +82,107 @@ export default function Module1() {
         description="Build a shared foundation: what feedback literacy means, why it matters, and the four dimensions you'll develop across this course."
       />
 
-      {/* Video + reading */}
-      <div className="grid gap-5 lg:grid-cols-5">
-        {/* Video placeholder */}
-        <div className="lg:col-span-3 rounded-xl border border-border bg-white overflow-hidden shadow-card">
-          <div className="aspect-video bg-gradient-to-br from-primary-soft via-muted to-teal-soft flex items-center justify-center relative">
+      {/* ── Video Section ──────────────────────────────────────────── */}
+      <section className="mb-12">
+        <h2 className="text-xl font-bold text-primary mb-1">
+          Instructional Video: What is Feedback Literacy?
+        </h2>
+        <p className="text-sm text-muted-foreground mb-5 max-w-2xl leading-relaxed">
+          This short video introduces feedback literacy and explains why it is important for using instructor feedback effectively.
+        </p>
+
+        <div className="rounded-xl border border-border bg-white overflow-hidden shadow-card">
+          <div className="aspect-video bg-gradient-to-br from-primary-soft via-muted to-teal-soft flex flex-col items-center justify-center gap-4 relative">
             <div className="absolute inset-0 bg-primary/5" />
-            <button
-              className="relative w-16 h-16 rounded-full bg-primary text-white flex items-center justify-center shadow-card-lg hover:scale-105 hover:bg-primary/90 transition-all"
-              aria-label="Play introduction video"
-            >
-              <Play className="w-6 h-6 ml-0.5" fill="currentColor" />
-            </button>
-            <span className="absolute bottom-3 right-3 text-xs bg-white/90 text-primary font-medium px-2.5 py-1 rounded-full shadow-sm">
-              6:32
-            </span>
-          </div>
-          <div className="px-5 py-4 border-t border-border">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-teal mb-0.5">Lecture</p>
-            <p className="font-semibold text-primary text-sm">Introduction to feedback literacy</p>
-          </div>
-        </div>
-
-        {/* Reading card */}
-        <div className="lg:col-span-2 rounded-xl border border-border bg-white p-6 shadow-card flex flex-col">
-          <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-4">
-            <BookOpen className="w-3.5 h-3.5" /> Required Reading
-          </div>
-          <h3 className="font-bold text-primary text-base mb-1">Carless &amp; Boud (2018)</h3>
-          <p className="text-sm text-muted-foreground leading-relaxed flex-1">
-            The development of student feedback literacy: enabling uptake of feedback.
-            A foundational paper introducing the four-dimension framework used in this course.
-          </p>
-          <div className="space-y-2 my-4" aria-hidden>
-            <div className="h-1.5 rounded bg-muted" />
-            <div className="h-1.5 rounded bg-muted w-11/12" />
-            <div className="h-1.5 rounded bg-muted w-9/12" />
-            <div className="h-1.5 rounded bg-muted w-10/12" />
-          </div>
-          <button className="inline-flex items-center gap-1.5 text-sm font-bold text-teal hover:text-teal/80 transition-colors mt-auto">
-            Open reading →
-          </button>
-        </div>
-      </div>
-
-      {/* Four dimensions */}
-      <div className="mt-12 mb-5 flex items-center justify-between">
-        <h2 className="text-xl font-bold text-primary">The four dimensions</h2>
-        <span className="text-xs text-muted-foreground bg-muted px-2.5 py-1 rounded-full">
-          Carless &amp; Boud framework
-        </span>
-      </div>
-      <div className="grid gap-4 md:grid-cols-2">
-        {FRAMEWORK.map((f) => {
-          const Icon = f.icon;
-          return (
-            <div
-              key={f.title}
-              className={`rounded-xl border border-border border-l-4 ${f.accent} bg-white p-6 shadow-card hover:shadow-card-md transition-shadow`}
-            >
-              <div className={`w-9 h-9 rounded-lg ${f.iconBg} ${f.iconColor} flex items-center justify-center mb-3`}>
-                <Icon className="w-4.5 h-4.5" />
-              </div>
-              <h3 className="font-bold text-primary mb-1.5">{f.title}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
+            <div className="relative w-16 h-16 rounded-full bg-white/70 border border-primary/10 flex items-center justify-center shadow-card">
+              <Video className="w-7 h-7 text-primary/30" />
             </div>
-          );
-        })}
-      </div>
+            <p className="relative text-sm font-medium text-primary/45 max-w-xs text-center px-4 leading-relaxed">
+              Video coming soon: Feedback Literacy — Turning Feedback into Action
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Reading Section ────────────────────────────────────────── */}
+      <section className="mb-12">
+        <div className="mb-6">
+          <h2 className="text-xl font-bold text-primary mb-1">
+            How can you develop feedback literacy?
+          </h2>
+          <p className="text-sm text-muted-foreground max-w-2xl leading-relaxed">
+            The video introduced the four dimensions of feedback literacy. Select each dimension below to explore practical strategies for developing it.
+          </p>
+        </div>
+
+        <div className="space-y-3">
+          {DIMENSIONS.map((dim, i) => {
+            const Icon = dim.icon;
+            const isOpen = openIndex === i;
+            return (
+              <div
+                key={dim.title}
+                className={`rounded-xl border border-border border-l-4 ${dim.accentBorder} bg-white overflow-hidden transition-shadow ${isOpen ? "shadow-card-md" : "shadow-card"}`}
+              >
+                <button
+                  onClick={() => toggle(i)}
+                  className="w-full flex items-center gap-4 px-5 py-4 text-left hover:bg-primary-soft/60 transition-colors"
+                  aria-expanded={isOpen}
+                >
+                  <div className={`shrink-0 w-9 h-9 rounded-lg ${dim.iconBg} ${dim.iconColor} flex items-center justify-center`}>
+                    <Icon className="w-4 h-4" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-bold text-primary text-sm">{dim.title}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5 leading-snug line-clamp-1">
+                      {dim.explanation}
+                    </p>
+                  </div>
+                  <ChevronDown
+                    className={`shrink-0 w-4 h-4 text-muted-foreground transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                  />
+                </button>
+
+                {isOpen && (
+                  <div className="px-5 pb-5 border-t border-border">
+                    <p className="text-sm text-muted-foreground leading-relaxed mt-4 mb-4">
+                      {dim.explanation}
+                    </p>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-teal mb-2.5">
+                      How to develop it
+                    </p>
+                    <ul className="space-y-2">
+                      {dim.howTo.map((step) => (
+                        <li key={step} className="flex items-start gap-2.5 text-sm text-foreground">
+                          <span className={`mt-2 shrink-0 w-1.5 h-1.5 rounded-full bg-current ${dim.bulletColor}`} />
+                          {step}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* ── Summary / Bridge to Module 2 ──────────────────────────── */}
+      <section className="mb-4">
+        <div className="rounded-xl bg-primary-soft border border-primary/10 px-6 py-5 flex gap-4 items-start shadow-card">
+          <div className="shrink-0 w-9 h-9 rounded-full bg-primary flex items-center justify-center mt-0.5">
+            <Play className="w-4 h-4 text-white ml-0.5" fill="currentColor" />
+          </div>
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-teal mb-1.5">
+              Module summary
+            </p>
+            <p className="text-sm text-foreground leading-relaxed">
+              In this module, you learned what feedback literacy is and explored practical strategies for developing each dimension. In the next module, you will assess your current strengths and areas for growth across these four dimensions.
+            </p>
+          </div>
+        </div>
+      </section>
 
       <NavFooter
         prev={{ path: "/", label: "Home" }}
