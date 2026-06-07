@@ -9,10 +9,10 @@ const DIMENSIONS = [
     explanation:
       "Managing affect means recognising emotional reactions to feedback and preventing them from blocking learning.",
     howTo: [
-      "Pause before reacting to feedback.",
-      "Identify your emotions, such as frustration, embarrassment, or disappointment.",
-      "Separate the feedback from your self-worth.",
-      "Ask yourself what can be improved.",
+      "Think about how the feedback makes you feel.",
+      "Ask yourself: Do I feel frustrated, disappointed, embarrassed, or encouraged?",
+      "Identify your emotions before deciding how to respond.",
+      "Consider whether your emotional reaction might affect how you interpret the feedback.",
     ],
     iconBg: "bg-rose-50",
     iconColor: "text-rose-600",
@@ -25,10 +25,10 @@ const DIMENSIONS = [
     explanation:
       "Appreciating feedback means understanding that feedback is information designed to support learning, not a personal attack.",
     howTo: [
-      "Ask what the instructor is trying to help you improve.",
-      "Look for the learning purpose behind each comment.",
-      "Focus on how the feedback can help future work.",
-      "Treat feedback as a learning resource.",
+      "Read through the teacher's comments carefully.",
+      "Write down what the teacher commented on.",
+      "Write down what improvements were suggested.",
+      "Focus on understanding the purpose behind the feedback.",
     ],
     iconBg: "bg-amber-50",
     iconColor: "text-amber-600",
@@ -39,12 +39,12 @@ const DIMENSIONS = [
     icon: Scale,
     title: "Making Judgements",
     explanation:
-      "Making judgements means deciding which feedback is most useful, relevant, and important for improvement.",
+      "Making judgements means deciding which feedback points are most useful, relevant, and important for improvement.",
     howTo: [
-      "Identify repeated or major issues.",
-      "Compare feedback with assignment criteria.",
-      "Decide which comments should be prioritised.",
-      "Focus first on feedback that will most improve the quality of your work.",
+      "Review the list of feedback points you identified.",
+      "Decide which comments are most important for improving the quality of your assignment.",
+      "Prioritise the feedback that will have the greatest impact on your learning and performance.",
+      "Choose one or two feedback points to focus on first.",
     ],
     iconBg: "bg-sky-50",
     iconColor: "text-sky-600",
@@ -57,10 +57,10 @@ const DIMENSIONS = [
     explanation:
       "Taking action means transforming feedback into a specific improvement plan.",
     howTo: [
-      "Choose one or two priority feedback points.",
-      "Write a concrete revision or improvement step.",
-      "Set a realistic deadline.",
-      "Apply the plan to your next assignment.",
+      "Choose one or two priority improvement areas.",
+      "Create a simple action plan with a specific improvement goal.",
+      "Include concrete actions to take and a realistic timeline.",
+      "Use this plan to guide your next revision or assignment.",
     ],
     iconBg: "bg-teal-soft",
     iconColor: "text-teal",
@@ -111,7 +111,7 @@ export default function Module1() {
             How can you develop feedback literacy?
           </h2>
           <p className="text-sm text-muted-foreground max-w-2xl leading-relaxed">
-            The video introduced the four dimensions of feedback literacy. Select each dimension below to explore practical strategies for developing it.
+            The video introduced the four dimensions of feedback literacy. This reading explains what you can actually do when you receive feedback.
           </p>
         </div>
 
@@ -149,7 +149,7 @@ export default function Module1() {
                       {dim.explanation}
                     </p>
                     <p className="text-[10px] font-bold uppercase tracking-widest text-teal mb-2.5">
-                      How to develop it
+                      What to do
                     </p>
                     <ul className="space-y-2">
                       {dim.howTo.map((step) => (
@@ -165,6 +165,10 @@ export default function Module1() {
             );
           })}
         </div>
+
+        <p className="mt-5 text-sm text-muted-foreground max-w-2xl leading-relaxed">
+          These strategies will prepare you for Module 2, where you will reflect on your own feedback literacy strengths and areas for growth.
+        </p>
       </section>
 
       {/* ── Summary / Bridge to Module 2 ──────────────────────────── */}
