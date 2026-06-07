@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronDown, Heart, Play, Rocket, Scale, ThumbsUp, Video } from "lucide-react";
+import { ChevronDown, Heart, Play, Rocket, Scale, ThumbsUp } from "lucide-react";
 import { ModuleLayout, ModuleHeader, NavFooter } from "@/components/ModuleLayout";
 
 const DIMENSIONS = [
@@ -92,14 +92,14 @@ export default function Module1() {
         </p>
 
         <div className="rounded-xl border border-border bg-white overflow-hidden shadow-card">
-          <div className="aspect-video bg-gradient-to-br from-primary-soft via-muted to-teal-soft flex flex-col items-center justify-center gap-4 relative">
-            <div className="absolute inset-0 bg-primary/5" />
-            <div className="relative w-16 h-16 rounded-full bg-white/70 border border-primary/10 flex items-center justify-center shadow-card">
-              <Video className="w-7 h-7 text-primary/30" />
-            </div>
-            <p className="relative text-sm font-medium text-primary/45 max-w-xs text-center px-4 leading-relaxed">
-              Video coming soon: Feedback Literacy — Turning Feedback into Action
-            </p>
+          <div className="aspect-video">
+            <iframe
+              src="https://www.youtube.com/embed/pwgXzrRnj3c"
+              title="Instructional Video: What is Feedback Literacy?"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="w-full h-full"
+            />
           </div>
         </div>
       </section>
