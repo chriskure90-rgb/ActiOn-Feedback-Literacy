@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CheckCircle2, ChevronRight, Heart, Rocket, Scale, ThumbsUp } from "lucide-react";
+import { CheckCircle2, ChevronRight, Heart, Rocket, Scale, ThumbsUp, XCircle } from "lucide-react";
 import { ModuleLayout, ModuleHeader, NavFooter } from "@/components/ModuleLayout";
 import { cn } from "@/lib/utils";
 
@@ -12,7 +12,6 @@ const SECTIONS = [
     iconBg: "bg-rose-50",
     iconColor: "text-rose-600",
     accentBorder: "border-l-rose-400",
-    badgeColor: "bg-rose-50 text-rose-700 border border-rose-200",
     questions: [
       {
         scenario:
@@ -24,6 +23,10 @@ const SECTIONS = [
           "Ask your teacher to explain what they meant.",
         ],
         correct: 1,
+        feedbackCorrect:
+          "Correct. Recognising how feedback makes you feel is the first step in managing affect — it helps you stay in control before deciding how to respond.",
+        feedbackIncorrect:
+          "Not quite. When emotions are high, identifying your feelings first helps prevent them from blocking your ability to engage with the feedback constructively.",
       },
       {
         scenario:
@@ -35,6 +38,10 @@ const SECTIONS = [
           "Set the feedback aside, take a breath, and return to it when you feel calmer.",
         ],
         correct: 2,
+        feedbackCorrect:
+          "Correct. Giving yourself time to calm down before revisiting feedback is a key strategy for managing affect and approaching it productively.",
+        feedbackIncorrect:
+          "Not quite. Acting on strong emotions can lead to defensive responses. Pausing first allows you to engage with the feedback more effectively.",
       },
       {
         scenario:
@@ -46,6 +53,10 @@ const SECTIONS = [
           "The teacher is giving you a lower grade because of this issue.",
         ],
         correct: 0,
+        feedbackCorrect:
+          "Correct. Feedback targets your work, not your identity. Separating the two helps you focus on what can actually be improved.",
+        feedbackIncorrect:
+          "Not quite. It can be easy to feel personally criticised, but feedback is about the assignment. Focusing on the work rather than your self-worth supports productive learning.",
       },
     ],
   },
@@ -55,7 +66,6 @@ const SECTIONS = [
     iconBg: "bg-amber-50",
     iconColor: "text-amber-600",
     accentBorder: "border-l-amber-400",
-    badgeColor: "bg-amber-50 text-amber-700 border border-amber-200",
     questions: [
       {
         scenario:
@@ -67,6 +77,10 @@ const SECTIONS = [
           "To help you understand what to improve so you can produce better work.",
         ],
         correct: 2,
+        feedbackCorrect:
+          "Correct. Teachers provide feedback to support your learning and help you improve, not to criticise you personally.",
+        feedbackIncorrect:
+          "Not quite. The purpose of feedback is to guide improvement. Understanding this intention helps you engage with comments as learning opportunities.",
       },
       {
         scenario:
@@ -78,6 +92,10 @@ const SECTIONS = [
           "Wait until the next assignment before thinking about it.",
         ],
         correct: 1,
+        feedbackCorrect:
+          "Correct. Writing down and thinking through a comment helps you understand what it means and what specific change it is suggesting.",
+        feedbackIncorrect:
+          "Not quite. Engaging with all comments, including critical ones, helps you use feedback as a learning resource rather than something to avoid.",
       },
       {
         scenario:
@@ -89,6 +107,10 @@ const SECTIONS = [
           "The comment is too vague to be useful.",
         ],
         correct: 0,
+        feedbackCorrect:
+          "Correct. This comment identifies a specific area for improvement, which is valuable information for developing stronger analytical skills.",
+        feedbackIncorrect:
+          "Not quite. Feedback that points to an area for growth is a useful resource. Recognising improvement opportunities helps you appreciate what feedback is designed to do.",
       },
     ],
   },
@@ -98,7 +120,6 @@ const SECTIONS = [
     iconBg: "bg-sky-50",
     iconColor: "text-sky-600",
     accentBorder: "border-l-sky-400",
-    badgeColor: "bg-sky-50 text-sky-700 border border-sky-200",
     questions: [
       {
         scenario:
@@ -110,6 +131,10 @@ const SECTIONS = [
           "Review each comment and decide which ones will most improve the quality of your work.",
         ],
         correct: 2,
+        feedbackCorrect:
+          "Correct. Evaluating which feedback will have the most impact helps you make the best use of your limited time and effort.",
+        feedbackIncorrect:
+          "Not quite. When time is limited, judging which feedback points will most improve your work is more effective than spreading effort equally or choosing what is easiest.",
       },
       {
         scenario:
@@ -121,6 +146,10 @@ const SECTIONS = [
           "Assume it is minor because the teacher only mentioned it once.",
         ],
         correct: 0,
+        feedbackCorrect:
+          "Correct. Comparing feedback against the marking criteria helps you assess how significant the comment is and how much attention it deserves.",
+        feedbackIncorrect:
+          "Not quite. The marking criteria provide an objective measure of importance. Comparing a comment against the criteria helps you make an informed judgement about how to prioritise it.",
       },
       {
         scenario:
@@ -132,6 +161,10 @@ const SECTIONS = [
           "The area where you have received feedback before, even if it is a minor issue.",
         ],
         correct: 1,
+        feedbackCorrect:
+          "Correct. Prioritising feedback with the greatest impact ensures your effort leads to meaningful improvement in your overall performance.",
+        feedbackIncorrect:
+          "Not quite. Ease or familiarity are not the best basis for prioritising feedback. Focus on the comment that will most improve the quality of your argument.",
       },
     ],
   },
@@ -141,7 +174,6 @@ const SECTIONS = [
     iconBg: "bg-teal-soft",
     iconColor: "text-teal",
     accentBorder: "border-l-teal",
-    badgeColor: "bg-teal-soft text-teal border border-teal/20",
     questions: [
       {
         scenario:
@@ -153,6 +185,10 @@ const SECTIONS = [
           "Wait until you receive the marked assignment to understand what depth means.",
         ],
         correct: 1,
+        feedbackCorrect:
+          "Correct. Specific goals are more actionable than general intentions — a clear target helps you know exactly what to aim for in your revision.",
+        feedbackIncorrect:
+          "Not quite. Vague intentions are harder to act on. Writing a specific goal gives you a concrete target and makes it easier to track your progress.",
       },
       {
         scenario:
@@ -164,6 +200,10 @@ const SECTIONS = [
           "Focus on the area you find most interesting to work on.",
         ],
         correct: 0,
+        feedbackCorrect:
+          "Correct. A written action plan with specific steps for each area makes it more likely you will follow through on the improvements.",
+        feedbackIncorrect:
+          "Not quite. Vague plans are easy to forget. A specific action plan with clear steps for each improvement area helps you take meaningful action.",
       },
       {
         scenario:
@@ -175,6 +215,10 @@ const SECTIONS = [
           "Set aside time in your schedule this week to start working on the improvements.",
         ],
         correct: 2,
+        feedbackCorrect:
+          "Correct. Starting early gives you enough time to make thoughtful improvements rather than rushing at the last minute.",
+        feedbackIncorrect:
+          "Not quite. Delaying action makes it harder to improve effectively. Setting aside time early in the week helps you apply feedback before the deadline.",
       },
     ],
   },
@@ -200,10 +244,11 @@ export default function Module2() {
   const answered = Object.keys(answers).length;
 
   function select(sIdx: number, qIdx: number, optIdx: number) {
-    setAnswers((prev) => ({ ...prev, [key(sIdx, qIdx)]: optIdx }));
+    const k = key(sIdx, qIdx);
+    // Lock after first selection
+    setAnswers((prev) => (k in prev ? prev : { ...prev, [k]: optIdx }));
   }
 
-  /* Per-dimension scores */
   const scores = SECTIONS.map((section, sIdx) =>
     section.questions.reduce((acc, q, qIdx) => {
       return acc + (answers[key(sIdx, qIdx)] === q.correct ? 1 : 0);
@@ -215,7 +260,7 @@ export default function Module2() {
       <ModuleHeader
         eyebrow="Module 2 · Assess"
         title="Where are you right now?"
-        description="Read each scenario and select the response that best matches what you would do. There are 12 questions across four dimensions."
+        description="Read each scenario and select the response that best matches what you would do. You will receive immediate feedback after each answer."
       />
 
       {!submitted ? (
@@ -244,18 +289,16 @@ export default function Module2() {
               return (
                 <div key={section.dim}>
                   {/* Section header */}
-                  <div className={`flex items-center gap-3 mb-4 pb-3 border-b border-border`}>
+                  <div className="flex items-center gap-3 mb-4 pb-3 border-b border-border">
                     <div className={`w-8 h-8 rounded-lg ${section.iconBg} ${section.iconColor} flex items-center justify-center shrink-0`}>
                       <Icon className="w-4 h-4" />
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <h2 className="font-bold text-primary text-base leading-tight">{section.dim}</h2>
-                    </div>
+                    <h2 className="flex-1 font-bold text-primary text-base leading-tight min-w-0">
+                      {section.dim}
+                    </h2>
                     <span className={cn(
                       "text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full shrink-0",
-                      sectionAnswered === 3
-                        ? "bg-teal text-white"
-                        : "bg-muted text-muted-foreground",
+                      sectionAnswered === 3 ? "bg-teal text-white" : "bg-muted text-muted-foreground",
                     )}>
                       {sectionAnswered} / 3
                     </span>
@@ -266,6 +309,7 @@ export default function Module2() {
                     {section.questions.map((q, qIdx) => {
                       const selected = answers[key(sIdx, qIdx)];
                       const isAnswered = selected !== undefined;
+                      const isCorrect = isAnswered && selected === q.correct;
 
                       return (
                         <div
@@ -273,7 +317,11 @@ export default function Module2() {
                           className={cn(
                             "rounded-xl border border-l-4 bg-white shadow-card transition-all",
                             section.accentBorder,
-                            isAnswered ? "border-border/80" : "border-border",
+                            isAnswered
+                              ? isCorrect
+                                ? "border-teal/40"
+                                : "border-border/80"
+                              : "border-border",
                           )}
                         >
                           {/* Question header */}
@@ -281,9 +329,11 @@ export default function Module2() {
                             <div className="flex items-center gap-2 mb-2.5">
                               <span className={cn(
                                 "w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0",
-                                isAnswered ? "bg-teal text-white" : "bg-primary-soft text-primary",
+                                !isAnswered && "bg-primary-soft text-primary",
+                                isAnswered && isCorrect && "bg-teal text-white",
+                                isAnswered && !isCorrect && "bg-destructive text-white",
                               )}>
-                                {isAnswered ? "✓" : qIdx + 1}
+                                {isAnswered ? (isCorrect ? "✓" : "✗") : qIdx + 1}
                               </span>
                               <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
                                 Scenario {qIdx + 1}
@@ -292,7 +342,9 @@ export default function Module2() {
 
                             {/* Scenario box */}
                             <div className="rounded-lg bg-muted/60 border border-border px-4 py-3 mb-3">
-                              <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1.5">Scenario</p>
+                              <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1.5">
+                                Scenario
+                              </p>
                               <p className="text-sm text-foreground leading-relaxed">{q.scenario}</p>
                             </div>
 
@@ -300,47 +352,119 @@ export default function Module2() {
                           </div>
 
                           {/* Options */}
-                          <div className="px-5 pb-5 space-y-2">
-                            {q.options.map((opt, optIdx) => (
-                              <label
-                                key={optIdx}
-                                className={cn(
-                                  "flex items-start gap-3 rounded-lg border p-3.5 cursor-pointer transition-all",
-                                  selected === optIdx
-                                    ? "border-primary bg-primary-soft"
-                                    : "border-border hover:border-primary/30 hover:bg-muted/40",
-                                )}
-                              >
-                                {/* Custom radio */}
-                                <div className={cn(
-                                  "mt-0.5 shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all",
-                                  selected === optIdx ? "border-primary bg-primary" : "border-border bg-white",
-                                )}>
-                                  {selected === optIdx && (
-                                    <span className="w-2 h-2 rounded-full bg-white block" />
+                          <div className="px-5 space-y-2">
+                            {q.options.map((opt, optIdx) => {
+                              const isSelected = selected === optIdx;
+                              const isCorrectOpt = optIdx === q.correct;
+
+                              /* Styling after locking */
+                              let optClass = "border-border hover:border-primary/30 hover:bg-muted/40 cursor-pointer";
+                              let radioClass = "border-border bg-white";
+                              let labelClass = "bg-muted text-muted-foreground";
+
+                              if (isAnswered) {
+                                if (isSelected && isCorrect) {
+                                  // Selected and correct → teal
+                                  optClass = "border-teal bg-teal-soft cursor-default";
+                                  radioClass = "border-teal bg-teal";
+                                  labelClass = "bg-teal text-white";
+                                } else if (isSelected && !isCorrect) {
+                                  // Selected but wrong → orange/red
+                                  optClass = "border-destructive/50 bg-destructive/5 cursor-default";
+                                  radioClass = "border-destructive bg-destructive";
+                                  labelClass = "bg-destructive text-white";
+                                } else if (!isSelected && isCorrectOpt) {
+                                  // Not selected but is the correct answer → teal outline
+                                  optClass = "border-teal/50 bg-teal-soft/50 cursor-default";
+                                  radioClass = "border-teal bg-white";
+                                  labelClass = "bg-teal/15 text-teal";
+                                } else {
+                                  // Other, unselected, wrong option → dimmed
+                                  optClass = "border-border/40 bg-muted/20 opacity-50 cursor-default";
+                                  radioClass = "border-border/40 bg-white";
+                                  labelClass = "bg-muted/50 text-muted-foreground";
+                                }
+                              } else {
+                                // Not yet answered — normal interactive state
+                                if (isSelected) {
+                                  optClass = "border-primary bg-primary-soft cursor-pointer";
+                                  radioClass = "border-primary bg-primary";
+                                  labelClass = "bg-primary text-white";
+                                }
+                              }
+
+                              return (
+                                <label
+                                  key={optIdx}
+                                  className={cn(
+                                    "flex items-start gap-3 rounded-lg border p-3.5 transition-all select-none",
+                                    optClass,
                                   )}
-                                </div>
-                                <input
-                                  type="radio"
-                                  name={key(sIdx, qIdx)}
-                                  className="sr-only"
-                                  checked={selected === optIdx}
-                                  onChange={() => select(sIdx, qIdx, optIdx)}
-                                />
-                                <div className="flex items-start gap-2 min-w-0">
-                                  <span className={cn(
-                                    "shrink-0 w-5 h-5 rounded text-[10px] font-bold flex items-center justify-center mt-0.5",
-                                    selected === optIdx
-                                      ? "bg-primary text-white"
-                                      : "bg-muted text-muted-foreground",
+                                >
+                                  {/* Custom radio */}
+                                  <div className={cn(
+                                    "mt-0.5 shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all",
+                                    radioClass,
                                   )}>
-                                    {OPTION_LABELS[optIdx]}
-                                  </span>
-                                  <span className="text-sm text-foreground leading-relaxed">{opt}</span>
-                                </div>
-                              </label>
-                            ))}
+                                    {(isSelected || (isAnswered && isCorrectOpt)) && (
+                                      <span className={cn(
+                                        "w-2 h-2 rounded-full block",
+                                        isAnswered && isCorrectOpt && !isSelected ? "bg-teal" : "bg-white",
+                                      )} />
+                                    )}
+                                  </div>
+                                  <input
+                                    type="radio"
+                                    name={key(sIdx, qIdx)}
+                                    className="sr-only"
+                                    checked={isSelected}
+                                    disabled={isAnswered}
+                                    onChange={() => select(sIdx, qIdx, optIdx)}
+                                  />
+                                  <div className="flex items-start gap-2 min-w-0">
+                                    <span className={cn(
+                                      "shrink-0 w-5 h-5 rounded text-[10px] font-bold flex items-center justify-center mt-0.5 transition-all",
+                                      labelClass,
+                                    )}>
+                                      {OPTION_LABELS[optIdx]}
+                                    </span>
+                                    <span className={cn(
+                                      "text-sm leading-relaxed",
+                                      isAnswered && !isSelected && !isCorrectOpt
+                                        ? "text-muted-foreground"
+                                        : "text-foreground",
+                                    )}>
+                                      {opt}
+                                    </span>
+                                    {isAnswered && isCorrectOpt && !isSelected && (
+                                      <span className="ml-1 shrink-0 text-[10px] font-bold text-teal uppercase tracking-wide mt-1">
+                                        correct answer
+                                      </span>
+                                    )}
+                                  </div>
+                                </label>
+                              );
+                            })}
                           </div>
+
+                          {/* Inline feedback banner */}
+                          {isAnswered && (
+                            <div className={cn(
+                              "mx-5 mb-5 mt-3 rounded-lg px-4 py-3 flex items-start gap-3",
+                              isCorrect
+                                ? "bg-teal-soft border border-teal/25"
+                                : "bg-accent-soft border border-accent/25",
+                            )}>
+                              {isCorrect ? (
+                                <CheckCircle2 className="w-4 h-4 text-teal shrink-0 mt-0.5" />
+                              ) : (
+                                <XCircle className="w-4 h-4 text-accent shrink-0 mt-0.5" />
+                              )}
+                              <p className="text-sm leading-relaxed text-foreground">
+                                {isCorrect ? q.feedbackCorrect : q.feedbackIncorrect}
+                              </p>
+                            </div>
+                          )}
                         </div>
                       );
                     })}
@@ -424,9 +548,9 @@ function ResultsDashboard({ scores }: { scores: number[] }) {
                   <div className={`w-8 h-8 rounded-lg ${section.iconBg} ${section.iconColor} flex items-center justify-center shrink-0`}>
                     <Icon className="w-4 h-4" />
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-primary text-sm leading-tight">{section.dim}</p>
-                  </div>
+                  <p className="flex-1 font-semibold text-primary text-sm leading-tight min-w-0">
+                    {section.dim}
+                  </p>
                   <span className={cn(
                     "text-sm font-bold shrink-0",
                     score === 3 ? "text-teal" : score === 2 ? "text-primary" : "text-accent",
@@ -435,7 +559,6 @@ function ResultsDashboard({ scores }: { scores: number[] }) {
                   </span>
                 </div>
 
-                {/* Score bar */}
                 <div className="h-2 rounded-full bg-muted overflow-hidden">
                   <div
                     className={cn(
