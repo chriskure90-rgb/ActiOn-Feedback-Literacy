@@ -9,7 +9,7 @@
  *   ANTHROPIC_API_KEY=sk-ant-...
  * ───────────────────────────────────────────────────────────────────────── */
 
-export const runtime = "edge";
+export const config = { runtime: "edge" };
 
 const ANTHROPIC_URL = "https://api.anthropic.com/v1/messages";
 const MODEL         = "claude-haiku-4-5-20251001";
