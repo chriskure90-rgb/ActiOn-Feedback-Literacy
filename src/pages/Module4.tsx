@@ -1,88 +1,202 @@
 import { useState } from "react";
-import { Compass, Lightbulb, Quote, Trophy } from "lucide-react";
+import { CheckCircle2, FileText, Heart, Rocket, Scale, ThumbsUp } from "lucide-react";
 import { ModuleLayout, ModuleHeader, NavFooter } from "@/components/ModuleLayout";
 import { cn } from "@/lib/utils";
-import type { Dimension } from "@/lib/constants";
 
-const SCORES: { dim: Dimension; score: number }[] = [
-  { dim: "Managing Affect",       score: 82 },
-  { dim: "Appreciating Feedback", score: 88 },
-  { dim: "Making Judgments",      score: 74 },
-  { dim: "Taking Action",         score: 79 },
-];
+/* ── Plan components ──────────────────────────────────────────────────────── */
+
+const PLAN_COMPONENTS = [
+  {
+    icon: Heart,
+    title: "Managing Affect",
+    prompt: "When you receive difficult feedback in the future, how will you manage your emotional reaction?",
+    explanation:
+      "Managing affect means recognising your emotional reaction to feedback and preventing it from blocking your ability to learn from it.",
+    placeholder:
+      "e.g. I will pause before reading the feedback, identify how I feel, and give myself time to calm down before deciding how to respond…",
+    iconBg: "bg-rose-50",
+    iconColor: "text-rose-600",
+    accentBorder: "border-l-rose-400",
+    summaryAccent: "bg-rose-50 border-rose-200 text-rose-700",
+    dot: "bg-rose-400",
+  },
+  {
+    icon: ThumbsUp,
+    title: "Appreciating Feedback",
+    prompt: "How will you identify what your instructor is trying to help you improve?",
+    explanation:
+      "Appreciating feedback means understanding that feedback is a resource designed to support your learning, not a personal criticism.",
+    placeholder:
+      "e.g. I will read each comment carefully and ask myself: what is the instructor trying to help me improve here?…",
+    iconBg: "bg-amber-50",
+    iconColor: "text-amber-600",
+    accentBorder: "border-l-amber-400",
+    summaryAccent: "bg-amber-50 border-amber-200 text-amber-700",
+    dot: "bg-amber-400",
+  },
+  {
+    icon: Scale,
+    title: "Making Judgements",
+    prompt: "How will you decide which feedback points are most important for your learning or assignment quality?",
+    explanation:
+      "Making judgements means evaluating which feedback comments will have the greatest impact on the quality of your work.",
+    placeholder:
+      "e.g. I will compare each comment against the marking criteria and identify the two or three points that matter most…",
+    iconBg: "bg-sky-50",
+    iconColor: "text-sky-600",
+    accentBorder: "border-l-sky-400",
+    summaryAccent: "bg-sky-50 border-sky-200 text-sky-700",
+    dot: "bg-sky-400",
+  },
+  {
+    icon: Rocket,
+    title: "Taking Action",
+    prompt: "What specific action will you take, and by when?",
+    explanation:
+      "Taking action means turning your priority feedback into a concrete, time-bound improvement plan you can act on immediately.",
+    placeholder:
+      "e.g. I will revise the introduction by Friday, focusing on clarifying the main argument and adding two supporting sources…",
+    iconBg: "bg-teal-soft",
+    iconColor: "text-teal",
+    accentBorder: "border-l-teal",
+    summaryAccent: "bg-teal-soft border-teal/20 text-teal",
+    dot: "bg-teal",
+  },
+] as const;
+
+const MIN_CHARS = 10;
+
+/* ── Module 4 ─────────────────────────────────────────────────────────────── */
 
 export default function Module4() {
-  const [response, setResponse] = useState("");
+  const [responses, setResponses] = useState(["", "", "", ""]);
   const [submitted, setSubmitted] = useState(false);
 
-  const overall = Math.round(
-    SCORES.reduce((acc, s) => acc + s.score, 0) / SCORES.length,
-  );
+  const filled = responses.filter((r) => r.trim().length >= MIN_CHARS).length;
+  const canSubmit = filled === PLAN_COMPONENTS.length;
+
+  function update(i: number, value: string) {
+    setResponses((prev) => prev.map((r, j) => (j === i ? value : r)));
+  }
 
   return (
     <ModuleLayout current={4}>
       <ModuleHeader
         eyebrow="Module 4 · Transfer"
-        title="A challenge from your future self"
-        description="Apply your feedback literacy to a new scenario. There's no single right answer — show how you would respond."
+        title="My Future Feedback Plan"
+        description="Apply everything you have learned by building a personalised plan for how you will use feedback in the future. Complete all four sections, then generate your plan."
       />
 
-      {/* Scenario card */}
-      <div className="rounded-xl bg-primary p-7 mb-5 shadow-card-lg relative overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.04] bg-[radial-gradient(circle_at_30%_50%,white_0%,transparent_60%)]" />
-        <div className="relative">
-          <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-white/60 mb-4">
-            <Compass className="w-3.5 h-3.5" />
-            Future scenario
-          </div>
-          <Quote className="w-7 h-7 text-accent/60 mb-3" aria-hidden />
-          <p className="text-base md:text-lg leading-relaxed text-white">
-            You've just submitted your capstone thesis. Your supervisor writes:{" "}
-            <em className="text-white/85 not-italic border-l-2 border-accent/60 pl-3 block mt-3">
-              "This is ambitious work, but the methodology section is underdeveloped and you
-              don't engage with counter-evidence. I'm not yet convinced of the conclusion.
-              Let's meet next week."
-            </em>
-          </p>
-          <p className="mt-5 text-sm text-white/70 font-medium">
-            How would you respond — emotionally, intellectually, and in action — before that meeting?
-          </p>
+      {/* Progress strip */}
+      <div className="flex items-center gap-3 mb-8">
+        <div className="flex-1 h-1.5 bg-muted rounded-full overflow-hidden">
+          <div
+            className="h-full bg-teal rounded-full transition-all duration-500"
+            style={{ width: `${(filled / PLAN_COMPONENTS.length) * 100}%` }}
+          />
         </div>
+        <span className="text-xs font-medium text-muted-foreground whitespace-nowrap">
+          {filled} of {PLAN_COMPONENTS.length} completed
+        </span>
       </div>
 
-      {/* Response area */}
-      <div className="rounded-xl border border-border bg-white shadow-card overflow-hidden mb-4">
-        <div className="px-5 pt-4 pb-2 border-b border-border/60">
-          <label htmlFor="scenario-response" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-            Your response
-          </label>
+      {/* Plan component cards */}
+      <div className="space-y-5 mb-8">
+        {PLAN_COMPONENTS.map((component, i) => {
+          const Icon = component.icon;
+          const value = responses[i] ?? "";
+          const isDone = value.trim().length >= MIN_CHARS;
+
+          return (
+            <div
+              key={component.title}
+              className={cn(
+                "rounded-xl border border-l-4 bg-white shadow-card transition-shadow",
+                component.accentBorder,
+                isDone ? "border-border/70 shadow-card-md" : "border-border",
+              )}
+            >
+              {/* Card header */}
+              <div className="px-5 pt-5 pb-4">
+                <div className="flex items-start gap-3 mb-3">
+                  <div className={cn(
+                    "shrink-0 w-9 h-9 rounded-lg flex items-center justify-center",
+                    component.iconBg, component.iconColor,
+                  )}>
+                    <Icon className="w-4 h-4" />
+                  </div>
+                  <div className="flex-1 min-w-0 pt-0.5">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <h2 className="font-bold text-primary text-sm leading-tight">
+                        {component.title}
+                      </h2>
+                      {isDone && (
+                        <CheckCircle2 className="w-3.5 h-3.5 text-teal shrink-0" />
+                      )}
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-0.5 leading-snug">
+                      {component.explanation}
+                    </p>
+                  </div>
+                </div>
+
+                <label
+                  htmlFor={`plan-${i}`}
+                  className="block text-sm font-semibold text-primary leading-snug"
+                >
+                  {component.prompt}
+                </label>
+              </div>
+
+              {/* Textarea */}
+              <div className="px-5 pb-5">
+                <textarea
+                  id={`plan-${i}`}
+                  value={value}
+                  onChange={(e) => update(i, e.target.value)}
+                  placeholder={component.placeholder}
+                  rows={4}
+                  className={cn(
+                    "w-full rounded-lg border bg-background px-3.5 py-3 text-sm leading-relaxed",
+                    "focus:outline-none focus:ring-2 focus:ring-primary/25 focus:border-primary/40",
+                    "resize-y text-foreground placeholder:text-muted-foreground/60 transition",
+                    isDone ? "border-teal/30" : "border-border",
+                  )}
+                />
+                <p className="mt-1.5 text-[11px] text-muted-foreground">
+                  {value.trim().length === 0
+                    ? "Start typing your response…"
+                    : isDone
+                      ? `${value.trim().split(/\s+/).length} words`
+                      : "Keep going — a little more detail helps."}
+                </p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Generate button */}
+      {!submitted && (
+        <div className="flex items-center justify-between border-t border-border pt-6 mb-4">
+          <p className="text-sm text-muted-foreground">
+            {canSubmit
+              ? "All sections complete — ready to generate your plan."
+              : `${PLAN_COMPONENTS.length - filled} section${PLAN_COMPONENTS.length - filled !== 1 ? "s" : ""} remaining.`}
+          </p>
+          <button
+            onClick={() => setSubmitted(true)}
+            disabled={!canSubmit}
+            className="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-2.5 text-sm font-bold text-white shadow-card hover:bg-accent/90 disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98] transition-all"
+          >
+            <FileText className="w-4 h-4" />
+            Generate my plan →
+          </button>
         </div>
-        <textarea
-          id="scenario-response"
-          value={response}
-          onChange={(e) => setResponse(e.target.value)}
-          placeholder="Write your response here. Consider all four dimensions you've learned about — how you'll manage your initial reaction, what you can learn from this feedback, how you'll judge the gap, and what concrete steps you'll take…"
-          className="w-full min-h-[200px] px-5 py-4 text-sm leading-relaxed focus:outline-none resize-none text-foreground placeholder:text-muted-foreground/60 bg-transparent"
-          aria-label="Your scenario response"
-        />
-      </div>
+      )}
 
-      <div className="flex items-center justify-between mb-2">
-        <p className="text-sm text-muted-foreground">
-          {response.trim().length < 20
-            ? "Take a moment to reflect on all four dimensions."
-            : `${response.trim().split(/\s+/).length} words — looking good.`}
-        </p>
-        <button
-          onClick={() => setSubmitted(true)}
-          disabled={response.trim().length < 20}
-          className="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-2.5 text-sm font-bold text-white shadow-card hover:bg-accent/90 disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98] transition-all"
-        >
-          Submit response →
-        </button>
-      </div>
-
-      {submitted && <ResultsPanel overall={overall} scores={SCORES} />}
+      {/* Plan summary */}
+      {submitted && <PlanSummary responses={responses} />}
 
       <NavFooter
         prev={{ path: "/module/3", label: "Back to Practice" }}
@@ -92,99 +206,75 @@ export default function Module4() {
   );
 }
 
-/* ─── Results panel ──────────────────────────────────────────── */
+/* ── Plan summary ─────────────────────────────────────────────────────────── */
 
-function ResultsPanel({ overall, scores }: { overall: number; scores: typeof SCORES }) {
+function PlanSummary({ responses }: { responses: string[] }) {
   return (
-    <div className="mt-10 space-y-5">
+    <div className="mt-2 mb-8">
+      {/* Banner */}
+      <div className="rounded-xl border border-teal/30 bg-teal-soft px-6 py-5 flex items-start gap-4 mb-6">
+        <div className="w-10 h-10 rounded-full bg-teal text-white flex items-center justify-center shrink-0">
+          <CheckCircle2 className="w-5 h-5" />
+        </div>
+        <div>
+          <p className="font-bold text-primary text-base">Plan generated</p>
+          <p className="text-sm text-muted-foreground mt-0.5 leading-relaxed">
+            Your Future Feedback Plan is ready. Save or screenshot this page to keep it for your next assignment.
+          </p>
+        </div>
+      </div>
+
+      {/* Plan card */}
       <div className="rounded-xl border border-border bg-white shadow-card-md overflow-hidden">
-        <div className="bg-primary px-6 py-4 flex items-center justify-between">
-          <div>
-            <p className="text-[10px] font-bold uppercase tracking-widest text-white/60 mb-0.5">Course complete</p>
-            <h2 className="text-lg font-bold text-white">Overall feedback literacy</h2>
-          </div>
-          <div className="text-right">
-            <div className="text-5xl font-extrabold text-white leading-none">{overall}</div>
-            <div className="text-xs text-white/60 mt-1">out of 100</div>
-          </div>
-        </div>
-        <div className="p-5 grid gap-3 md:grid-cols-2">
-          {scores.map((s) => (
-            <ScoreBar key={s.dim} dim={s.dim} score={s.score} />
-          ))}
-        </div>
-      </div>
-
-      <div className="grid gap-4 md:grid-cols-2">
-        <div className="rounded-xl border border-teal/25 bg-white p-5 shadow-card">
-          <div className="flex items-center gap-2 mb-4">
-            <div className="w-8 h-8 rounded-lg bg-teal-soft flex items-center justify-center">
-              <Trophy className="w-4 h-4 text-teal" />
-            </div>
-            <span className="font-bold text-primary text-sm">Strengths</span>
-          </div>
-          <ul className="space-y-2.5">
-            {[
-              "You named your emotional reaction before responding intellectually.",
-              "You treated the supervisor's critique as a resource, not an attack.",
-              "You proposed concrete revision steps with a clear timeline.",
-            ].map((item) => (
-              <li key={item} className="flex items-start gap-2.5 text-sm text-muted-foreground">
-                <span className="w-1.5 h-1.5 rounded-full bg-teal mt-1.5 shrink-0" />
-                {item}
-              </li>
-            ))}
-          </ul>
+        {/* Plan header */}
+        <div className="bg-primary px-6 py-5">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-white/55 mb-1">
+            Feedback Literacy · Module 4
+          </p>
+          <h2 className="text-lg font-extrabold text-white tracking-tight">
+            My Future Feedback Plan
+          </h2>
         </div>
 
-        <div className="rounded-xl border border-accent/20 bg-white p-5 shadow-card">
-          <div className="flex items-center gap-2 mb-4">
-            <div className="w-8 h-8 rounded-lg bg-accent-soft flex items-center justify-center">
-              <Lightbulb className="w-4 h-4 text-accent" />
-            </div>
-            <span className="font-bold text-primary text-sm">Future advice</span>
-          </div>
-          <ul className="space-y-2.5">
-            {[
-              "Continue using the rubric to self-judge before submission.",
-              "When unsure, ask the supervisor a clarifying question instead of guessing.",
-              "Keep a feedback journal to track recurring patterns across courses.",
-            ].map((item) => (
-              <li key={item} className="flex items-start gap-2.5 text-sm text-muted-foreground">
-                <span className="w-1.5 h-1.5 rounded-full bg-accent mt-1.5 shrink-0" />
-                {item}
-              </li>
-            ))}
-          </ul>
+        {/* Plan body */}
+        <div className="divide-y divide-border">
+          {PLAN_COMPONENTS.map((component, i) => {
+            const Icon = component.icon;
+            const text = responses[i]?.trim() ?? "";
+
+            return (
+              <div key={component.title} className="px-6 py-5">
+                <div className="flex items-center gap-2.5 mb-2.5">
+                  <div className={cn(
+                    "shrink-0 w-7 h-7 rounded-md flex items-center justify-center",
+                    component.iconBg, component.iconColor,
+                  )}>
+                    <Icon className="w-3.5 h-3.5" />
+                  </div>
+                  <span className={cn(
+                    "text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full border",
+                    component.summaryAccent,
+                  )}>
+                    {component.title}
+                  </span>
+                </div>
+                <p className="text-xs text-muted-foreground mb-1.5 leading-snug">
+                  {component.prompt}
+                </p>
+                <p className="text-sm text-foreground leading-relaxed">
+                  {text}
+                </p>
+              </div>
+            );
+          })}
         </div>
-      </div>
-    </div>
-  );
-}
 
-/* ─── Score bar ──────────────────────────────────────────────── */
-
-function ScoreBar({ dim, score }: { dim: Dimension; score: number }) {
-  const { bar, bg } =
-    score >= 80
-      ? { bar: "bg-teal",    bg: "bg-teal-soft" }
-      : score >= 70
-        ? { bar: "bg-primary", bg: "bg-primary-soft" }
-        : { bar: "bg-accent",  bg: "bg-accent-soft" };
-
-  return (
-    <div className="rounded-lg border border-border bg-surface p-4">
-      <div className="flex items-center justify-between mb-2">
-        <span className="text-sm font-semibold text-primary">{dim}</span>
-        <span className={cn("text-sm font-extrabold", score >= 80 ? "text-teal" : score >= 70 ? "text-primary" : "text-accent")}>
-          {score}
-        </span>
-      </div>
-      <div className={cn("h-2 rounded-full overflow-hidden", bg)}>
-        <div
-          className={cn("h-full rounded-full transition-all duration-700", bar)}
-          style={{ width: `${score}%` }}
-        />
+        {/* Plan footer */}
+        <div className="bg-muted/40 border-t border-border px-6 py-4">
+          <p className="text-xs text-muted-foreground">
+            ActiOn · Feedback to Action · Complete this plan after every major piece of feedback you receive.
+          </p>
+        </div>
       </div>
     </div>
   );
