@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CheckCircle2, FileText, Heart, Rocket, Scale, ThumbsUp } from "lucide-react";
+import { CheckCircle2, Compass, FileText, Heart, Quote, Rocket, Scale, ThumbsUp } from "lucide-react";
 import { ModuleLayout, ModuleHeader, NavFooter } from "@/components/ModuleLayout";
 import { cn } from "@/lib/utils";
 
@@ -86,6 +86,29 @@ export default function Module4() {
         title="My Future Feedback Plan"
         description="Apply everything you have learned by building a personalised plan for how you will use feedback in the future. Complete all four sections, then generate your plan."
       />
+
+      {/* Scenario card */}
+      <div className="rounded-xl bg-primary p-7 mb-8 shadow-card-lg relative overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.04] bg-[radial-gradient(circle_at_30%_50%,white_0%,transparent_60%)]" />
+        <div className="relative">
+          <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-white/60 mb-4">
+            <Compass className="w-3.5 h-3.5" />
+            Future scenario
+          </div>
+          <Quote className="w-7 h-7 text-accent/60 mb-3" aria-hidden />
+          <p className="text-base md:text-lg leading-relaxed text-white">
+            You've just submitted your capstone thesis. Your supervisor writes:{" "}
+            <em className="text-white/85 not-italic border-l-2 border-accent/60 pl-3 block mt-3">
+              "This is ambitious work, but the methodology section is underdeveloped and you
+              don't engage with counter-evidence. I'm not yet convinced of the conclusion.
+              Let's meet next week."
+            </em>
+          </p>
+          <p className="mt-5 text-sm text-white/70 font-medium">
+            How would you respond — emotionally, intellectually, and in action — before that meeting?
+          </p>
+        </div>
+      </div>
 
       {/* Progress strip */}
       <div className="flex items-center gap-3 mb-8">
