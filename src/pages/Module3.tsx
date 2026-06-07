@@ -14,11 +14,7 @@ import { Link } from "react-router";
 import { ModuleLayout, ModuleHeader, NavFooter } from "@/components/ModuleLayout";
 import { cn } from "@/lib/utils";
 import type { Dimension } from "@/lib/constants";
-import { getMockCoachReply } from "@/lib/mockCoach";
-
-// ─── To switch to the live Anthropic API, replace this import: ────────────────
-// import { getLiveCoachReply as getMockCoachReply } from "@/lib/coachApi";
-// ─────────────────────────────────────────────────────────────────────────────
+import { getCoachReply } from "@/lib/coachApi";
 
 /* ─── Types ──────────────────────────────────────────────────── */
 
@@ -97,9 +93,7 @@ export default function Module3() {
     setIsLoading(true);
 
     try {
-      // ── Mock: replace `getMockCoachReply` import to go live ──────────────
-      const aiText = await getMockCoachReply(nextChat, setup.feedback);
-      // ─────────────────────────────────────────────────────────────────────
+      const aiText = await getCoachReply(nextChat, setup);
       setChat((prev) => [...prev, { role: "ai", text: aiText }]);
     } catch {
       setChat((prev) => [
@@ -198,7 +192,7 @@ export default function Module3() {
                   </span>
                 ) : (
                   <span className="text-[10px] font-bold uppercase tracking-wider text-white/50 bg-white/10 px-2 py-0.5 rounded-full">
-                    Demo mode
+                    {import.meta.env.DEV ? "Demo mode" : "Live"}
                   </span>
                 )}
               </div>
@@ -314,8 +308,7 @@ function SetupStep({ setup, onChange, onBegin }: SetupStepProps) {
       <div className="flex gap-3 rounded-xl border border-primary/20 bg-primary/5 px-4 py-3">
         <Info className="w-4 h-4 text-primary shrink-0 mt-0.5" />
         <p className="text-sm text-primary/80 leading-relaxed">
-          Your entries stay on this page only — nothing is sent to a server. The AI coach uses this
-          to personalise every question to your specific situation.
+          Your entries are sent to the AI coach to personalise the session. Nothing is stored beyond the active conversation.
         </p>
       </div>
 
