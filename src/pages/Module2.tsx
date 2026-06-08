@@ -379,7 +379,7 @@ export default function Module2() {
                           </div>
 
                           {/* Options */}
-                          <div className="px-5 space-y-2">
+                          <div className={cn("px-5 space-y-2", !isAnswered && "pb-5")}>
                             {q.options.map((opt, optIdx) => {
                               const isSelected = selected === optIdx;
                               const isCorrectOpt = optIdx === q.correct;
