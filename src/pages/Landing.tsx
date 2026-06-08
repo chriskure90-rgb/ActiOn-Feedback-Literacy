@@ -4,6 +4,7 @@ import {
   BookOpen,
   ClipboardCheck,
   Compass,
+  FileText,
   MessageSquareHeart,
 } from "lucide-react";
 
@@ -73,7 +74,7 @@ export default function Landing() {
       </header>
 
       {/* ── Hero ── */}
-      <section className="mx-auto max-w-4xl px-5 py-20 md:py-28 text-center">
+      <section className="mx-auto max-w-4xl px-5 pt-20 pb-12 md:pt-28 md:pb-16 text-center">
         <img
           src={LOGO_URL}
           alt="ActiOn logo"
@@ -87,21 +88,71 @@ export default function Landing() {
           <span className="text-accent">real action</span>.
         </h1>
         <p className="mt-5 text-lg text-muted-foreground max-w-xl mx-auto leading-relaxed">
-          ActiOn is a four-step journey that helps university students read,
-          reflect on, and act on the feedback they receive.
+          ActiOn helps university students read, reflect on, and act on the
+          feedback they receive. Choose your pathway below.
         </p>
-        <div className="mt-9">
-          <Link
-            to="/module/1"
-            className="inline-flex items-center gap-2 rounded-lg bg-accent px-7 py-3 text-sm font-bold text-white shadow-card-md hover:bg-accent/90 active:scale-[0.98] transition-all"
-          >
-            Begin Module 1 <ArrowRight className="w-4 h-4" />
-          </Link>
+      </section>
+
+      {/* ── Pathway cards ── */}
+      <section className="mx-auto max-w-4xl px-5 pb-16">
+        <div className="grid gap-5 md:grid-cols-2">
+          {/* Pathway 1 — Learning modules */}
+          <div className="relative rounded-xl border border-primary/30 bg-primary shadow-card-md flex flex-col p-7">
+            <span className="absolute -top-2.5 right-4 text-[10px] font-extrabold uppercase tracking-wider bg-accent text-white px-2.5 py-0.5 rounded-full shadow-sm">
+              Guided
+            </span>
+            <div className="w-12 h-12 rounded-xl bg-white/15 text-white flex items-center justify-center mb-5">
+              <BookOpen className="w-6 h-6" />
+            </div>
+            <h2 className="text-xl font-extrabold text-white tracking-tight mb-2">
+              Start Learning Module
+            </h2>
+            <p className="text-sm text-white/75 leading-relaxed flex-1 mb-6">
+              Learn feedback literacy through guided lessons, scenario-based
+              practice, AI-supported action planning, and transfer activities.
+            </p>
+            <Link
+              to="/module/1"
+              className="inline-flex items-center gap-2 self-start rounded-lg bg-accent px-6 py-2.5 text-sm font-bold text-white shadow-card hover:bg-accent/90 active:scale-[0.98] transition-all"
+            >
+              Start Learning <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+
+          {/* Pathway 2 — Worksheet */}
+          <div className="relative rounded-xl border border-border bg-white shadow-card-md flex flex-col p-7">
+            <span className="absolute -top-2.5 right-4 text-[10px] font-extrabold uppercase tracking-wider bg-teal text-white px-2.5 py-0.5 rounded-full shadow-sm">
+              Tool
+            </span>
+            <div className="w-12 h-12 rounded-xl bg-primary-soft text-primary flex items-center justify-center mb-5">
+              <FileText className="w-6 h-6" />
+            </div>
+            <h2 className="text-xl font-extrabold text-primary tracking-tight mb-2">
+              Open Feedback Worksheet
+            </h2>
+            <p className="text-sm text-muted-foreground leading-relaxed flex-1 mb-6">
+              Use the feedback literacy framework with your own assignment
+              feedback to create a concrete improvement plan.
+            </p>
+            <Link
+              to="/worksheet"
+              className="inline-flex items-center gap-2 self-start rounded-lg bg-primary px-6 py-2.5 text-sm font-bold text-white shadow-card hover:bg-primary/90 active:scale-[0.98] transition-all"
+            >
+              Open Worksheet <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* ── Module cards ── */}
+      {/* ── Module steps ── */}
       <section className="mx-auto max-w-6xl px-5 pb-24">
+        <div className="flex items-center gap-4 mb-6">
+          <div className="h-px flex-1 bg-border" />
+          <span className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground">
+            What's inside the learning module
+          </span>
+          <div className="h-px flex-1 bg-border" />
+        </div>
         <div className="grid gap-4 md:grid-cols-4">
           {STEPS.map((s) => {
             const Icon = s.icon;

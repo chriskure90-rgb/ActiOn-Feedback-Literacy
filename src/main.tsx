@@ -9,6 +9,7 @@ import Module1 from "./pages/Module1";
 import Module2 from "./pages/Module2";
 import Module3 from "./pages/Module3";
 import Module4 from "./pages/Module4";
+import Worksheet from "./pages/Worksheet";
 import NotFound from "./pages/NotFound";
 
 function ScrollToTop() {
@@ -32,6 +33,7 @@ createRoot(root).render(
         <Route path="/module/2" element={<Module2 />} />
         <Route path="/module/3" element={<Module3 />} />
         <Route path="/module/4" element={<Module4 />} />
+        <Route path="/worksheet" element={<Worksheet />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
