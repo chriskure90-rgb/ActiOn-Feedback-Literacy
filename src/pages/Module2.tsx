@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { CheckCircle2, ChevronRight, Heart, Rocket, Scale, ThumbsUp, XCircle } from "lucide-react";
+import { supabase } from "../lib/supabase";
 import { ModuleLayout, ModuleHeader, NavFooter } from "@/components/ModuleLayout";
 import { cn } from "@/lib/utils";
 import { DEMO_MODULE2_ANSWERS } from "@/lib/demoData";
@@ -241,8 +242,29 @@ function key(sIdx: number, qIdx: number) {
 export default function Module2() {
   const [answers, setAnswers] = useState<Answers>({});
   const [submitted, setSubmitted] = useState(false);
+  const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
 
   const answered = Object.keys(answers).length;
+
+  async function handleSubmit() {
+    setSaveStatus("saving");
+
+    const minScore = Math.min(...scores);
+    const growthIdx = scores.indexOf(minScore);
+    const growthDim = SECTIONS[growthIdx]?.dim ?? "";
+
+    const { error } = await supabase.from("Module_2").insert({
+      managing_affect_score: scores[0],
+      appreciating_feedback_score: scores[1],
+      making_judgements_score: scores[2],
+      taking_action_score: scores[3],
+      growth_focus: growthDim,
+      responses: answers,
+    });
+
+    setSaveStatus(error ? "error" : "saved");
+    setSubmitted(true);
+  }
 
   function select(sIdx: number, qIdx: number, optIdx: number) {
     const k = key(sIdx, qIdx);
@@ -509,16 +531,17 @@ export default function Module2() {
                 : "All questions answered — ready to submit!"}
             </p>
             <button
-              onClick={() => setSubmitted(true)}
-              disabled={answered < TOTAL_QUESTIONS}
+              onClick={() => void handleSubmit()}
+              disabled={answered < TOTAL_QUESTIONS || saveStatus === "saving"}
               className="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-2.5 text-sm font-bold text-white shadow-card hover:bg-accent/90 disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98] transition-all"
             >
-              Submit assessment <ChevronRight className="w-4 h-4" />
+              {saveStatus === "saving" ? "Saving…" : "Submit assessment"}
+              <ChevronRight className="w-4 h-4" />
             </button>
           </div>
         </>
       ) : (
-        <ResultsDashboard scores={scores} />
+        <ResultsDashboard scores={scores} saveStatus={saveStatus} />
       )}
 
       {submitted && (
@@ -533,7 +556,7 @@ export default function Module2() {
 
 /* ── Results dashboard ──────────────────────────────────────────────── */
 
-function ResultsDashboard({ scores }: { scores: number[] }) {
+function ResultsDashboard({ scores, saveStatus }: { scores: number[]; saveStatus: "idle" | "saving" | "saved" | "error" }) {
   const total = scores.reduce((a, b) => a + b, 0);
   const minScore = Math.min(...scores);
   const growthIdx = scores.indexOf(minScore);
@@ -552,6 +575,16 @@ function ResultsDashboard({ scores }: { scores: number[] }) {
             You scored <span className="font-semibold text-primary">{total} out of {TOTAL_QUESTIONS}</span>. Your results are shown below.
             Module 3 will give you the opportunity to apply these strategies with the help of an AI coach.
           </p>
+          {saveStatus === "saved" && (
+            <p className="text-xs font-semibold text-teal mt-2 flex items-center gap-1.5">
+              <CheckCircle2 className="w-3.5 h-3.5 shrink-0" /> Assessment saved.
+            </p>
+          )}
+          {saveStatus === "error" && (
+            <p className="text-xs text-muted-foreground mt-2">
+              Could not save to database — your results are still shown below.
+            </p>
+          )}
         </div>
       </div>
 
