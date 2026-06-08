@@ -9,6 +9,7 @@ import {
   FileText,
   Heart,
   Rocket,
+  Save,
   Scale,
   ThumbsUp,
 } from "lucide-react";
@@ -75,6 +76,7 @@ export default function Worksheet() {
   const [responses, setResponses] = useState(["", "", "", ""]);
   const [submitted, setSubmitted] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [saved, setSaved] = useState(false);
   const planRef = useRef<HTMLDivElement>(null);
 
   const filled = responses.filter((r) => r.trim().length >= MIN_CHARS).length;
@@ -122,6 +124,15 @@ export default function Worksheet() {
     await navigator.clipboard.writeText(buildPlanText());
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  }
+
+  function handleSave() {
+    localStorage.setItem(
+      "action-worksheet-plan",
+      JSON.stringify({ setup, responses, savedAt: new Date().toISOString() }),
+    );
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2000);
   }
 
   function handleDownload() {
@@ -373,6 +384,13 @@ export default function Worksheet() {
                 >
                   <ClipboardCopy className="w-3.5 h-3.5" />
                   {copied ? "Copied!" : "Copy Plan"}
+                </button>
+                <button
+                  onClick={handleSave}
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-accent border border-accent/30 bg-white rounded-md px-3 py-1.5 hover:bg-accent/5 active:scale-95 transition-all shadow-sm"
+                >
+                  <Save className="w-3.5 h-3.5" />
+                  {saved ? "Saved!" : "Save Plan"}
                 </button>
                 <button
                   onClick={handleDownload}
