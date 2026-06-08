@@ -3,6 +3,7 @@ import { CheckCircle2, Compass, FileText, Heart, Quote, Rocket, Scale, ThumbsUp 
 import { DEMO_MODULE4_RESPONSES } from "@/lib/demoData";
 import { ModuleLayout, ModuleHeader, NavFooter } from "@/components/ModuleLayout";
 import { cn } from "@/lib/utils";
+import { supabase } from "@/lib/supabase";
 
 /* ── Plan components ──────────────────────────────────────────────────────── */
 
@@ -72,12 +73,30 @@ const MIN_CHARS = 10;
 export default function Module4() {
   const [responses, setResponses] = useState(["", "", "", ""]);
   const [submitted, setSubmitted] = useState(false);
+  const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
 
   const filled = responses.filter((r) => r.trim().length >= MIN_CHARS).length;
   const canSubmit = filled === PLAN_COMPONENTS.length;
 
   function update(i: number, value: string) {
     setResponses((prev) => prev.map((r, j) => (j === i ? value : r)));
+  }
+
+  async function handleGenerate() {
+    setSubmitted(true);
+    setSaveStatus("saving");
+    const { error } = await supabase.from("Module_4").insert({
+      participant_id: "DEMO001",
+      worksheet_mode: false,
+      generated_plan: {
+        managing_affect: responses[0]?.trim() ?? "",
+        appreciating_feedback: responses[1]?.trim() ?? "",
+        making_judgements: responses[2]?.trim() ?? "",
+        taking_action: responses[3]?.trim() ?? "",
+        generated_summary: "",
+      },
+    });
+    setSaveStatus(error ? "error" : "saved");
   }
 
   return (
@@ -233,7 +252,7 @@ export default function Module4() {
               : `${PLAN_COMPONENTS.length - filled} section${PLAN_COMPONENTS.length - filled !== 1 ? "s" : ""} remaining.`}
           </p>
           <button
-            onClick={() => setSubmitted(true)}
+            onClick={() => void handleGenerate()}
             disabled={!canSubmit}
             className="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-2.5 text-sm font-bold text-white shadow-card hover:bg-accent/90 disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98] transition-all"
           >
@@ -244,7 +263,7 @@ export default function Module4() {
       )}
 
       {/* Plan summary */}
-      {submitted && <PlanSummary responses={responses} />}
+      {submitted && <PlanSummary responses={responses} saveStatus={saveStatus} />}
 
       <NavFooter
         prev={{ path: "/module/3", label: "Back to Practice" }}
@@ -256,7 +275,7 @@ export default function Module4() {
 
 /* ── Plan summary ─────────────────────────────────────────────────────────── */
 
-function PlanSummary({ responses }: { responses: string[] }) {
+function PlanSummary({ responses, saveStatus }: { responses: string[]; saveStatus: "idle" | "saving" | "saved" | "error" }) {
   return (
     <div className="mt-2 mb-8">
       {/* Banner */}
@@ -269,6 +288,15 @@ function PlanSummary({ responses }: { responses: string[] }) {
           <p className="text-sm text-muted-foreground mt-0.5 leading-relaxed">
             Your Future Feedback Plan is ready. Save or screenshot this page to keep it for your next assignment.
           </p>
+          {saveStatus === "saving" && (
+            <p className="text-xs text-muted-foreground mt-1.5">Saving…</p>
+          )}
+          {saveStatus === "saved" && (
+            <p className="text-xs text-teal font-medium mt-1.5">Plan saved.</p>
+          )}
+          {saveStatus === "error" && (
+            <p className="text-xs text-rose-600 mt-1.5">Could not save your plan. Please screenshot or copy your responses.</p>
+          )}
         </div>
       </div>
 
