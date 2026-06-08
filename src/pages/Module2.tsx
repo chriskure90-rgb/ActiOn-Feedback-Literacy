@@ -2,6 +2,7 @@ import { useState } from "react";
 import { CheckCircle2, ChevronRight, Heart, Rocket, Scale, ThumbsUp, XCircle } from "lucide-react";
 import { ModuleLayout, ModuleHeader, NavFooter } from "@/components/ModuleLayout";
 import { cn } from "@/lib/utils";
+import { DEMO_MODULE2_ANSWERS } from "@/lib/demoData";
 
 /* ── Data ─────────────────────────────────────────────────────────── */
 
@@ -262,6 +263,30 @@ export default function Module2() {
         title="Where are you right now?"
         description="Read each scenario and select the response that best matches what you would do. You will receive immediate feedback after each answer."
       />
+
+      {/* Demo bar */}
+      <div className="flex items-center gap-3 rounded-lg border border-accent/25 bg-accent-soft px-4 py-2.5 mb-6">
+        <span className="text-[10px] font-bold uppercase tracking-wider text-accent shrink-0">
+          Presentation
+        </span>
+        <span className="text-xs text-muted-foreground flex-1 min-w-0 hidden sm:block">
+          Load sample answers to demonstrate scoring and the growth focus result.
+        </span>
+        <div className="flex items-center gap-2 ml-auto shrink-0">
+          <button
+            onClick={() => { setAnswers(DEMO_MODULE2_ANSWERS); setSubmitted(false); }}
+            className="text-xs font-bold text-accent border border-accent/30 bg-white rounded-md px-3 py-1.5 hover:bg-accent/5 active:scale-95 transition-all shadow-sm"
+          >
+            Load Demo Data
+          </button>
+          <button
+            onClick={() => { setAnswers({}); setSubmitted(false); }}
+            className="text-xs text-muted-foreground hover:text-foreground transition-colors px-1.5 py-1"
+          >
+            Clear
+          </button>
+        </div>
+      </div>
 
       {!submitted ? (
         <>

@@ -15,6 +15,7 @@ import { ModuleLayout, ModuleHeader, NavFooter } from "@/components/ModuleLayout
 import { cn } from "@/lib/utils";
 import type { Dimension } from "@/lib/constants";
 import { getCoachReply } from "@/lib/coachApi";
+import { DEMO_MODULE3_SETUP } from "@/lib/demoData";
 
 /* ─── Types ──────────────────────────────────────────────────── */
 
@@ -303,6 +304,30 @@ function SetupStep({ setup, onChange, onBegin }: SetupStepProps) {
 
   return (
     <div className="max-w-2xl space-y-4">
+
+      {/* Demo bar */}
+      <div className="flex items-center gap-3 rounded-lg border border-accent/25 bg-accent-soft px-4 py-2.5">
+        <span className="text-[10px] font-bold uppercase tracking-wider text-accent shrink-0">
+          Presentation
+        </span>
+        <span className="text-xs text-muted-foreground flex-1 min-w-0 hidden sm:block">
+          Pre-fill with a sample essay and teacher feedback for demo.
+        </span>
+        <div className="flex items-center gap-2 ml-auto shrink-0">
+          <button
+            onClick={() => onChange(DEMO_MODULE3_SETUP)}
+            className="text-xs font-bold text-accent border border-accent/30 bg-white rounded-md px-3 py-1.5 hover:bg-accent/5 active:scale-95 transition-all shadow-sm"
+          >
+            Load Demo Data
+          </button>
+          <button
+            onClick={() => onChange({ title: "", instructions: "", feedback: "" })}
+            className="text-xs text-muted-foreground hover:text-foreground transition-colors px-1.5 py-1"
+          >
+            Clear
+          </button>
+        </div>
+      </div>
 
       {/* Info callout */}
       <div className="flex gap-3 rounded-xl border border-primary/20 bg-primary/5 px-4 py-3">
