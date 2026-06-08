@@ -77,7 +77,7 @@ export default function Module3() {
   function handleBeginCoaching() {
     const greeting: ChatMessage = {
       role: "ai",
-      text: `Hi! I can see you're working on "${setup.title}". I'm here to help you turn your teacher's feedback into a concrete improvement plan. Let's start with how the feedback made you feel when you first read it.`,
+      text: `Hi! I can see you're working on "${setup.title}."\n\nIn Module 2, your Growth Focus was identified as Making Judgements.\n\nMaking Judgements involves deciding which feedback points are most important for improving your work.\n\nLooking at the feedback you received:\n\n• Which feedback comment do you think is most important?\n• Why do you think it will have the greatest impact on your assignment?\n\nTake a moment to explain your reasoning before we begin creating an action plan.`,
     };
     setChat([greeting]);
     setStep("coach");
@@ -452,7 +452,7 @@ function ChatBubble({ message }: { message: ChatMessage }) {
         {isAi ? <Bot className="w-4 h-4" /> : <User className="w-4 h-4" />}
       </div>
       <div className={cn(
-        "max-w-[78%] rounded-2xl px-4 py-3 text-sm leading-relaxed",
+        "max-w-[78%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap",
         isAi
           ? "bg-white border border-border text-foreground rounded-bl-sm shadow-card"
           : "bg-primary text-white rounded-br-sm shadow-card",
