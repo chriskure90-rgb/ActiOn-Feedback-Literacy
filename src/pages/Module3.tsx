@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { supabase } from "@/lib/supabase";
 import {
   Bot,
   CheckCircle2,
@@ -10,7 +11,7 @@ import {
   Sparkles,
   User,
 } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { ModuleLayout, ModuleHeader, NavFooter } from "@/components/ModuleLayout";
 import { cn } from "@/lib/utils";
 import type { Dimension } from "@/lib/constants";
@@ -68,7 +69,34 @@ export default function Module3() {
   const [message, setMessage] = useState("");
   const [chat, setChat] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const chatBottomRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
+
+  async function handleContinue() {
+    setSaveStatus("saving");
+    const { error } = await supabase.from("Module_3").insert({
+      participant_id: "DEMO001",
+      growth_focus: "Making Judgements",
+      feedback_source: "",
+      assignment_title: setup.title,
+      assignment_instructions: setup.instructions,
+      feedback_text: setup.feedback,
+      managing_affect_response: "",
+      appreciating_feedback_response: "",
+      making_judgements_response: "",
+      making_judgements_reason: "",
+      taking_action_response: "",
+      action_plan: "",
+      ai_conversation: chat,
+    });
+    if (error) {
+      setSaveStatus("error");
+    } else {
+      setSaveStatus("saved");
+      setTimeout(() => void navigate("/module/4"), 800);
+    }
+  }
 
   useEffect(() => {
     chatBottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -279,12 +307,33 @@ export default function Module3() {
         >
           ← Back to Assess
         </Link>
-        <Link
-          to="/module/4"
-          className="inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-2 text-sm font-bold text-white shadow-card hover:bg-accent/90 active:scale-[0.98] transition-all"
-        >
-          Continue to Transfer →
-        </Link>
+        <div className="flex items-center gap-3">
+          {saveStatus === "saved" && (
+            <span className="text-xs font-semibold text-teal flex items-center gap-1.5">
+              <CheckCircle2 className="w-3.5 h-3.5 shrink-0" /> Session saved.
+            </span>
+          )}
+          {saveStatus === "error" && (
+            <>
+              <span className="text-xs text-muted-foreground">Could not save.</span>
+              <Link
+                to="/module/4"
+                className="inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-2 text-sm font-bold text-white shadow-card hover:bg-accent/90 active:scale-[0.98] transition-all"
+              >
+                Continue anyway →
+              </Link>
+            </>
+          )}
+          {(saveStatus === "idle" || saveStatus === "saving") && (
+            <button
+              onClick={() => void handleContinue()}
+              disabled={saveStatus === "saving"}
+              className="inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-2 text-sm font-bold text-white shadow-card hover:bg-accent/90 disabled:opacity-60 disabled:cursor-not-allowed active:scale-[0.98] transition-all"
+            >
+              {saveStatus === "saving" ? "Saving…" : "Continue to Transfer →"}
+            </button>
+          )}
+        </div>
       </div>
 
     </ModuleLayout>
