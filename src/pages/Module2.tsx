@@ -254,6 +254,7 @@ export default function Module2() {
     const growthDim = SECTIONS[growthIdx]?.dim ?? "";
 
     const { error } = await supabase.from("Module_2").insert({
+      participant_id: "DEMO001",
       managing_affect_score: scores[0],
       appreciating_feedback_score: scores[1],
       making_judgements_score: scores[2],
@@ -560,7 +561,7 @@ function ResultsDashboard({ scores, saveStatus }: { scores: number[]; saveStatus
   const total = scores.reduce((a, b) => a + b, 0);
   const minScore = Math.min(...scores);
   const growthIdx = scores.indexOf(minScore);
-  const growthDim = SECTIONS[growthIdx].dim;
+  const growthDim = SECTIONS[growthIdx]?.dim ?? "";
 
   return (
     <div className="space-y-6">
@@ -594,7 +595,7 @@ function ResultsDashboard({ scores, saveStatus }: { scores: number[]; saveStatus
         <div className="grid gap-3 md:grid-cols-2">
           {SECTIONS.map((section, i) => {
             const Icon = section.icon;
-            const score = scores[i];
+            const score = scores[i] ?? 0;
             const isGrowth = i === growthIdx;
             return (
               <div
