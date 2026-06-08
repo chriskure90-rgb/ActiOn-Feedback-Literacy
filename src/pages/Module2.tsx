@@ -290,17 +290,19 @@ export default function Module2() {
 
       {!submitted ? (
         <>
-          {/* Progress bar */}
-          <div className="flex items-center gap-3 mb-8">
-            <div className="flex-1 h-1.5 bg-muted rounded-full overflow-hidden">
-              <div
-                className="h-full bg-teal rounded-full transition-all duration-500"
-                style={{ width: `${(answered / TOTAL_QUESTIONS) * 100}%` }}
-              />
+          {/* Sticky progress bar */}
+          <div className="sticky top-[108px] z-30 -mx-5 px-5 py-3 bg-background/95 backdrop-blur-sm border-b border-border mb-8">
+            <div className="flex items-center gap-3">
+              <div className="flex-1 h-1.5 bg-muted rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-teal rounded-full transition-all duration-500"
+                  style={{ width: `${(answered / TOTAL_QUESTIONS) * 100}%` }}
+                />
+              </div>
+              <span className="text-xs font-medium text-muted-foreground whitespace-nowrap">
+                {answered} of {TOTAL_QUESTIONS} answered
+              </span>
             </div>
-            <span className="text-xs font-medium text-muted-foreground whitespace-nowrap">
-              {answered} of {TOTAL_QUESTIONS} answered
-            </span>
           </div>
 
           {/* Sections */}
