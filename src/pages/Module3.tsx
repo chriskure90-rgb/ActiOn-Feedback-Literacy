@@ -42,12 +42,22 @@ interface SetupData {
 
 /* ─── Static data ────────────────────────────────────────────── */
 
-const PROGRESS: ProgressItem[] = [
+const INITIAL_PROGRESS: ProgressItem[] = [
   { dim: "Managing Affect",       status: "active" },
   { dim: "Appreciating Feedback", status: "todo"   },
   { dim: "Making Judgments",      status: "todo"   },
   { dim: "Taking Action",         status: "todo"   },
 ];
+
+// Maps the AI's [STAGE_COMPLETE:key] tags to progress array indices.
+const STAGE_COMPLETE_INDEX: Record<string, number> = {
+  managing_affect:       0,
+  appreciating_feedback: 1,
+  making_judgements:     2,
+  taking_action:         3,
+};
+
+const STAGE_TAG_RE = /\[STAGE_COMPLETE:[a-z_]+\]\s*$/;
 
 export const COACH_SYSTEM_PROMPT = `You are ActiOn, an AI Feedback Literacy Coach.
 
@@ -202,6 +212,7 @@ export default function Module3() {
   });
   const [message, setMessage] = useState("");
   const [chat, setChat] = useState<ChatMessage[]>([]);
+  const [progress, setProgress] = useState<ProgressItem[]>(INITIAL_PROGRESS);
   const [isLoading, setIsLoading] = useState(false);
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const chatBottomRef = useRef<HTMLDivElement>(null);
@@ -256,8 +267,26 @@ export default function Module3() {
     setIsLoading(true);
 
     try {
-      const aiText = await getCoachReply(nextChat, setup);
-      setChat((prev) => [...prev, { role: "ai", text: aiText }]);
+      const rawText = await getCoachReply(nextChat, setup);
+
+      // Parse optional [STAGE_COMPLETE:key] tag and strip it from display text.
+      const tagMatch = rawText.match(/\[STAGE_COMPLETE:([a-z_]+)\]/);
+      const displayText = rawText.replace(STAGE_TAG_RE, "").trimEnd();
+
+      setChat((prev) => [...prev, { role: "ai", text: displayText }]);
+
+      if (tagMatch) {
+        const idx = STAGE_COMPLETE_INDEX[tagMatch[1] ?? ""];
+        if (idx !== undefined) {
+          setProgress((prev) =>
+            prev.map((p, i) => {
+              if (i === idx)     return { ...p, status: "done"   };
+              if (i === idx + 1) return { ...p, status: "active" };
+              return p;
+            }),
+          );
+        }
+      }
     } catch {
       setChat((prev) => [
         ...prev,
@@ -330,7 +359,7 @@ export default function Module3() {
             />
           </div>
 
-          <ProgressTracker progress={PROGRESS} />
+          <ProgressTracker progress={progress} />
         </div>
 
         {/* ── Chat panel — fills column height exactly ── */}
@@ -345,7 +374,7 @@ export default function Module3() {
                 </div>
                 <div>
                   <div className="font-bold text-sm text-white leading-tight">AI Feedback Coach</div>
-                  <div className="text-[11px] text-white/65 mt-0.5">Currently: Making Judgments</div>
+                  <div className="text-[11px] text-white/65 mt-0.5">Currently: {progress.find(p => p.status === "active")?.dim ?? "Complete"}</div>
                 </div>
               </div>
               <div className="flex items-center gap-2">
@@ -363,7 +392,7 @@ export default function Module3() {
 
             {/* Dimension progress strip */}
             <div className="bg-primary-soft border-b border-border px-5 py-2 flex items-center gap-3 shrink-0">
-              {PROGRESS.map((p) => (
+              {progress.map((p) => (
                 <div key={p.dim} className="flex items-center gap-1.5">
                   {p.status === "done" ? (
                     <CheckCircle2 className="w-3.5 h-3.5 text-teal shrink-0" />
