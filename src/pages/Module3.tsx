@@ -59,6 +59,21 @@ const STAGE_COMPLETE_INDEX: Record<string, number> = {
 
 const STAGE_TAG_RE = /\[STAGE_COMPLETE:[a-z_]+\]\s*$/;
 
+// Detect which stage index was completed from an AI response.
+// Checks the machine-readable tag first; falls back to natural-language
+// patterns for when the model omits the tag but still announces completion.
+function detectCompletedStage(text: string): number | null {
+  const tagMatch = text.match(/\[STAGE_COMPLETE:([a-z_]+)\]/);
+  if (tagMatch) return STAGE_COMPLETE_INDEX[tagMatch[1] ?? ""] ?? null;
+
+  const t = text.toLowerCase();
+  if (/managing affect\s+(is\s+)?complet|move to appreciating feedback/i.test(t)) return 0;
+  if (/appreciating feedback\s+(is\s+)?complet|move to making judgements?/i.test(t)) return 1;
+  if (/making judgements?\s+(is\s+)?complet|move to taking action/i.test(t)) return 2;
+  if (/taking action\s+(is\s+)?complet/i.test(t)) return 3;
+  return null;
+}
+
 export const COACH_SYSTEM_PROMPT = `You are ActiOn, an AI Feedback Literacy Coach.
 
 Your role is to help students use instructor feedback to improve a real assignment and develop feedback literacy. Do not provide direct answers or rewrite the assignment. Guide students through reflection, judgement, and planning.
@@ -269,23 +284,21 @@ export default function Module3() {
     try {
       const rawText = await getCoachReply(nextChat, setup);
 
-      // Parse optional [STAGE_COMPLETE:key] tag and strip it from display text.
-      const tagMatch = rawText.match(/\[STAGE_COMPLETE:([a-z_]+)\]/);
+      // Strip machine-readable tag before displaying; detect stage completion
+      // via tag OR natural-language fallback patterns.
       const displayText = rawText.replace(STAGE_TAG_RE, "").trimEnd();
+      const completedIdx = detectCompletedStage(rawText);
 
       setChat((prev) => [...prev, { role: "ai", text: displayText }]);
 
-      if (tagMatch) {
-        const idx = STAGE_COMPLETE_INDEX[tagMatch[1] ?? ""];
-        if (idx !== undefined) {
-          setProgress((prev) =>
-            prev.map((p, i) => {
-              if (i === idx)     return { ...p, status: "done"   };
-              if (i === idx + 1) return { ...p, status: "active" };
-              return p;
-            }),
-          );
-        }
+      if (completedIdx !== null) {
+        setProgress((prev) =>
+          prev.map((p, i) => {
+            if (i === completedIdx)     return { ...p, status: "done"   };
+            if (i === completedIdx + 1) return { ...p, status: "active" };
+            return p;
+          }),
+        );
       }
     } catch {
       setChat((prev) => [
