@@ -43,9 +43,9 @@ interface SetupData {
 /* ─── Static data ────────────────────────────────────────────── */
 
 const PROGRESS: ProgressItem[] = [
-  { dim: "Managing Affect",       status: "done"   },
-  { dim: "Appreciating Feedback", status: "done"   },
-  { dim: "Making Judgments",      status: "active" },
+  { dim: "Managing Affect",       status: "active" },
+  { dim: "Appreciating Feedback", status: "todo"   },
+  { dim: "Making Judgments",      status: "todo"   },
   { dim: "Taking Action",         status: "todo"   },
 ];
 
@@ -254,7 +254,7 @@ export default function Module3() {
   function handleBeginCoaching() {
     const greeting: ChatMessage = {
       role: "ai",
-      text: `Hi! I can see you're working on "${setup.title}."\n\nIn Module 2, your Growth Focus was identified as Making Judgements.\n\nMaking Judgements involves deciding which feedback points are most important for improving your work.\n\nLooking at the feedback you received:\n\n• Which feedback comment do you think is most important?\n• Why do you think it will have the greatest impact on your assignment?\n\nTake a moment to explain your reasoning before we begin creating an action plan.`,
+      text: `Hi! I can see you're working on "${setup.title}."\n\nLet's begin with Stage 1: Managing Affect.\n\nHow did you feel when you received this feedback?`,
     };
     setChat([greeting]);
     setStep("coach");
