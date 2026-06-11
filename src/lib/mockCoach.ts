@@ -3,21 +3,26 @@ export interface ChatMessage {
   text: string;
 }
 
+// Follows the ActiOn rubric: Stage 1 → 2 → 3 → 4, with one follow-up per stage.
 const SCRIPT: string[] = [
-  "It sounds like you felt a bit thrown by the feedback. That's completely normal — our emotional reaction is the first thing we need to notice. Once you've named it, it loses some of its power. What would it feel like to read that feedback again as if it came from a helpful mentor rather than a judge?",
-  "That reframe is a great first step. Now let's look at what the teacher is actually offering you. Every critique is implicitly a map: it tells you where the gap is between your work and the standard. Looking at the feedback in front of you, what does it tell you the teacher *values* in a strong essay?",
-  "Exactly — structure, completeness, and evidence are all things the teacher cares about. The feedback isn't random; it reflects clear criteria. Does reading it this way change how you feel about it?",
-  "Good. Now let's shift into making judgments about your own work. If you had to be your own strict-but-fair reviewer, which of the three points in the feedback do you think is the *most* important to address first, and why?",
-  "Strong instinct. Prioritising the structural issue makes sense — readers can't evaluate evidence they can't follow. When you re-read your introduction now, do you see the gap the teacher described? What's missing or misaligned?",
-  "You're identifying the issue precisely. That's the hardest part. Now let's turn insight into action. Can you write down one concrete thing you will do this week — something specific enough that you could tick it off a to-do list?",
-  "Perfect. Specific, time-bound, and tied directly to the feedback. That's a real action plan. As a final step: is there anything you'd want to clarify with your teacher before the revision, or do you feel you have enough to move forward?",
-  "You've worked through all four dimensions today — managing your initial reaction, appreciating what the feedback offers, judging your own work honestly, and forming a concrete action step. That's the full feedback literacy cycle. Well done. Save your action point somewhere visible and revisit it after you've made the revisions.",
-];
-
-const CLOSERS: string[] = [
-  "It sounds like you've got a solid grip on this. Is there any other part of the feedback you'd like to explore?",
-  "You're asking exactly the right questions. Keep that critical-but-constructive mindset when you sit down to revise.",
-  "Remember: the goal of revision isn't perfection — it's demonstrable improvement on the points raised. How are you feeling about getting started?",
+  // Stage 1 — Managing Affect: main question
+  "How did you feel when you received this feedback?",
+  // Stage 1 — Managing Affect: follow-up (score 0–1)
+  "Thanks for sharing that. What could help you stay engaged with this feedback despite that reaction?",
+  // Stage 2 — Appreciating Feedback: main question
+  "What do you think your instructor is trying to help you improve with this feedback?",
+  // Stage 2 — Appreciating Feedback: follow-up (score 0–1)
+  "Can you explain that feedback in your own words, without copying the original wording?",
+  // Stage 3 — Making Judgements: main question
+  "Which feedback point is most important for improving this assignment, and why?",
+  // Stage 3 — Making Judgements: follow-up (score 0–1)
+  "What resources, knowledge, or support would help you improve in that area?",
+  // Stage 4 — Taking Action: main question
+  "What specific revision plan will you use to improve your assignment?",
+  // Stage 4 — Taking Action: follow-up (score 0–1)
+  "How will you monitor your progress and know whether your revision is successful?",
+  // Final — Action Summary
+  "Here is your Action Summary:\n\n1. Emotional response and coping strategy: noted\n2. Feedback interpretation: recorded\n3. Criteria connection or quality implication: identified\n4. Prioritised feedback point: selected\n5. Resources and support needed: listed\n6. Revision strategy: set\n7. Self-monitoring method: defined\n\nYou have worked through all four stages of the Feedback Literacy Framework. You are well prepared to begin your revision.",
 ];
 
 export async function getMockCoachReply(
@@ -26,8 +31,7 @@ export async function getMockCoachReply(
 ): Promise<string> {
   const delay = 800 + Math.random() * 800;
   await new Promise((resolve) => setTimeout(resolve, delay));
-  const aiTurns = history.filter((m) => m.role === "ai").length;
-  const scriptIndex = Math.max(0, aiTurns - 2);
-  if (scriptIndex < SCRIPT.length) return SCRIPT[scriptIndex]!;
-  return CLOSERS[(scriptIndex - SCRIPT.length) % CLOSERS.length]!;
+  const userTurns = history.filter((m) => m.role === "user").length;
+  const index = Math.min(userTurns - 1, SCRIPT.length - 1);
+  return SCRIPT[Math.max(0, index)]!;
 }
