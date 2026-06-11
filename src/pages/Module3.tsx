@@ -3,6 +3,7 @@ import { supabase } from "@/lib/supabase";
 import {
   Bot,
   CheckCircle2,
+  ChevronDown,
   Circle,
   ClipboardList,
   FileText,
@@ -339,7 +340,7 @@ export default function Module3() {
   return (
     <ModuleLayout current={3} fullHeight>
 
-      {/* Compact page header — shrink-0 so it doesn't steal flex space */}
+      {/* Compact page header */}
       <div className="shrink-0 mb-3">
         <p className="text-[11px] font-bold uppercase tracking-widest text-teal mb-1">
           Module 3 · Practice · Step 2 of 2
@@ -349,34 +350,29 @@ export default function Module3() {
         </h1>
       </div>
 
-      {/* Grid — grows to fill all remaining vertical space */}
+      {/* Grid — 3 / 9 cols ≈ 25% / 75% */}
       <div className="flex-1 min-h-0 grid gap-4 lg:grid-cols-12">
 
-        {/* ── Left sidebar — scrolls internally if needed ── */}
-        <div className="lg:col-span-4 min-h-0 overflow-y-auto space-y-3 pr-1">
-          <AssignmentCard title={setup.title} />
+        {/* ── Left context panel — compact, ~25% ── */}
+        <div className="lg:col-span-3 min-h-0 overflow-y-auto space-y-2 pr-1">
 
-          <div className="rounded-xl border border-border bg-white p-4 shadow-card">
-            <label
-              htmlFor="feedback-input"
-              className="block text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2"
-            >
-              Teacher's feedback
-            </label>
-            <textarea
-              id="feedback-input"
-              value={setup.feedback}
-              onChange={(e) => setSetup((prev) => ({ ...prev, feedback: e.target.value }))}
-              className="w-full min-h-[100px] rounded-lg border border-border bg-background px-3 py-2 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 resize-none text-foreground placeholder:text-muted-foreground transition"
-              placeholder="Paste your teacher's feedback here…"
-            />
+          {/* Assignment title — minimal card */}
+          <div className="rounded-xl border border-border bg-white px-3 py-2.5 shadow-card">
+            <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1">
+              <FileText className="w-3 h-3 shrink-0" /> Assignment
+            </div>
+            <p className="font-semibold text-primary text-xs leading-snug">{setup.title}</p>
           </div>
 
-          <ProgressTracker progress={progress} />
+          {/* Teacher feedback — collapsible */}
+          <FeedbackAccordion
+            feedback={setup.feedback}
+            onChange={(v) => setSetup((prev) => ({ ...prev, feedback: v }))}
+          />
         </div>
 
-        {/* ── Chat panel — fills column height exactly ── */}
-        <div className="lg:col-span-8 min-h-0 flex flex-col">
+        {/* ── Chat panel — ~75%, fills column height ── */}
+        <div className="lg:col-span-9 min-h-0 flex flex-col">
           <div className="flex-1 min-h-0 rounded-xl border-2 border-primary bg-white overflow-hidden shadow-card-lg flex flex-col">
 
             {/* Chat header */}
@@ -387,14 +383,14 @@ export default function Module3() {
                 </div>
                 <div>
                   <div className="font-bold text-sm text-white leading-tight">AI Feedback Coach</div>
-                  <div className="text-[11px] text-white/65 mt-0.5">Currently: {progress.find(p => p.status === "active")?.dim ?? "Complete"}</div>
+                  <div className="text-[11px] text-white/65 mt-0.5">
+                    Currently: {progress.find((p) => p.status === "active")?.dim ?? "Complete"}
+                  </div>
                 </div>
               </div>
               <div className="flex items-center gap-2">
                 {isLoading ? (
-                  <span className="text-[11px] text-white/70 animate-pulse font-medium">
-                    Thinking…
-                  </span>
+                  <span className="text-[11px] text-white/70 animate-pulse font-medium">Thinking…</span>
                 ) : (
                   <span className="text-[10px] font-bold uppercase tracking-wider text-white/50 bg-white/10 px-2 py-0.5 rounded-full">
                     {import.meta.env.DEV ? "Demo mode" : "Live"}
@@ -403,8 +399,8 @@ export default function Module3() {
               </div>
             </div>
 
-            {/* Dimension progress strip */}
-            <div className="bg-primary-soft border-b border-border px-5 py-2 flex items-center gap-3 shrink-0">
+            {/* Stage progress strip */}
+            <div className="bg-primary-soft border-b border-border px-5 py-2 flex items-center gap-4 shrink-0">
               {progress.map((p) => (
                 <div key={p.dim} className="flex items-center gap-1.5">
                   {p.status === "done" ? (
@@ -416,7 +412,9 @@ export default function Module3() {
                   )}
                   <span className={cn(
                     "text-[10px] font-semibold hidden sm:block",
-                    p.status === "done" ? "text-teal" : p.status === "active" ? "text-primary" : "text-muted-foreground/60",
+                    p.status === "done"   ? "text-teal"
+                    : p.status === "active" ? "text-primary"
+                    : "text-muted-foreground/60",
                   )}>
                     {p.dim.split(" ")[0]}
                   </span>
@@ -425,7 +423,7 @@ export default function Module3() {
             </div>
 
             {/* Messages — the only scrolling region */}
-            <div className="flex-1 min-h-0 overflow-y-auto px-5 py-5 space-y-4 bg-surface/40">
+            <div className="flex-1 min-h-0 overflow-y-auto px-6 py-5 space-y-4 bg-surface/40">
               {chat.map((m, i) => (
                 <ChatBubble key={i} message={m} />
               ))}
@@ -467,15 +465,13 @@ export default function Module3() {
                   <Send className="w-4 h-4" />
                 </button>
               </div>
-              <p className="text-[10px] text-muted-foreground mt-1 ml-0.5">
-                Shift + Enter for new line
-              </p>
+              <p className="text-[10px] text-muted-foreground mt-1 ml-0.5">Shift + Enter for new line</p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Compact bottom nav — replaces NavFooter's large mt-14 */}
+      {/* Bottom nav */}
       <div className="shrink-0 mt-3 flex items-center justify-between border-t border-border pt-3">
         <Link
           to="/module/2"
@@ -655,13 +651,40 @@ function SetupStep({ setup, onChange, onBegin }: SetupStepProps) {
 
 /* ─── Sub-components ─────────────────────────────────────────── */
 
-function AssignmentCard({ title }: { title: string }) {
+function FeedbackAccordion({
+  feedback,
+  onChange,
+}: {
+  feedback: string;
+  onChange: (v: string) => void;
+}) {
+  const [open, setOpen] = useState(false);
   return (
-    <div className="rounded-xl border border-border bg-white p-5 shadow-card">
-      <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-3">
-        <FileText className="w-3.5 h-3.5" /> Assignment
-      </div>
-      <h3 className="font-bold text-primary text-sm mb-1 leading-snug">{title}</h3>
+    <div className="rounded-xl border border-border bg-white shadow-card overflow-hidden">
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-surface/50 transition-colors text-left"
+      >
+        <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+          <Bot className="w-3 h-3 shrink-0" /> Teacher's Feedback
+        </div>
+        <ChevronDown className={cn(
+          "w-3.5 h-3.5 text-muted-foreground transition-transform duration-200",
+          open && "rotate-180",
+        )} />
+      </button>
+      {open && (
+        <div className="px-3 pb-3">
+          <textarea
+            id="feedback-input"
+            value={feedback}
+            onChange={(e) => onChange(e.target.value)}
+            rows={6}
+            className="w-full rounded-lg border border-border bg-background px-3 py-2 text-xs leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 resize-none text-foreground"
+          />
+        </div>
+      )}
     </div>
   );
 }
@@ -702,37 +725,3 @@ function TypingIndicator() {
   );
 }
 
-function ProgressTracker({ progress }: { progress: ProgressItem[] }) {
-  return (
-    <div className="rounded-xl border border-border bg-white p-5 shadow-card">
-      <h3 className="font-bold text-primary text-sm mb-0.5">Literacy dimensions</h3>
-      <p className="text-[11px] text-muted-foreground mb-4">Progress through the coaching session</p>
-      <ul className="space-y-3">
-        {progress.map((p) => (
-          <li key={p.dim} className="flex items-center gap-3">
-            {p.status === "done" ? (
-              <div className="w-5 h-5 rounded-full bg-teal flex items-center justify-center shrink-0">
-                <CheckCircle2 className="w-3.5 h-3.5 text-white" />
-              </div>
-            ) : p.status === "active" ? (
-              <div className="w-5 h-5 rounded-full border-2 border-primary border-t-transparent animate-spin shrink-0" />
-            ) : (
-              <div className="w-5 h-5 rounded-full border-2 border-border shrink-0" />
-            )}
-            <div className="flex-1 min-w-0">
-              <div className={cn(
-                "text-sm font-semibold truncate",
-                p.status === "done" ? "text-teal" : p.status === "active" ? "text-primary" : "text-muted-foreground",
-              )}>
-                {p.dim}
-              </div>
-              <div className="text-[10px] text-muted-foreground mt-0.5">
-                {p.status === "done" ? "Completed" : p.status === "active" ? "In progress" : "Up next"}
-              </div>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
