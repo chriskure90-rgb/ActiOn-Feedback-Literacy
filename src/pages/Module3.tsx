@@ -62,16 +62,18 @@ const STAGE_TAG_RE = /\[STAGE_COMPLETE:[a-z_]+\]\s*$/;
 
 // Detect which stage index was completed from an AI response.
 // Checks the machine-readable tag first; falls back to natural-language
-// patterns for when the model omits the tag but still announces completion.
+// patterns. The `.{0,25}` gap handles "Stage N: " that the model inserts
+// between "move to" and the stage name (e.g. "move to Stage 3: Making...").
 function detectCompletedStage(text: string): number | null {
   const tagMatch = text.match(/\[STAGE_COMPLETE:([a-z_]+)\]/);
   if (tagMatch) return STAGE_COMPLETE_INDEX[tagMatch[1] ?? ""] ?? null;
 
   const t = text.toLowerCase();
-  if (/managing affect\s+(is\s+)?complet|move to appreciating feedback/i.test(t)) return 0;
-  if (/appreciating feedback\s+(is\s+)?complet|move to making judgements?/i.test(t)) return 1;
-  if (/making judgements?\s+(is\s+)?complet|move to taking action/i.test(t)) return 2;
-  if (/taking action\s+(is\s+)?complet/i.test(t)) return 3;
+  // Transition TO a stage → the previous stage just completed.
+  if (/move to.{0,25}appreciating feedback/i.test(t) || /managing affect.{0,10}complet/i.test(t)) return 0;
+  if (/move to.{0,25}making judgements?/i.test(t)    || /appreciating feedback.{0,10}complet/i.test(t)) return 1;
+  if (/move to.{0,25}taking action/i.test(t)         || /making judgements?.{0,10}complet/i.test(t)) return 2;
+  if (/taking action.{0,10}complet/i.test(t)) return 3;
   return null;
 }
 
