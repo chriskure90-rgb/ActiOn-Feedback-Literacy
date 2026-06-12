@@ -303,6 +303,7 @@ export default function Module2() {
   const [submitted, setSubmitted] = useState(false);
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const [selfExplanations, setSelfExplanations] = useState<Record<string, string>>({});
+  const [answeredDims, setAnsweredDims] = useState<Record<string, boolean>>({});
 
   const answered = Object.keys(answers).length;
 
@@ -654,9 +655,17 @@ export default function Module2() {
                       }
                       rows={3}
                       placeholder="Type your explanation here…"
-                      className="w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 resize-y text-foreground placeholder:text-muted-foreground transition mb-4"
+                      className="w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 resize-y text-foreground placeholder:text-muted-foreground transition mb-3"
                     />
-                    {selfExplanations[dim]?.trim() ? (
+                    {!answeredDims[dim] ? (
+                      <button
+                        onClick={() => setAnsweredDims((prev) => ({ ...prev, [dim]: true }))}
+                        disabled={!selfExplanations[dim]?.trim()}
+                        className="mb-4 inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2 text-sm font-bold text-white hover:bg-primary/90 disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98] transition-all"
+                      >
+                        Answer
+                      </button>
+                    ) : (
                       <div className="rounded-lg bg-muted/50 border border-border px-4 py-3">
                         <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1.5">
                           Example answer
@@ -665,10 +674,6 @@ export default function Module2() {
                           {content.example}
                         </p>
                       </div>
-                    ) : (
-                      <p className="text-xs text-muted-foreground italic">
-                        An example answer will appear here once you write your response.
-                      </p>
                     )}
                   </div>
                 );
