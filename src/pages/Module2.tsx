@@ -656,14 +656,20 @@ export default function Module2() {
                       placeholder="Type your explanation here…"
                       className="w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 resize-y text-foreground placeholder:text-muted-foreground transition mb-4"
                     />
-                    <div className="rounded-lg bg-muted/50 border border-border px-4 py-3">
-                      <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1.5">
-                        Example answer
+                    {selfExplanations[dim]?.trim() ? (
+                      <div className="rounded-lg bg-muted/50 border border-border px-4 py-3">
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1.5">
+                          Example answer
+                        </p>
+                        <p className="text-sm text-muted-foreground italic leading-relaxed">
+                          {content.example}
+                        </p>
+                      </div>
+                    ) : (
+                      <p className="text-xs text-muted-foreground italic">
+                        An example answer will appear here once you write your response.
                       </p>
-                      <p className="text-sm text-muted-foreground italic leading-relaxed">
-                        {content.example}
-                      </p>
-                    </div>
+                    )}
                   </div>
                 );
               })}
