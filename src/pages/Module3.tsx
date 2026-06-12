@@ -660,33 +660,20 @@ function FeedbackAccordion({
   feedback: string;
   onChange: (v: string) => void;
 }) {
-  const [open, setOpen] = useState(false);
   return (
     <div className="rounded-xl border border-border bg-white shadow-card overflow-hidden">
-      <button
-        type="button"
-        onClick={() => setOpen((o) => !o)}
-        className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-surface/50 transition-colors text-left"
-      >
-        <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-          <Bot className="w-3 h-3 shrink-0" /> Teacher's Feedback
-        </div>
-        <ChevronDown className={cn(
-          "w-3.5 h-3.5 text-muted-foreground transition-transform duration-200",
-          open && "rotate-180",
-        )} />
-      </button>
-      {open && (
-        <div className="px-3 pb-3">
-          <textarea
-            id="feedback-input"
-            value={feedback}
-            onChange={(e) => onChange(e.target.value)}
-            rows={6}
-            className="w-full rounded-lg border border-border bg-background px-3 py-2 text-xs leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 resize-none text-foreground"
-          />
-        </div>
-      )}
+      <div className="flex items-center gap-1.5 px-3 py-2.5 text-[10px] font-bold uppercase tracking-widest text-muted-foreground border-b border-border">
+        <Bot className="w-3 h-3 shrink-0" /> Teacher's Feedback
+      </div>
+      <div className="px-3 pb-3 pt-2">
+        <textarea
+          id="feedback-input"
+          value={feedback}
+          onChange={(e) => onChange(e.target.value)}
+          rows={6}
+          className="w-full rounded-lg border border-border bg-background px-3 py-2 text-xs leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 resize-none text-foreground"
+        />
+      </div>
     </div>
   );
 }
