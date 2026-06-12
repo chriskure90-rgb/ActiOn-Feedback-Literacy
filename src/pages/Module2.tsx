@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { CheckCircle2, ChevronDown, ChevronRight, Heart, Rocket, Scale, ThumbsUp, XCircle } from "lucide-react";
 import { supabase } from "../lib/supabase";
@@ -322,6 +322,17 @@ export default function Module2() {
     .map((s, i) => ({ dim: s.dim, score: scores[i] ?? 0 }))
     .filter(({ score }) => score < 2)
     .map(({ dim }) => dim);
+
+  useEffect(() => {
+    SECTIONS.forEach((section, sIdx) => {
+      const sectionAnswered = section.questions.filter(
+        (_, qIdx) => answers[key(sIdx, qIdx)] !== undefined
+      ).length;
+      if (sectionAnswered === section.questions.length && sIdx < SECTIONS.length - 1) {
+        setOpenSections((prev) => prev[sIdx + 1] ? prev : { ...prev, [sIdx + 1]: true });
+      }
+    });
+  }, [answers]);
 
   function handleSubmit() {
     setSubmitted(true);
