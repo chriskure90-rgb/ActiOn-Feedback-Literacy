@@ -242,7 +242,7 @@ const DIM_CONTENT = {
       "Avoid reacting defensively",
       "Stay focused on improvement",
     ],
-    question: "What are you expected to do in Managing Affect?",
+    question: "By interpreting the information above, what are you expected to do in Managing Affect?",
     example:
       "I need to recognise my emotional reaction to feedback and stay open to using it for improvement.",
   },
@@ -254,7 +254,7 @@ const DIM_CONTENT = {
       "Understand why they received the feedback",
       "Identify what needs improvement",
     ],
-    question: "What are you expected to do in Appreciating Feedback?",
+    question: "By interpreting the information above, what are you expected to do in Appreciating Feedback?",
     example:
       "I need to understand what my teacher wants me to improve and identify the gap between my current work and the expected standard.",
   },
@@ -266,7 +266,7 @@ const DIM_CONTENT = {
       "Explain why they are important",
       "Focus on improvements with the greatest impact",
     ],
-    question: "What are you expected to do in Making Judgements?",
+    question: "By interpreting the information above, what are you expected to do in Making Judgements?",
     example:
       "I need to decide which feedback point is most important and explain why it should be prioritised.",
   },
@@ -278,7 +278,7 @@ const DIM_CONTENT = {
       "Identify a strategy",
       "Monitor their progress",
     ],
-    question: "What are you expected to do in Taking Action?",
+    question: "By interpreting the information above, what are you expected to do in Taking Action?",
     example:
       "I need to create a goal, describe how I will achieve it, and explain how I will monitor my progress.",
   },
