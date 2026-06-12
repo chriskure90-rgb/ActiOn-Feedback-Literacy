@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { Link, useNavigate } from "react-router";
 import { CheckCircle2, ChevronRight, Heart, Rocket, Scale, ThumbsUp, XCircle } from "lucide-react";
 import { supabase } from "../lib/supabase";
-import { ModuleLayout, ModuleHeader, NavFooter } from "@/components/ModuleLayout";
+import { ModuleLayout, ModuleHeader } from "@/components/ModuleLayout";
 import { cn } from "@/lib/utils";
 import { DEMO_MODULE2_ANSWERS } from "@/lib/demoData";
 
@@ -226,6 +227,63 @@ const SECTIONS = [
   },
 ] as const;
 
+function classifyScore(score: number): "strength" | "developing" | "growth" {
+  if (score === 3) return "strength";
+  if (score === 2) return "developing";
+  return "growth";
+}
+
+const DIM_CONTENT = {
+  "Managing Affect": {
+    description:
+      "Managing Affect is about recognising your emotional reaction to feedback and staying open to learning from it.",
+    bullets: [
+      "Notice their emotions",
+      "Avoid reacting defensively",
+      "Stay focused on improvement",
+    ],
+    question: "What are you expected to do in Managing Affect?",
+    example:
+      "I need to recognise my emotional reaction to feedback and stay open to using it for improvement.",
+  },
+  "Appreciating Feedback": {
+    description:
+      "Appreciating Feedback is about understanding your teacher's intention and identifying the gap between your current work and expected performance.",
+    bullets: [
+      "Interpret feedback in their own words",
+      "Understand why they received the feedback",
+      "Identify what needs improvement",
+    ],
+    question: "What are you expected to do in Appreciating Feedback?",
+    example:
+      "I need to understand what my teacher wants me to improve and identify the gap between my current work and the expected standard.",
+  },
+  "Making Judgements": {
+    description:
+      "Making Judgements is about deciding which feedback is most important to act on first.",
+    bullets: [
+      "Prioritise feedback points",
+      "Explain why they are important",
+      "Focus on improvements with the greatest impact",
+    ],
+    question: "What are you expected to do in Making Judgements?",
+    example:
+      "I need to decide which feedback point is most important and explain why it should be prioritised.",
+  },
+  "Taking Action": {
+    description:
+      "Taking Action is about turning feedback into a concrete improvement plan.",
+    bullets: [
+      "Set a clear goal",
+      "Identify a strategy",
+      "Monitor their progress",
+    ],
+    question: "What are you expected to do in Taking Action?",
+    example:
+      "I need to create a goal, describe how I will achieve it, and explain how I will monitor my progress.",
+  },
+} as const;
+
 const OPTION_LABELS = ["A", "B", "C"] as const;
 const TOTAL_QUESTIONS = SECTIONS.length * 3;
 
@@ -240,44 +298,52 @@ function key(sIdx: number, qIdx: number) {
 /* ── Main component ─────────────────────────────────────────────────── */
 
 export default function Module2() {
+  const navigate = useNavigate();
   const [answers, setAnswers] = useState<Answers>({});
   const [submitted, setSubmitted] = useState(false);
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
+  const [selfExplanations, setSelfExplanations] = useState<Record<string, string>>({});
 
   const answered = Object.keys(answers).length;
-
-  async function handleSubmit() {
-    setSaveStatus("saving");
-
-    const minScore = Math.min(...scores);
-    const growthIdx = scores.indexOf(minScore);
-    const growthDim = SECTIONS[growthIdx]?.dim ?? "";
-
-    const { error } = await supabase.from("Module_2").insert({
-      participant_id: "DEMO001",
-      managing_affect_score: scores[0],
-      appreciating_feedback_score: scores[1],
-      making_judgements_score: scores[2],
-      taking_action_score: scores[3],
-      growth_focus: growthDim,
-      responses: answers,
-    });
-
-    setSaveStatus(error ? "error" : "saved");
-    setSubmitted(true);
-  }
-
-  function select(sIdx: number, qIdx: number, optIdx: number) {
-    const k = key(sIdx, qIdx);
-    // Lock after first selection
-    setAnswers((prev) => (k in prev ? prev : { ...prev, [k]: optIdx }));
-  }
 
   const scores = SECTIONS.map((section, sIdx) =>
     section.questions.reduce((acc, q, qIdx) => {
       return acc + (answers[key(sIdx, qIdx)] === q.correct ? 1 : 0);
     }, 0)
   );
+
+  const growthAreas = SECTIONS
+    .map((s, i) => ({ dim: s.dim, score: scores[i] ?? 0 }))
+    .filter(({ score }) => score < 2)
+    .map(({ dim }) => dim);
+
+  function handleSubmit() {
+    setSubmitted(true);
+  }
+
+  async function handleContinue() {
+    setSaveStatus("saving");
+    const { error } = await supabase.from("Module_2").insert({
+      participant_id: "DEMO001",
+      managing_affect_score: scores[0],
+      appreciating_feedback_score: scores[1],
+      making_judgements_score: scores[2],
+      taking_action_score: scores[3],
+      growth_focus: growthAreas.join(", ") || "none",
+      responses: answers,
+      self_explanations: selfExplanations,
+    });
+    if (error) {
+      setSaveStatus("error");
+    } else {
+      void navigate("/module/3");
+    }
+  }
+
+  function select(sIdx: number, qIdx: number, optIdx: number) {
+    const k = key(sIdx, qIdx);
+    setAnswers((prev) => (k in prev ? prev : { ...prev, [k]: optIdx }));
+  }
 
   return (
     <ModuleLayout current={2}>
@@ -533,23 +599,110 @@ export default function Module2() {
             </p>
             <button
               onClick={() => void handleSubmit()}
-              disabled={answered < TOTAL_QUESTIONS || saveStatus === "saving"}
+              disabled={answered < TOTAL_QUESTIONS}
               className="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-2.5 text-sm font-bold text-white shadow-card hover:bg-accent/90 disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98] transition-all"
             >
-              {saveStatus === "saving" ? "Saving…" : "Submit assessment"}
+              Submit assessment
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>
         </>
       ) : (
-        <ResultsDashboard scores={scores} saveStatus={saveStatus} />
-      )}
+        <>
+          <ResultsDashboard scores={scores} saveStatus={saveStatus} />
 
-      {submitted && (
-        <NavFooter
-          prev={{ path: "/module/1", label: "Back to Learn" }}
-          next={{ path: "/module/3", label: "Continue to Practice" }}
-        />
+          {/* Self-explanation for Growth Areas */}
+          {growthAreas.length > 0 && (
+            <div className="mt-6 space-y-4">
+              <div className="flex items-center gap-3 pb-1">
+                <h3 className="text-sm font-bold text-primary">Before you practise</h3>
+                <span className="text-xs text-muted-foreground">
+                  {growthAreas.length === 1 ? "1 Growth Area" : `${growthAreas.length} Growth Areas`} to reflect on
+                </span>
+              </div>
+              {growthAreas.map((dim) => {
+                const content = DIM_CONTENT[dim as keyof typeof DIM_CONTENT];
+                if (!content) return null;
+                return (
+                  <div key={dim} className="rounded-xl border border-accent/25 bg-white p-6 shadow-card">
+                    <div className="flex items-center gap-2.5 mb-4">
+                      <span className="text-[10px] font-bold uppercase tracking-widest bg-accent/10 text-accent px-2.5 py-1 rounded-full">
+                        Growth Area
+                      </span>
+                      <span className="font-bold text-primary text-sm">{dim}</span>
+                    </div>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1.5">
+                      What this means
+                    </p>
+                    <p className="text-sm text-foreground leading-relaxed mb-3">
+                      {content.description}
+                    </p>
+                    <p className="text-xs font-semibold text-primary mb-2">Effective learners:</p>
+                    <ul className="space-y-1.5 mb-5">
+                      {content.bullets.map((bullet) => (
+                        <li key={bullet} className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                          {bullet}
+                        </li>
+                      ))}
+                    </ul>
+                    <p className="font-semibold text-primary text-sm mb-2">{content.question}</p>
+                    <textarea
+                      value={selfExplanations[dim] ?? ""}
+                      onChange={(e) =>
+                        setSelfExplanations((prev) => ({ ...prev, [dim]: e.target.value }))
+                      }
+                      rows={3}
+                      placeholder="Type your explanation here…"
+                      className="w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 resize-y text-foreground placeholder:text-muted-foreground transition mb-4"
+                    />
+                    <div className="rounded-lg bg-muted/50 border border-border px-4 py-3">
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1.5">
+                        Example answer
+                      </p>
+                      <p className="text-sm text-muted-foreground italic leading-relaxed">
+                        {content.example}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {/* Navigation */}
+          <div className="mt-10 flex items-center justify-between">
+            <Link
+              to="/module/1"
+              className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+            >
+              ← Back to Learn
+            </Link>
+            <div className="flex items-center gap-3">
+              {saveStatus === "error" && (
+                <>
+                  <span className="text-xs text-muted-foreground">Could not save.</span>
+                  <Link
+                    to="/module/3"
+                    className="inline-flex items-center gap-2 rounded-lg border border-accent/40 px-4 py-2 text-sm font-semibold text-accent hover:bg-accent/5 transition-all"
+                  >
+                    Continue anyway →
+                  </Link>
+                </>
+              )}
+              {saveStatus !== "error" && (
+                <button
+                  onClick={() => void handleContinue()}
+                  disabled={saveStatus === "saving"}
+                  className="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-2.5 text-sm font-bold text-white shadow-card hover:bg-accent/90 disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98] transition-all"
+                >
+                  {saveStatus === "saving" ? "Saving…" : "Continue to Practice"}
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+          </div>
+        </>
       )}
     </ModuleLayout>
   );
@@ -559,9 +712,10 @@ export default function Module2() {
 
 function ResultsDashboard({ scores, saveStatus }: { scores: number[]; saveStatus: "idle" | "saving" | "saved" | "error" }) {
   const total = scores.reduce((a, b) => a + b, 0);
-  const minScore = Math.min(...scores);
-  const growthIdx = scores.indexOf(minScore);
-  const growthDim = SECTIONS[growthIdx]?.dim ?? "";
+  const classifications = scores.map(classifyScore);
+  const growthDims = SECTIONS
+    .filter((_, i) => classifications[i] === "growth")
+    .map((s) => s.dim);
 
   return (
     <div className="space-y-6">
@@ -596,13 +750,15 @@ function ResultsDashboard({ scores, saveStatus }: { scores: number[]; saveStatus
           {SECTIONS.map((section, i) => {
             const Icon = section.icon;
             const score = scores[i] ?? 0;
-            const isGrowth = i === growthIdx;
+            const classification = classifications[i] ?? "growth";
             return (
               <div
                 key={section.dim}
                 className={cn(
                   "rounded-xl border bg-white p-5 shadow-card",
-                  isGrowth ? "border-accent/40 ring-1 ring-accent/20" : "border-border",
+                  classification === "strength" && "border-teal/40 ring-1 ring-teal/20",
+                  classification === "developing" && "border-primary/30",
+                  classification === "growth" && "border-accent/40 ring-1 ring-accent/20",
                 )}
               >
                 <div className="flex items-center gap-3 mb-3">
@@ -630,29 +786,48 @@ function ResultsDashboard({ scores, saveStatus }: { scores: number[]; saveStatus
                   />
                 </div>
 
-                {isGrowth && (
-                  <p className="mt-2.5 text-[10px] font-bold uppercase tracking-widest text-accent">
-                    Growth focus
-                  </p>
-                )}
+                <p className={cn(
+                  "mt-2.5 text-[10px] font-bold uppercase tracking-widest",
+                  classification === "strength" && "text-teal",
+                  classification === "developing" && "text-primary",
+                  classification === "growth" && "text-accent",
+                )}>
+                  {classification === "strength" && "Strength"}
+                  {classification === "developing" && "Developing"}
+                  {classification === "growth" && "Growth Area"}
+                </p>
               </div>
             );
           })}
         </div>
       </div>
 
-      {/* Growth focus callout */}
-      <div className="rounded-xl bg-accent-soft border border-accent/20 px-6 py-5">
-        <p className="text-[10px] font-bold uppercase tracking-widest text-accent mb-1.5">
-          Your growth focus
-        </p>
-        <p className="font-bold text-primary text-base mb-1">
-          Your Growth Focus is {growthDim}.
-        </p>
-        <p className="text-sm text-muted-foreground leading-relaxed">
-          This dimension may require additional attention as you move into Module 3.
-        </p>
-      </div>
+      {/* Growth areas / strength callout */}
+      {growthDims.length > 0 ? (
+        <div className="rounded-xl bg-accent-soft border border-accent/20 px-6 py-5">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-accent mb-1.5">
+            {growthDims.length === 1 ? "Your Growth Area" : "Your Growth Areas"}
+          </p>
+          <p className="font-bold text-primary text-base mb-1">
+            {growthDims.join(" · ")}
+          </p>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            {growthDims.length === 1 ? "This dimension" : "These dimensions"} may require additional attention as you move into Module 3.
+          </p>
+        </div>
+      ) : (
+        <div className="rounded-xl bg-teal-soft border border-teal/20 px-6 py-5">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-teal mb-1.5">
+            Excellent performance
+          </p>
+          <p className="font-bold text-primary text-base mb-1">
+            You are strong across all dimensions.
+          </p>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            Module 3 will give you the opportunity to apply these strategies with real instructor feedback.
+          </p>
+        </div>
+      )}
     </div>
   );
 }

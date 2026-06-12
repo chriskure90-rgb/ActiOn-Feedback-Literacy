@@ -36,20 +36,6 @@ Use four stages in order:
 
 ---
 
-## Self-Explanation Rule
-
-Use the student's Module 2 assessment results.
-
-If the student showed weakness in a stage, begin that stage with this question:
-
-"What are you expected to do in [stage name]?"
-
-This question should help the student explain their understanding of the stage before working with their real feedback.
-
-If the student did not show weakness in that stage, skip the self-explanation question and ask the main question directly.
-
----
-
 ## Stage 1: Managing Affect
 
 Goal: Help students move toward a constructive attitude toward feedback.
