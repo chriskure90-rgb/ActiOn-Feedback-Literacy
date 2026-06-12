@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
-import { CheckCircle2, ChevronRight, Heart, Rocket, Scale, ThumbsUp, XCircle } from "lucide-react";
+import { CheckCircle2, ChevronDown, ChevronRight, Heart, Rocket, Scale, ThumbsUp, XCircle } from "lucide-react";
 import { supabase } from "../lib/supabase";
 import { ModuleLayout, ModuleHeader } from "@/components/ModuleLayout";
 import { cn } from "@/lib/utils";
@@ -15,6 +15,7 @@ const SECTIONS = [
     iconBg: "bg-rose-50",
     iconColor: "text-rose-600",
     accentBorder: "border-l-rose-400",
+    chipColor: "bg-rose-500",
     questions: [
       {
         scenario:
@@ -69,6 +70,7 @@ const SECTIONS = [
     iconBg: "bg-amber-50",
     iconColor: "text-amber-600",
     accentBorder: "border-l-amber-400",
+    chipColor: "bg-amber-500",
     questions: [
       {
         scenario:
@@ -123,6 +125,7 @@ const SECTIONS = [
     iconBg: "bg-sky-50",
     iconColor: "text-sky-600",
     accentBorder: "border-l-sky-400",
+    chipColor: "bg-sky-500",
     questions: [
       {
         scenario:
@@ -177,6 +180,7 @@ const SECTIONS = [
     iconBg: "bg-teal-soft",
     iconColor: "text-teal",
     accentBorder: "border-l-teal",
+    chipColor: "bg-teal",
     questions: [
       {
         scenario:
@@ -304,6 +308,7 @@ export default function Module2() {
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const [selfExplanations, setSelfExplanations] = useState<Record<string, string>>({});
   const [answeredDims, setAnsweredDims] = useState<Record<string, boolean>>({});
+  const [openSections, setOpenSections] = useState<Record<number, boolean>>({ 0: true, 1: true, 2: true, 3: true });
 
   const answered = Object.keys(answers).length;
 
@@ -396,18 +401,26 @@ export default function Module2() {
           </div>
 
           {/* Sections */}
-          <div className="space-y-10">
+          <div className="space-y-3">
             {SECTIONS.map((section, sIdx) => {
               const Icon = section.icon;
               const sectionAnswered = section.questions.filter(
                 (_, qIdx) => answers[key(sIdx, qIdx)] !== undefined
               ).length;
+              const isOpen = openSections[sIdx] !== false;
 
               return (
-                <div key={section.dim}>
-                  {/* Section header */}
-                  <div className="flex items-center gap-3 mb-4 pb-3 border-b border-border">
-                    <div className={`w-8 h-8 rounded-lg ${section.iconBg} ${section.iconColor} flex items-center justify-center shrink-0`}>
+                <div
+                  key={section.dim}
+                  className={`rounded-xl border border-l-4 ${section.accentBorder} bg-white overflow-hidden shadow-card`}
+                >
+                  {/* Toggle header */}
+                  <button
+                    onClick={() => setOpenSections((prev) => ({ ...prev, [sIdx]: !isOpen }))}
+                    className="w-full flex items-center gap-3 px-5 py-4 text-left hover:bg-primary-soft/60 transition-colors"
+                    aria-expanded={isOpen}
+                  >
+                    <div className={`shrink-0 w-8 h-8 rounded-lg ${section.iconBg} ${section.iconColor} flex items-center justify-center`}>
                       <Icon className="w-4 h-4" />
                     </div>
                     <h2 className="flex-1 font-bold text-primary text-base leading-tight min-w-0">
@@ -415,15 +428,19 @@ export default function Module2() {
                     </h2>
                     <span className={cn(
                       "text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full shrink-0",
-                      sectionAnswered === 3 ? "bg-teal text-white" : "bg-muted text-muted-foreground",
+                      sectionAnswered === 3 ? `${section.chipColor} text-white` : "bg-muted text-muted-foreground",
                     )}>
                       {sectionAnswered} / 3
                     </span>
-                  </div>
+                    <ChevronDown
+                      className={`shrink-0 w-4 h-4 text-muted-foreground transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                    />
+                  </button>
 
                   {/* Questions */}
-                  <div className="space-y-4">
-                    {section.questions.map((q, qIdx) => {
+                  {isOpen && (
+                    <div className="border-t border-border space-y-4 px-5 py-4">
+                      {section.questions.map((q, qIdx) => {
                       const selected = answers[key(sIdx, qIdx)];
                       const isAnswered = selected !== undefined;
                       const isCorrect = isAnswered && selected === q.correct;
@@ -584,8 +601,9 @@ export default function Module2() {
                           )}
                         </div>
                       );
-                    })}
-                  </div>
+                      })}
+                    </div>
+                  )}
                 </div>
               );
             })}
