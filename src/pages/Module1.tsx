@@ -148,22 +148,6 @@ export default function Module1() {
         </div>
       </section>
 
-      {/* ── Learning flow ──────────────────────────────────────────── */}
-      <section className="mb-14">
-        <h2 className="text-2xl font-bold text-primary mb-2">
-          The four dimensions
-        </h2>
-        <p className="text-base text-muted-foreground max-w-2xl leading-relaxed mb-6">
-          Feedback literacy has four dimensions. Each one builds on the last and connects directly to your self-assessment in Module 2 and your coaching session in Module 3.
-        </p>
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="px-3 py-1.5 rounded-full bg-primary text-white font-semibold text-sm">Learn</span>
-          <span className="px-3 py-1.5 rounded-full bg-primary/10 text-primary font-semibold text-sm">Understand</span>
-          <span className="px-3 py-1.5 rounded-full bg-primary/10 text-primary font-semibold text-sm">Prepare</span>
-          <span className="px-3 py-1.5 rounded-full bg-primary/10 text-primary font-semibold text-sm">Assess</span>
-        </div>
-      </section>
-
       {/* ── Dimension sections ─────────────────────────────────────── */}
       <section className="mb-16">
         <div className="space-y-16">
