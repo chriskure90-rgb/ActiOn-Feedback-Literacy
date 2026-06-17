@@ -114,7 +114,10 @@ const DIMENSIONS = [
 ];
 
 export default function Module1() {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [openPaperIndex, setOpenPaperIndex] = useState<number | null>(null);
+
+  const toggle = (i: number) => setOpenIndex(openIndex === i ? null : i);
 
   return (
     <ModuleLayout current={1}>
@@ -166,93 +169,102 @@ export default function Module1() {
         <div className="space-y-16">
           {DIMENSIONS.map((dim, i) => {
             const Icon = dim.icon;
+            const isOpen = openIndex === i;
             const isPaperOpen = openPaperIndex === i;
             return (
-              <div key={dim.title} className={`pl-5 border-l-4 ${dim.accentBorder}`}>
+              <div key={dim.title} className={`border-l-4 ${dim.accentBorder}`}>
 
-                {/* Header */}
-                <div className="flex items-start gap-4 mb-3">
+                {/* Toggle header */}
+                <button
+                  onClick={() => toggle(i)}
+                  aria-expanded={isOpen}
+                  className="w-full flex items-center gap-4 pl-5 pr-2 py-3 text-left"
+                >
                   <div className={`shrink-0 w-10 h-10 rounded-xl ${dim.iconBg} ${dim.iconColor} flex items-center justify-center`}>
                     <Icon className="w-5 h-5" />
                   </div>
-                  <div>
+                  <div className="flex-1 min-w-0">
                     <h3 className="text-xl font-bold text-primary leading-tight">{dim.title}</h3>
                     <p className="text-base text-muted-foreground mt-0.5 leading-snug">{dim.tagline}</p>
                   </div>
-                </div>
+                  <ChevronDown className={`shrink-0 w-5 h-5 text-muted-foreground transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
+                </button>
 
-                {/* Reference chip */}
-                <div className="mb-8">
-                  <span className="inline-block text-sm font-medium bg-muted text-muted-foreground px-3 py-1 rounded-full">
-                    {dim.reference}
-                  </span>
-                </div>
+                {/* Expanded content */}
+                {isOpen && (
+                  <div className="pl-5 pr-2 pb-6 space-y-8">
 
-                {/* Why is this important */}
-                <div className="mb-8">
-                  <p className="text-sm font-bold uppercase tracking-widest text-teal mb-3">
-                    Why is this important?
-                  </p>
-                  <p className="text-base text-muted-foreground leading-relaxed max-w-2xl">
-                    {dim.why}
-                  </p>
-                </div>
+                    {/* Reference chip */}
+                    <span className="inline-block text-sm font-medium bg-muted text-muted-foreground px-3 py-1 rounded-full">
+                      {dim.reference}
+                    </span>
 
-                {/* What should you do — flow */}
-                <div className="mb-8">
-                  <p className="text-sm font-bold uppercase tracking-widest text-teal mb-4">
-                    What should you do?
-                  </p>
-                  <div className="max-w-lg">
-                    {dim.steps.map((step, sIdx) => (
-                      <div key={sIdx}>
-                        <div className="flex items-center gap-3">
-                          <div className={`shrink-0 w-7 h-7 rounded-full ${dim.iconBg} ${dim.iconColor} text-sm font-bold flex items-center justify-center`}>
-                            {sIdx + 1}
+                    {/* Why is this important */}
+                    <div>
+                      <p className="text-sm font-bold uppercase tracking-widest text-teal mb-3">
+                        Why is this important?
+                      </p>
+                      <p className="text-base text-muted-foreground leading-relaxed max-w-2xl">
+                        {dim.why}
+                      </p>
+                    </div>
+
+                    {/* What should you do — flow */}
+                    <div>
+                      <p className="text-sm font-bold uppercase tracking-widest text-teal mb-4">
+                        What should you do?
+                      </p>
+                      <div className="max-w-lg space-y-3">
+                        {dim.steps.map((step, sIdx) => (
+                          <div key={sIdx} className="flex items-center gap-3">
+                            <div className={`shrink-0 w-7 h-7 rounded-full ${dim.iconBg} ${dim.iconColor} text-sm font-bold flex items-center justify-center`}>
+                              {sIdx + 1}
+                            </div>
+                            <p className="text-base text-foreground">{step}</p>
                           </div>
-                          <p className="text-base text-foreground">{step}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Success looks like */}
-                <div className="mb-8">
-                  <p className="text-sm font-bold uppercase tracking-widest text-teal mb-3">
-                    Success looks like
-                  </p>
-                  <div className="space-y-2.5 max-w-lg">
-                    {dim.successLooks.map((item) => (
-                      <p key={item} className="text-base text-foreground">{item}</p>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Research paper toggle */}
-                <div>
-                  <button
-                    type="button"
-                    onClick={() => setOpenPaperIndex(isPaperOpen ? null : i)}
-                    className="flex items-center gap-1.5 text-base font-semibold text-teal hover:text-primary transition-colors"
-                  >
-                    <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isPaperOpen ? "rotate-180" : ""}`} />
-                    {isPaperOpen ? "Hide research" : "Read the research"}
-                  </button>
-
-                  {isPaperOpen && (
-                    <div className="mt-4 rounded-lg border border-border bg-primary-soft px-5 py-5 space-y-4 max-w-2xl">
-                      <div>
-                        <p className="text-sm font-bold uppercase tracking-widest text-muted-foreground mb-1.5">Source</p>
-                        <p className="text-base text-muted-foreground leading-relaxed italic">{dim.paper.citation}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm font-bold uppercase tracking-widest text-teal mb-1.5">Key excerpt</p>
-                        <p className="text-base text-foreground leading-relaxed">"{dim.paper.excerpt}"</p>
+                        ))}
                       </div>
                     </div>
-                  )}
-                </div>
+
+                    {/* Success looks like */}
+                    <div>
+                      <p className="text-sm font-bold uppercase tracking-widest text-teal mb-3">
+                        Success looks like
+                      </p>
+                      <div className="space-y-2.5 max-w-lg">
+                        {dim.successLooks.map((item) => (
+                          <p key={item} className="text-base text-foreground">{item}</p>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Research paper toggle */}
+                    <div>
+                      <button
+                        type="button"
+                        onClick={() => setOpenPaperIndex(isPaperOpen ? null : i)}
+                        className="flex items-center gap-1.5 text-base font-semibold text-teal hover:text-primary transition-colors"
+                      >
+                        <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isPaperOpen ? "rotate-180" : ""}`} />
+                        {isPaperOpen ? "Hide research" : "Read the research"}
+                      </button>
+
+                      {isPaperOpen && (
+                        <div className="mt-4 rounded-lg border border-border bg-primary-soft px-5 py-5 space-y-4 max-w-2xl">
+                          <div>
+                            <p className="text-sm font-bold uppercase tracking-widest text-muted-foreground mb-1.5">Source</p>
+                            <p className="text-base text-muted-foreground leading-relaxed italic">{dim.paper.citation}</p>
+                          </div>
+                          <div>
+                            <p className="text-sm font-bold uppercase tracking-widest text-teal mb-1.5">Key excerpt</p>
+                            <p className="text-base text-foreground leading-relaxed">"{dim.paper.excerpt}"</p>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                  </div>
+                )}
 
               </div>
             );
