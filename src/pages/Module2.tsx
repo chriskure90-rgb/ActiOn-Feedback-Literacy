@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { CheckCircle2, ChevronDown, ChevronRight, Heart, Rocket, Scale, ThumbsUp, XCircle } from "lucide-react";
 import { supabase } from "../lib/supabase";
@@ -309,7 +309,6 @@ export default function Module2() {
   const [selfExplanations, setSelfExplanations] = useState<Record<string, string>>({});
   const [answeredDims, setAnsweredDims] = useState<Record<string, boolean>>({});
   const [openSections, setOpenSections] = useState<Record<number, boolean>>({ 0: true });
-  const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const answered = Object.keys(answers).length;
 
@@ -335,23 +334,6 @@ export default function Module2() {
     });
   }, [answers]);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const idx = sectionRefs.current.indexOf(entry.target as HTMLDivElement);
-            if (idx !== -1) {
-              setOpenSections((prev) => prev[idx] ? prev : { ...prev, [idx]: true });
-            }
-          }
-        });
-      },
-      { threshold: 0.15 },
-    );
-    sectionRefs.current.forEach((ref) => { if (ref) observer.observe(ref); });
-    return () => observer.disconnect();
-  }, []);
 
   function handleSubmit() {
     setSubmitted(true);
@@ -442,7 +424,6 @@ export default function Module2() {
               return (
                 <div
                   key={section.dim}
-                  ref={(el) => { sectionRefs.current[sIdx] = el; }}
                   className={`rounded-xl border border-l-4 ${section.accentBorder} bg-white overflow-hidden shadow-card`}
                 >
                   {/* Toggle header */}
