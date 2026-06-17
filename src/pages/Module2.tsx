@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { CheckCircle2, ChevronDown, ChevronRight, Heart, Rocket, Scale, ThumbsUp, XCircle } from "lucide-react";
 import { supabase } from "../lib/supabase";
@@ -308,7 +308,7 @@ export default function Module2() {
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const [selfExplanations, setSelfExplanations] = useState<Record<string, string>>({});
   const [answeredDims, setAnsweredDims] = useState<Record<string, boolean>>({});
-  const [openSections, setOpenSections] = useState<Record<number, boolean>>({ 0: true });
+  const [openSection, setOpenSection] = useState<number | null>(0);
 
   const answered = Object.keys(answers).length;
 
@@ -323,17 +323,9 @@ export default function Module2() {
     .filter(({ score }) => score < 2)
     .map(({ dim }) => dim);
 
-  useEffect(() => {
-    SECTIONS.forEach((section, sIdx) => {
-      const sectionAnswered = section.questions.filter(
-        (_, qIdx) => answers[key(sIdx, qIdx)] !== undefined
-      ).length;
-      if (sectionAnswered === section.questions.length && sIdx < SECTIONS.length - 1) {
-        setOpenSections((prev) => prev[sIdx + 1] ? prev : { ...prev, [sIdx + 1]: true });
-      }
-    });
-  }, [answers]);
-
+  const completedSections = SECTIONS.map((section, sIdx) =>
+    section.questions.every((_, qIdx) => answers[key(sIdx, qIdx)] !== undefined)
+  );
 
   function handleSubmit() {
     setSubmitted(true);
@@ -360,7 +352,13 @@ export default function Module2() {
 
   function select(sIdx: number, qIdx: number, optIdx: number) {
     const k = key(sIdx, qIdx);
-    setAnswers((prev) => (k in prev ? prev : { ...prev, [k]: optIdx }));
+    if (k in answers) return;
+    const newAnswers = { ...answers, [k]: optIdx };
+    setAnswers(newAnswers);
+    const allDone = SECTIONS[sIdx]?.questions.every((_, qI) => newAnswers[key(sIdx, qI)] !== undefined) ?? false;
+    if (allDone) {
+      setOpenSection(sIdx < SECTIONS.length - 1 ? sIdx + 1 : null);
+    }
   }
 
   return (
@@ -419,31 +417,45 @@ export default function Module2() {
               const sectionAnswered = section.questions.filter(
                 (_, qIdx) => answers[key(sIdx, qIdx)] !== undefined
               ).length;
-              const isOpen = openSections[sIdx] !== false;
+              const isOpen = openSection === sIdx;
+              const isCompleted = completedSections[sIdx] ?? false;
 
               return (
                 <div
                   key={section.dim}
-                  className={`rounded-xl border border-l-4 ${section.accentBorder} bg-white overflow-hidden shadow-card`}
+                  className={cn(
+                    "rounded-xl border border-l-4 bg-white overflow-hidden shadow-card",
+                    section.accentBorder,
+                    isCompleted && !isOpen && "opacity-80",
+                  )}
                 >
                   {/* Toggle header */}
                   <button
-                    onClick={() => setOpenSections((prev) => ({ ...prev, [sIdx]: !isOpen }))}
+                    onClick={() => setOpenSection(isOpen ? null : sIdx)}
                     className="w-full flex items-center gap-3 px-5 py-4 text-left hover:bg-primary-soft/60 transition-colors"
                     aria-expanded={isOpen}
                   >
-                    <div className={`shrink-0 w-8 h-8 rounded-lg ${section.iconBg} ${section.iconColor} flex items-center justify-center`}>
-                      <Icon className="w-4 h-4" />
+                    <div className={cn(
+                      "shrink-0 w-8 h-8 rounded-lg flex items-center justify-center",
+                      isCompleted ? "bg-teal text-white" : `${section.iconBg} ${section.iconColor}`,
+                    )}>
+                      {isCompleted ? <CheckCircle2 className="w-4 h-4" /> : <Icon className="w-4 h-4" />}
                     </div>
                     <h2 className="flex-1 font-bold text-primary text-base leading-tight min-w-0">
                       {section.dim}
                     </h2>
-                    <span className={cn(
-                      "text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full shrink-0",
-                      sectionAnswered === 3 ? `${section.chipColor} text-white` : "bg-muted text-muted-foreground",
-                    )}>
-                      {sectionAnswered} / 3
-                    </span>
+                    {isCompleted ? (
+                      <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-teal text-white shrink-0">
+                        ✓ Completed
+                      </span>
+                    ) : (
+                      <span className={cn(
+                        "text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full shrink-0",
+                        sectionAnswered > 0 ? `${section.chipColor} text-white` : "bg-muted text-muted-foreground",
+                      )}>
+                        {sectionAnswered} / 3
+                      </span>
+                    )}
                     <ChevronDown
                       className={`shrink-0 w-4 h-4 text-muted-foreground transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
                     />
