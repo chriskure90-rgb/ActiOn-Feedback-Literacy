@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Check, ChevronDown, Heart, Play, Rocket, Scale, ThumbsUp } from "lucide-react";
+import { ChevronDown, Heart, Play, Rocket, Scale, ThumbsUp } from "lucide-react";
 import { ModuleLayout, ModuleHeader, NavFooter } from "@/components/ModuleLayout";
 
 const DIMENSIONS = [
@@ -195,9 +195,6 @@ export default function Module1() {
                                 </div>
                                 <p className="text-base text-foreground">{step}</p>
                               </div>
-                              {sIdx < dim.steps.length - 1 && (
-                                <p className={`ml-2.5 ${dim.iconColor} opacity-50 text-xl leading-none my-2`}>↓</p>
-                              )}
                             </div>
                           ))}
                         </div>
@@ -210,10 +207,7 @@ export default function Module1() {
                         </p>
                         <div className="space-y-3">
                           {dim.successLooks.map((item) => (
-                            <div key={item} className="flex items-start gap-2.5">
-                              <Check className="w-4 h-4 text-green-500 mt-1 shrink-0" />
-                              <p className="text-base text-foreground">{item}</p>
-                            </div>
+                            <p key={item} className="text-base text-foreground">{item}</p>
                           ))}
                         </div>
                       </div>
