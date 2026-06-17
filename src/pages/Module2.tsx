@@ -786,6 +786,7 @@ function ResultsDashboard({ scores, saveStatus }: { scores: number[]; saveStatus
   const growthDims = SECTIONS
     .filter((_, i) => classifications[i] === "growth")
     .map((s) => s.dim);
+  const [showScoreLogic, setShowScoreLogic] = useState(false);
 
   return (
     <div className="space-y-6">
@@ -811,6 +812,38 @@ function ResultsDashboard({ scores, saveStatus }: { scores: number[]; saveStatus
             </p>
           )}
         </div>
+      </div>
+
+      {/* Score Logic */}
+      <div>
+        <button
+          type="button"
+          onClick={() => setShowScoreLogic((v) => !v)}
+          className="flex items-center gap-1.5 text-sm font-semibold text-muted-foreground hover:text-primary transition-colors"
+        >
+          <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${showScoreLogic ? "rotate-180" : ""}`} />
+          {showScoreLogic ? "Hide Score Logic" : "Show Score Logic"}
+        </button>
+
+        {showScoreLogic && (
+          <div className="mt-3 rounded-xl border border-border bg-muted/30 px-5 py-4 space-y-3">
+            <p className="text-sm font-bold text-primary">Score Logic</p>
+            <p className="text-xs text-muted-foreground">Each feedback literacy dimension is scored out of 3.</p>
+            <div className="space-y-2.5">
+              {([
+                { score: "3 / 3", label: "Excellent", desc: "You showed strong understanding in this area." },
+                { score: "2 / 3", label: "Good", desc: "You showed basic understanding, but there is still room to improve." },
+                { score: "1 / 3", label: "Needs Improvement", desc: "You will complete a short self-explanation task to deepen your understanding." },
+                { score: "0 / 3", label: "Needs Improvement", desc: "You will complete the same self-explanation task to deepen your understanding." },
+              ] as const).map(({ score, label, desc }) => (
+                <div key={score} className="flex items-start gap-3 text-sm">
+                  <span className="font-bold text-primary shrink-0 w-10">{score}</span>
+                  <p className="text-muted-foreground"><span className="font-semibold text-foreground">{label}</span> — {desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Dimension scores */}
