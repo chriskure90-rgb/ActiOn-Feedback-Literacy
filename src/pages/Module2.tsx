@@ -819,7 +819,7 @@ function ResultsDashboard({ scores, saveStatus }: { scores: number[]; saveStatus
         <button
           type="button"
           onClick={() => setShowScoreLogic((v) => !v)}
-          className="flex items-center gap-1.5 text-sm font-semibold text-muted-foreground hover:text-primary transition-colors"
+          className="flex items-center gap-2 rounded-lg border border-border bg-white px-4 py-2.5 text-sm font-semibold text-primary shadow-card hover:bg-primary-soft transition-colors"
         >
           <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${showScoreLogic ? "rotate-180" : ""}`} />
           {showScoreLogic ? "Hide Score Logic" : "Show Score Logic"}
