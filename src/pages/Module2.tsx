@@ -312,6 +312,10 @@ export default function Module2() {
   const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
+    if (submitted) window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [submitted]);
+
+  useEffect(() => {
     if (openSection === null) return;
     const el = sectionRefs.current[openSection];
     if (!el) return;
