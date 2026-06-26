@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ChevronDown, Heart, Play, Rocket, Scale, ThumbsUp } from "lucide-react";
 import { ModuleLayout, ModuleHeader, NavFooter } from "@/components/ModuleLayout";
+import { WelcomeModal } from "@/components/WelcomeModal";
 
 const DIMENSIONS = [
   {
@@ -97,14 +98,33 @@ const DIMENSIONS = [
   },
 ];
 
+const SESSION_KEY = "action-welcome-seen";
+
 export default function Module1() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [openPaperIndex, setOpenPaperIndex] = useState<number | null>(null);
+  const [showModal, setShowModal] = useState(() => {
+    try {
+      return sessionStorage.getItem(SESSION_KEY) !== "true";
+    } catch {
+      return false;
+    }
+  });
 
   const toggle = (i: number) => setOpenIndex(openIndex === i ? null : i);
 
+  function dismissModal() {
+    try {
+      sessionStorage.setItem(SESSION_KEY, "true");
+    } catch {
+      // sessionStorage unavailable — silently ignore
+    }
+    setShowModal(false);
+  }
+
   return (
     <ModuleLayout current={1}>
+      {showModal && <WelcomeModal onDismiss={dismissModal} />}
       <div className="max-w-4xl mx-auto">
 
         <ModuleHeader
