@@ -1,14 +1,17 @@
 import { Link } from "react-router";
 import { Check } from "lucide-react";
 import type { ReactNode } from "react";
-import { cn } from "../lib/utils";
-import { MODULES } from "../lib/constants";
+import { cn } from "@/lib/utils";
+import { MODULES } from "@/lib/constants";
+
+const LOGO_URL = "/logo.png";
 
 /* ─── Types ──────────────────────────────────────────────────── */
 
 interface ModuleLayoutProps {
   current: number;
   children: ReactNode;
+  fullHeight?: boolean;
 }
 interface ModuleHeaderProps {
   eyebrow: string;
@@ -23,45 +26,71 @@ interface NavFooterProps {
 
 /* ─── ModuleLayout ───────────────────────────────────────────── */
 
-export function ModuleLayout({ current, children }: ModuleLayoutProps) {
+export function ModuleLayout({ current, children, fullHeight }: ModuleLayoutProps) {
   return (
-    <div className="min-h-screen bg-background">
-      <header className="sticky top-0 z-40 border-b border-border bg-white/90 backdrop-blur-md shadow-[0_1px_0_0_rgb(22_58_95/0.07)]">
+    /*
+     * CSS Grid with grid-rows guarantees <main> always occupies the row
+     * strictly below <header>, whatever the header's actual rendered height.
+     * This avoids the sticky-inside-overflow-hidden browser bug where the
+     * header is removed from flow and overlaps the content area.
+     */
+    <div className={cn(
+      "bg-background",
+      fullHeight
+        ? "h-screen grid grid-rows-[auto_1fr]"
+        : "min-h-screen grid grid-rows-[auto_1fr_auto]",
+    )}>
+      {/* Navy header — bg-primary (#163A5F) */}
+      <header className="sticky top-0 z-40 border-b border-primary/30 bg-primary shadow-[0_2px_8px_0_rgb(22_58_95/0.35)]">
         <div className="mx-auto max-w-6xl px-5 py-3">
+
+          {/* Brand row */}
           <div className="flex items-center justify-between mb-3">
             <Link to="/" className="flex items-center gap-2.5 group">
               <img
-                src="/logo.png"
+                src={LOGO_URL}
                 alt="ActiOn logo"
                 className="w-8 h-8 rounded-lg object-contain"
               />
               <div className="leading-none">
-                <span className="text-sm font-bold text-primary tracking-tight">
+                {/* White on navy: 16:1 contrast */}
+                <span className="text-sm font-bold text-white tracking-tight">
                   ActiOn
                 </span>
-                <span className="hidden sm:block text-[10px] text-muted-foreground font-normal mt-0.5">
+                <span className="hidden sm:block text-[10px] text-white/65 font-normal mt-0.5">
                   Feedback to Action
                 </span>
               </div>
             </Link>
-            <span className="text-xs font-medium text-muted-foreground bg-muted px-2.5 py-1 rounded-full">
+            {/* Frosted pill on navy */}
+            <span className="text-xs font-medium text-white/85 bg-white/15 px-2.5 py-1 rounded-full">
               Module {current} of {MODULES.length}
             </span>
           </div>
+
           <ProgressBar current={current} />
         </div>
       </header>
 
-      <main className="mx-auto max-w-6xl px-5 py-10 md:py-14">{children}</main>
+      <main className={cn(
+        "mx-auto w-full max-w-6xl px-5",
+        fullHeight
+          ? "min-h-0 overflow-hidden flex flex-col py-4"
+          : "py-10 md:py-14",
+      )}>
+        {children}
+      </main>
 
-      <footer className="border-t border-border mt-16 py-6 text-center text-xs text-muted-foreground">
-        ActiOn · Feedback to Action · Adaptive Learning Prototype
-      </footer>
+      {!fullHeight && (
+        <footer className="border-t border-border mt-16 py-6 text-center text-xs text-muted-foreground">
+          ActiOn · Feedback to Action · Adaptive Learning Prototype
+        </footer>
+      )}
     </div>
   );
 }
 
-/* ─── Progress bar ───────────────────────────────────────────── */
+/* ─── Progress bar (on navy background) ─────────────────────── */
 
 function ProgressBar({ current }: { current: number }) {
   return (
@@ -76,37 +105,45 @@ function ProgressBar({ current }: { current: number }) {
               to={m.path}
               className={cn(
                 "group flex items-center gap-2 rounded-lg px-2 py-1.5 transition-all flex-1 min-w-0",
-                active ? "bg-primary-soft" : "hover:bg-muted",
+                active ? "bg-white/15" : "hover:bg-white/10",
               )}
             >
+              {/* Step bubble */}
               <div
                 className={cn(
                   "shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all",
+                  // Active: white bubble, navy number — maximum contrast on navy bg
+                  active && "bg-white text-primary ring-[3px] ring-white/30",
+                  // Done: teal bubble, white check
                   done   && "bg-teal text-white",
-                  active && "bg-primary text-white ring-[3px] ring-primary/20",
-                  !done && !active && "bg-muted text-muted-foreground border border-border",
+                  // Future: translucent white bubble
+                  !done && !active && "bg-white/15 text-white/55 border border-white/25",
                 )}
               >
                 {done ? <Check className="w-3.5 h-3.5 stroke-[2.5]" /> : m.num}
               </div>
 
+              {/* Step labels */}
               <div className="hidden md:block min-w-0">
                 <div className={cn(
                   "text-xs font-semibold truncate leading-tight",
-                  active ? "text-primary" : done ? "text-teal" : "text-muted-foreground",
+                  active ? "text-white"    :
+                  done   ? "text-teal"     :
+                           "text-white/55",
                 )}>
                   {m.title}
                 </div>
-                <div className="text-[10px] text-muted-foreground truncate mt-0.5">
+                <div className="text-[10px] text-white/45 truncate mt-0.5">
                   {m.subtitle}
                 </div>
               </div>
             </Link>
 
+            {/* Connector line */}
             {i < MODULES.length - 1 && (
               <div className={cn(
                 "h-px w-3 md:w-5 shrink-0 mx-0.5",
-                done ? "bg-teal" : "bg-border",
+                done ? "bg-teal" : "bg-white/20",
               )} />
             )}
           </div>
@@ -116,7 +153,7 @@ function ProgressBar({ current }: { current: number }) {
   );
 }
 
-/* ─── Module page header ─────────────────────────────────────── */
+/* ─── Module page header (below the nav, on page bg) ────────── */
 
 export function ModuleHeader({ eyebrow, title, description }: ModuleHeaderProps) {
   return (
