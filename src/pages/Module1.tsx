@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ChevronDown, Heart, Play, Rocket, Scale, ThumbsUp } from "lucide-react";
-import { ModuleLayout, ModuleHeader, NavFooter } from "@/components/ModuleLayout";
+import { ModuleLayout, NavFooter } from "@/components/ModuleLayout";
 import { WelcomeModal } from "@/components/WelcomeModal";
 
 const DIMENSIONS = [
@@ -127,20 +127,21 @@ export default function Module1() {
       {showModal && <WelcomeModal onDismiss={dismissModal} />}
       <div className="max-w-4xl mx-auto">
 
-        <ModuleHeader
-          eyebrow="Module 1 · Learn"
-          title="What is feedback literacy?"
-          description="Build a shared foundation: what feedback literacy means, why it matters, and the four dimensions you'll develop across this course."
-        />
+        {/* ── Compact hero ─────────────────────────────────────── */}
+        <div className="mb-5">
+          <p className="text-xs font-bold uppercase tracking-widest text-teal mb-3">
+            Module 1 · Learn
+          </p>
+          <h1 className="text-4xl md:text-5xl font-extrabold text-primary tracking-tight leading-tight mb-2">
+            What is Feedback Literacy?
+          </h1>
+          <p className="text-base text-muted-foreground leading-relaxed">
+            Learn how to understand instructor feedback and use it to improve future assignments.
+          </p>
+        </div>
 
         {/* ── Video ────────────────────────────────────────────── */}
         <section className="mb-20">
-          <h2 className="text-4xl font-bold text-primary mb-4">
-            Instructional Video
-          </h2>
-          <p className="text-xl text-muted-foreground mb-8 leading-[1.7]">
-            This short video introduces feedback literacy and explains why it matters for using instructor feedback effectively.
-          </p>
           <div className="rounded-xl border border-border bg-white overflow-hidden shadow-card">
             <div className="aspect-video">
               <iframe
