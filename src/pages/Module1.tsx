@@ -128,8 +128,8 @@ export default function Module1() {
       <div className="max-w-4xl mx-auto">
 
         {/* ── Compact hero ─────────────────────────────────────── */}
-        <div className="mb-5">
-          <p className="text-xs font-bold uppercase tracking-widest text-teal mb-3">
+        <div className="mb-4 max-w-[720px]">
+          <p className="text-xs font-bold uppercase tracking-widest text-teal mb-2">
             Module 1 · Learn
           </p>
           <h1 className="text-4xl md:text-5xl font-extrabold text-primary tracking-tight leading-tight mb-2">
@@ -141,7 +141,7 @@ export default function Module1() {
         </div>
 
         {/* ── Video ────────────────────────────────────────────── */}
-        <section className="mb-20">
+        <section className="mb-8">
           <div className="rounded-xl border border-border bg-white overflow-hidden shadow-card">
             <div className="aspect-video">
               <iframe
@@ -154,6 +154,17 @@ export default function Module1() {
             </div>
           </div>
         </section>
+
+        {/* ── Section divider ──────────────────────────────────── */}
+        <div className="mb-10">
+          <div className="h-px bg-border mb-4" />
+          <p className="text-sm text-center text-muted-foreground">
+            Continue below to explore the four dimensions of Feedback Literacy.
+          </p>
+          <p className="text-center text-muted-foreground/40 mt-1.5 text-sm select-none" aria-hidden="true">
+            ↓
+          </p>
+        </div>
 
         {/* ── Dimension sections ───────────────────────────────── */}
         <section className="mb-20">
