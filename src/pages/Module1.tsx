@@ -114,11 +114,11 @@ export default function Module1() {
         />
 
         {/* ── Video ────────────────────────────────────────────── */}
-        <section className="mb-16">
-          <h2 className="text-2xl font-bold text-primary mb-2">
+        <section className="mb-20">
+          <h2 className="text-4xl font-bold text-primary mb-4">
             Instructional Video
           </h2>
-          <p className="text-base text-muted-foreground mb-6 leading-relaxed">
+          <p className="text-xl text-muted-foreground mb-8 leading-[1.7]">
             This short video introduces feedback literacy and explains why it matters for using instructor feedback effectively.
           </p>
           <div className="rounded-xl border border-border bg-white overflow-hidden shadow-card">
@@ -135,12 +135,12 @@ export default function Module1() {
         </section>
 
         {/* ── Dimension sections ───────────────────────────────── */}
-        <section className="mb-16">
-          <h2 className="text-2xl font-bold text-primary mb-10">
+        <section className="mb-20">
+          <h2 className="text-4xl font-bold text-primary mb-12">
             The four dimensions
           </h2>
 
-          <div className="space-y-10">
+          <div className="space-y-12">
             {DIMENSIONS.map((dim, i) => {
               const Icon = dim.icon;
               const isOpen = openIndex === i;
@@ -152,48 +152,48 @@ export default function Module1() {
                   <button
                     onClick={() => toggle(i)}
                     aria-expanded={isOpen}
-                    className="w-full flex items-center gap-4 pl-5 pr-2 py-3 text-left"
+                    className="w-full flex items-center gap-5 pl-6 pr-3 py-5 text-left"
                   >
-                    <div className={`shrink-0 w-10 h-10 rounded-xl ${dim.iconBg} ${dim.iconColor} flex items-center justify-center`}>
-                      <Icon className="w-5 h-5" />
+                    <div className={`shrink-0 w-14 h-14 rounded-xl ${dim.iconBg} ${dim.iconColor} flex items-center justify-center`}>
+                      <Icon className="w-7 h-7" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-xl font-bold text-primary leading-tight">{dim.title}</h3>
-                      <p className="text-base text-muted-foreground mt-0.5">{dim.tagline}</p>
+                      <h3 className="text-[30px] font-bold text-primary leading-tight">{dim.title}</h3>
+                      <p className="text-xl text-muted-foreground mt-2">{dim.tagline}</p>
                     </div>
-                    <ChevronDown className={`shrink-0 w-5 h-5 text-muted-foreground transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
+                    <ChevronDown className={`shrink-0 w-6 h-6 text-muted-foreground transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
                   </button>
 
                   {/* Expanded content */}
                   {isOpen && (
-                    <div className="pl-5 pr-2 pt-2 pb-8 space-y-10">
+                    <div className="pl-6 pr-3 pt-4 pb-12 space-y-12">
 
                       {/* Why is this important */}
                       <div>
-                        <p className="text-sm font-bold uppercase tracking-widest text-teal mb-3">
+                        <p className="text-sm font-bold uppercase tracking-widest text-teal mb-4">
                           Why is this important?
                         </p>
-                        <p className="text-base text-muted-foreground leading-relaxed mb-2">
+                        <p className="text-xl text-muted-foreground leading-[1.7] mb-3">
                           {dim.why}
                         </p>
-                        <p className="text-sm text-muted-foreground italic">
+                        <p className="text-base text-muted-foreground italic">
                           ({dim.reference})
                         </p>
                       </div>
 
                       {/* What should you do */}
                       <div>
-                        <p className="text-sm font-bold uppercase tracking-widest text-teal mb-5">
+                        <p className="text-sm font-bold uppercase tracking-widest text-teal mb-6">
                           What should you do?
                         </p>
-                        <div className="space-y-0">
+                        <div className="space-y-4">
                           {dim.steps.map((step, sIdx) => (
                             <div key={sIdx}>
-                              <div className="flex items-center gap-3">
-                                <div className={`shrink-0 w-7 h-7 rounded-full ${dim.iconBg} ${dim.iconColor} text-sm font-bold flex items-center justify-center`}>
+                              <div className="flex items-center gap-4">
+                                <div className={`shrink-0 w-9 h-9 rounded-full ${dim.iconBg} ${dim.iconColor} text-base font-bold flex items-center justify-center`}>
                                   {sIdx + 1}
                                 </div>
-                                <p className="text-base text-foreground">{step}</p>
+                                <p className="text-xl text-foreground">{step}</p>
                               </div>
                             </div>
                           ))}
@@ -202,12 +202,12 @@ export default function Module1() {
 
                       {/* Success looks like */}
                       <div>
-                        <p className="text-sm font-bold uppercase tracking-widest text-teal mb-4">
+                        <p className="text-sm font-bold uppercase tracking-widest text-teal mb-5">
                           Success looks like
                         </p>
-                        <div className="space-y-3">
+                        <div className="space-y-4">
                           {dim.successLooks.map((item) => (
-                            <p key={item} className="text-base text-foreground">{item}</p>
+                            <p key={item} className="text-xl text-foreground">{item}</p>
                           ))}
                         </div>
                       </div>
@@ -217,21 +217,21 @@ export default function Module1() {
                         <button
                           type="button"
                           onClick={() => setOpenPaperIndex(isPaperOpen ? null : i)}
-                          className="flex items-center gap-1.5 text-base font-semibold text-teal hover:text-primary transition-colors"
+                          className="flex items-center gap-2 text-lg font-semibold text-teal hover:text-primary transition-colors"
                         >
-                          <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isPaperOpen ? "rotate-180" : ""}`} />
+                          <ChevronDown className={`w-5 h-5 transition-transform duration-200 ${isPaperOpen ? "rotate-180" : ""}`} />
                           {isPaperOpen ? "Hide research" : "Read the research"}
                         </button>
 
                         {isPaperOpen && (
-                          <div className="mt-4 rounded-lg border border-border bg-primary-soft px-5 py-5 space-y-4">
+                          <div className="mt-5 rounded-lg border border-border bg-primary-soft px-6 py-6 space-y-5">
                             <div>
-                              <p className="text-sm font-bold uppercase tracking-widest text-muted-foreground mb-1.5">Source</p>
-                              <p className="text-base text-muted-foreground leading-relaxed italic">{dim.paper.citation}</p>
+                              <p className="text-sm font-bold uppercase tracking-widest text-muted-foreground mb-2">Source</p>
+                              <p className="text-lg text-muted-foreground leading-[1.7] italic">{dim.paper.citation}</p>
                             </div>
                             <div>
-                              <p className="text-sm font-bold uppercase tracking-widest text-teal mb-1.5">Key excerpt</p>
-                              <p className="text-base text-foreground leading-relaxed">"{dim.paper.excerpt}"</p>
+                              <p className="text-sm font-bold uppercase tracking-widest text-teal mb-2">Key excerpt</p>
+                              <p className="text-xl text-foreground leading-[1.7]">"{dim.paper.excerpt}"</p>
                             </div>
                           </div>
                         )}
@@ -248,15 +248,15 @@ export default function Module1() {
 
         {/* ── Module summary ───────────────────────────────────── */}
         <section className="mb-4">
-          <div className="rounded-xl bg-primary-soft border border-primary/10 px-6 py-5 flex gap-4 items-start shadow-card">
-            <div className="shrink-0 w-9 h-9 rounded-full bg-primary flex items-center justify-center mt-0.5">
-              <Play className="w-4 h-4 text-white ml-0.5" fill="currentColor" />
+          <div className="rounded-xl bg-primary-soft border border-primary/10 px-7 py-6 flex gap-5 items-start shadow-card">
+            <div className="shrink-0 w-10 h-10 rounded-full bg-primary flex items-center justify-center mt-0.5">
+              <Play className="w-5 h-5 text-white ml-0.5" fill="currentColor" />
             </div>
             <div>
-              <p className="text-sm font-bold uppercase tracking-widest text-teal mb-1.5">
+              <p className="text-sm font-bold uppercase tracking-widest text-teal mb-2">
                 Module summary
               </p>
-              <p className="text-base text-foreground leading-relaxed">
+              <p className="text-xl text-foreground leading-[1.7]">
                 You have explored the four dimensions of feedback literacy. In Module 2, you will assess your current strengths and areas for growth. In Module 3, you will work with an AI coach to turn your feedback into a concrete action plan.
               </p>
             </div>
