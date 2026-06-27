@@ -381,8 +381,8 @@ export default function Module2() {
     <ModuleLayout current={2}>
       <ModuleHeader
         eyebrow="Module 2 · Assess"
-        title="Where are you right now?"
-        description="Read each scenario and select the response that best matches what you would do. You will receive immediate feedback after each answer."
+        title="Check Your Understanding"
+        description="Based on what you learned in Module 1, choose the response that best demonstrates effective feedback literacy. You will receive immediate feedback after each answer."
       />
 
       {/* Demo bar */}

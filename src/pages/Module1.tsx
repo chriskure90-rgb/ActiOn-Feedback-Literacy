@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronDown, Heart, Play, Rocket, Scale, ThumbsUp } from "lucide-react";
+import { ChevronDown, Heart, Rocket, Scale, ThumbsUp } from "lucide-react";
 import { ModuleLayout, NavFooter } from "@/components/ModuleLayout";
 import { WelcomeModal } from "@/components/WelcomeModal";
 
@@ -155,15 +155,21 @@ export default function Module1() {
           </div>
         </section>
 
-        {/* ── Section divider ──────────────────────────────────── */}
-        <div className="mb-10">
-          <div className="h-px bg-border mb-4" />
-          <p className="text-base text-center text-muted-foreground">
-            Continue below to explore the four dimensions of Feedback Literacy.
-          </p>
-          <p className="text-center text-muted-foreground/40 mt-1.5 text-sm select-none" aria-hidden="true">
-            ↓
-          </p>
+        {/* ── Phase transition ─────────────────────────────────── */}
+        <div className="my-14">
+          <div className="h-px bg-border" />
+          <div className="max-w-[760px] py-10">
+            <p className="text-xs font-bold uppercase tracking-widest text-teal flex items-center gap-2 mb-5">
+              ✓&ensp;Video completed
+            </p>
+            <p className="text-2xl md:text-3xl font-bold text-primary leading-tight mb-4">
+              Next: Explore the Four Dimensions
+            </p>
+            <p className="text-lg text-muted-foreground leading-relaxed">
+              Now that you have learned the basics of Feedback Literacy, continue by exploring its four key dimensions in more detail.
+            </p>
+          </div>
+          <div className="h-px bg-border" />
         </div>
 
         {/* ── Dimension sections ───────────────────────────────── */}
@@ -280,10 +286,7 @@ export default function Module1() {
 
         {/* ── Module summary ───────────────────────────────────── */}
         <section className="mb-4">
-          <div className="rounded-xl bg-primary-soft border border-primary/10 px-7 py-6 flex gap-5 items-start shadow-card">
-            <div className="shrink-0 w-10 h-10 rounded-full bg-primary flex items-center justify-center mt-0.5">
-              <Play className="w-5 h-5 text-white ml-0.5" fill="currentColor" />
-            </div>
+          <div className="rounded-xl bg-primary-soft border border-primary/10 px-7 py-6 shadow-card">
             <div>
               <p className="text-sm font-bold uppercase tracking-widest text-teal mb-2">
                 Module summary
