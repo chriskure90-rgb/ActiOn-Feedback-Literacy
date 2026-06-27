@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { CheckCircle2, ChevronDown, ChevronRight, Heart, Rocket, Scale, ThumbsUp, XCircle } from "lucide-react";
 import { supabase } from "../lib/supabase";
@@ -309,22 +309,10 @@ export default function Module2() {
   const [selfExplanations, setSelfExplanations] = useState<Record<string, string>>({});
   const [answeredDims, setAnsweredDims] = useState<Record<string, boolean>>({});
   const [openSection, setOpenSection] = useState<number | null>(0);
-  const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
     if (submitted) window.scrollTo({ top: 0, behavior: "smooth" });
   }, [submitted]);
-
-  useEffect(() => {
-    if (openSection === null) return;
-    const el = sectionRefs.current[openSection];
-    if (!el) return;
-    const timer = setTimeout(() => {
-      const top = el.getBoundingClientRect().top + window.scrollY - 130;
-      window.scrollTo({ top, behavior: "smooth" });
-    }, 50);
-    return () => clearTimeout(timer);
-  }, [openSection]);
 
   const answered = Object.keys(answers).length;
 
@@ -439,7 +427,6 @@ export default function Module2() {
               return (
                 <div
                   key={section.dim}
-                  ref={(el) => { sectionRefs.current[sIdx] = el; }}
                   className={cn(
                     "rounded-xl border border-l-4 bg-white overflow-hidden shadow-card",
                     section.accentBorder,
