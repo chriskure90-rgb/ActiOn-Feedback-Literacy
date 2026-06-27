@@ -81,7 +81,7 @@ export function WelcomeModal({ onDismiss }: WelcomeModalProps) {
             >
               Welcome to ActiOn
             </h2>
-            <p className="text-[11px] text-white/60 mt-1">Feedback to Action</p>
+            <p className="text-xs text-white/60 mt-1">Feedback to Action</p>
           </div>
         </div>
 
@@ -90,10 +90,10 @@ export function WelcomeModal({ onDismiss }: WelcomeModalProps) {
 
           {/* Intro paragraphs */}
           <div className="space-y-3">
-            <p className="text-base text-foreground leading-relaxed">
+            <p className="text-lg text-foreground leading-relaxed">
               Welcome to <strong>ActiOn</strong> (Feedback to Action).
             </p>
-            <p className="text-base text-muted-foreground leading-relaxed">
+            <p className="text-lg text-muted-foreground leading-relaxed">
               In this learning experience, you will develop the skills to understand instructor
               feedback and turn it into meaningful improvements for future assignments.
             </p>
@@ -101,7 +101,7 @@ export function WelcomeModal({ onDismiss }: WelcomeModalProps) {
 
           {/* Module list */}
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-widest text-teal mb-4">
+            <p className="text-[11px] font-bold uppercase tracking-widest text-teal mb-4">
               During this program, you will:
             </p>
             <ul className="space-y-4">
@@ -111,10 +111,10 @@ export function WelcomeModal({ onDismiss }: WelcomeModalProps) {
                     {m.num}
                   </div>
                   <div>
-                    <p className="text-sm font-bold text-primary leading-tight">
+                    <p className="text-base font-bold text-primary leading-tight">
                       {m.label}
                     </p>
-                    <p className="text-sm text-muted-foreground leading-relaxed mt-1">
+                    <p className="text-base text-muted-foreground leading-relaxed mt-1">
                       {m.description}
                     </p>
                   </div>
@@ -124,7 +124,7 @@ export function WelcomeModal({ onDismiss }: WelcomeModalProps) {
           </div>
 
           {/* Ready prompt */}
-          <p className="text-base font-semibold text-foreground">
+          <p className="text-lg font-semibold text-foreground">
             Ready to begin?
           </p>
         </div>
@@ -134,7 +134,7 @@ export function WelcomeModal({ onDismiss }: WelcomeModalProps) {
           <button
             type="button"
             onClick={onDismiss}
-            className="text-sm text-muted-foreground hover:text-primary transition-colors"
+            className="text-base text-muted-foreground hover:text-primary transition-colors"
           >
             Don&apos;t show again this session
           </button>
@@ -142,7 +142,7 @@ export function WelcomeModal({ onDismiss }: WelcomeModalProps) {
             type="button"
             onClick={onDismiss}
             autoFocus
-            className="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-2.5 text-sm font-bold text-white shadow-card hover:bg-accent/90 active:scale-[0.98] transition-all"
+            className="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-2.5 text-base font-bold text-white shadow-card hover:bg-accent/90 active:scale-[0.98] transition-all"
           >
             Start Learning →
           </button>

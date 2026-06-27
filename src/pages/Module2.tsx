@@ -390,13 +390,13 @@ export default function Module2() {
         <span className="text-[10px] font-bold uppercase tracking-wider text-accent shrink-0">
           Presentation
         </span>
-        <span className="text-xs text-muted-foreground flex-1 min-w-0 hidden sm:block">
+        <span className="text-[13px] text-muted-foreground flex-1 min-w-0 hidden sm:block">
           Load sample answers to demonstrate scoring and the growth focus result.
         </span>
         <div className="flex items-center gap-2 ml-auto shrink-0">
           <button
             onClick={() => { setAnswers(DEMO_MODULE2_ANSWERS); setSubmitted(false); }}
-            className="text-xs font-bold text-accent border border-accent/30 bg-white rounded-md px-3 py-1.5 hover:bg-accent/5 active:scale-95 transition-all shadow-sm"
+            className="text-[13px] font-bold text-accent border border-accent/30 bg-white rounded-md px-3 py-1.5 hover:bg-accent/5 active:scale-95 transition-all shadow-sm"
           >
             Load Demo Data
           </button>
@@ -420,7 +420,7 @@ export default function Module2() {
                   style={{ width: `${(answered / TOTAL_QUESTIONS) * 100}%` }}
                 />
               </div>
-              <span className="text-xs font-medium text-muted-foreground whitespace-nowrap">
+              <span className="text-[13px] font-medium text-muted-foreground whitespace-nowrap">
                 {answered} of {TOTAL_QUESTIONS} answered
               </span>
             </div>
@@ -458,7 +458,7 @@ export default function Module2() {
                     )}>
                       {isCompleted ? <CheckCircle2 className="w-4 h-4" /> : <Icon className="w-4 h-4" />}
                     </div>
-                    <h2 className="flex-1 font-bold text-primary text-base leading-tight min-w-0">
+                    <h2 className="flex-1 font-bold text-primary text-lg leading-tight min-w-0">
                       {section.dim}
                     </h2>
                     {isCompleted ? (
@@ -520,10 +520,10 @@ export default function Module2() {
                               <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1.5">
                                 Scenario
                               </p>
-                              <p className="text-sm text-foreground leading-relaxed">{q.scenario}</p>
+                              <p className="text-base text-foreground leading-relaxed">{q.scenario}</p>
                             </div>
 
-                            <p className="font-semibold text-primary text-sm leading-snug">{q.question}</p>
+                            <p className="font-semibold text-primary text-base leading-relaxed">{q.question}</p>
                           </div>
 
                           {/* Options */}
@@ -604,7 +604,7 @@ export default function Module2() {
                                       {OPTION_LABELS[optIdx]}
                                     </span>
                                     <span className={cn(
-                                      "text-sm leading-relaxed",
+                                      "text-base leading-relaxed",
                                       isAnswered && !isSelected && !isCorrectOpt
                                         ? "text-muted-foreground"
                                         : "text-foreground",
@@ -635,7 +635,7 @@ export default function Module2() {
                               ) : (
                                 <XCircle className="w-4 h-4 text-accent shrink-0 mt-0.5" />
                               )}
-                              <p className="text-sm leading-relaxed text-foreground">
+                              <p className="text-base leading-relaxed text-foreground">
                                 {isCorrect ? q.feedbackCorrect : q.feedbackIncorrect}
                               </p>
                             </div>
@@ -652,7 +652,7 @@ export default function Module2() {
 
           {/* Submit row */}
           <div className="flex items-center justify-between pt-6 mt-4 border-t border-border">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-base text-muted-foreground">
               {answered < TOTAL_QUESTIONS
                 ? `${TOTAL_QUESTIONS - answered} question${TOTAL_QUESTIONS - answered !== 1 ? "s" : ""} remaining`
                 : "All questions answered — ready to submit!"}
@@ -660,7 +660,7 @@ export default function Module2() {
             <button
               onClick={() => void handleSubmit()}
               disabled={answered < TOTAL_QUESTIONS}
-              className="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-2.5 text-sm font-bold text-white shadow-card hover:bg-accent/90 disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98] transition-all"
+              className="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-2.5 text-base font-bold text-white shadow-card hover:bg-accent/90 disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98] transition-all"
             >
               Submit assessment
               <ChevronRight className="w-4 h-4" />
@@ -675,8 +675,8 @@ export default function Module2() {
           {growthAreas.length > 0 && (
             <div className="mt-6 space-y-4">
               <div className="flex items-center gap-3 pb-1">
-                <h3 className="text-sm font-bold text-primary">Before you practise</h3>
-                <span className="text-xs text-muted-foreground">
+                <h3 className="text-base font-bold text-primary">Before you practise</h3>
+                <span className="text-[13px] text-muted-foreground">
                   {growthAreas.length === 1 ? "1 Growth Area" : `${growthAreas.length} Growth Areas`} to reflect on
                 </span>
               </div>
@@ -689,24 +689,24 @@ export default function Module2() {
                       <span className="text-[10px] font-bold uppercase tracking-widest bg-accent/10 text-accent px-2.5 py-1 rounded-full">
                         Growth Area
                       </span>
-                      <span className="font-bold text-primary text-sm">{dim}</span>
+                      <span className="font-bold text-primary text-base">{dim}</span>
                     </div>
                     <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1.5">
                       What this means
                     </p>
-                    <p className="text-sm text-foreground leading-relaxed mb-3">
+                    <p className="text-base text-foreground leading-relaxed mb-3">
                       {content.description}
                     </p>
-                    <p className="text-xs font-semibold text-primary mb-2">Effective learners:</p>
+                    <p className="text-[13px] font-semibold text-primary mb-2">Effective learners:</p>
                     <ul className="space-y-1.5 mb-5">
                       {content.bullets.map((bullet) => (
-                        <li key={bullet} className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <li key={bullet} className="flex items-center gap-2 text-base text-muted-foreground">
                           <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
                           {bullet}
                         </li>
                       ))}
                     </ul>
-                    <p className="font-semibold text-primary text-sm mb-2">{content.question}</p>
+                    <p className="font-semibold text-primary text-base mb-2">{content.question}</p>
                     <textarea
                       value={selfExplanations[dim] ?? ""}
                       onChange={(e) =>
@@ -714,13 +714,13 @@ export default function Module2() {
                       }
                       rows={3}
                       placeholder="Type your explanation here…"
-                      className="w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 resize-y text-foreground placeholder:text-muted-foreground transition mb-3"
+                      className="w-full rounded-lg border border-border bg-background px-3 py-2.5 text-base leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 resize-y text-foreground placeholder:text-muted-foreground transition mb-3"
                     />
                     {!answeredDims[dim] ? (
                       <button
                         onClick={() => setAnsweredDims((prev) => ({ ...prev, [dim]: true }))}
                         disabled={!selfExplanations[dim]?.trim()}
-                        className="mb-4 inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2 text-sm font-bold text-white hover:bg-primary/90 disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98] transition-all"
+                        className="mb-4 inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2 text-base font-bold text-white hover:bg-primary/90 disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98] transition-all"
                       >
                         Answer
                       </button>
@@ -729,7 +729,7 @@ export default function Module2() {
                         <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1.5">
                           Example answer
                         </p>
-                        <p className="text-sm text-muted-foreground italic leading-relaxed">
+                        <p className="text-base text-muted-foreground italic leading-relaxed">
                           {content.example}
                         </p>
                       </div>
@@ -744,7 +744,7 @@ export default function Module2() {
           <div className="mt-10 flex items-center justify-between">
             <Link
               to="/module/1"
-              className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+              className="text-base font-medium text-muted-foreground hover:text-primary transition-colors"
             >
               ← Back to Learn
             </Link>
@@ -764,7 +764,7 @@ export default function Module2() {
                 <button
                   onClick={() => void handleContinue()}
                   disabled={saveStatus === "saving"}
-                  className="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-2.5 text-sm font-bold text-white shadow-card hover:bg-accent/90 disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98] transition-all"
+                  className="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-2.5 text-base font-bold text-white shadow-card hover:bg-accent/90 disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98] transition-all"
                 >
                   {saveStatus === "saving" ? "Saving…" : "Continue to Practice"}
                   <ChevronRight className="w-4 h-4" />
@@ -796,8 +796,8 @@ function ResultsDashboard({ scores, saveStatus }: { scores: number[]; saveStatus
           <CheckCircle2 className="w-5 h-5" />
         </div>
         <div>
-          <h2 className="font-bold text-primary text-base">Assessment complete</h2>
-          <p className="text-sm text-muted-foreground mt-1 leading-relaxed">
+          <h2 className="font-bold text-primary text-lg">Assessment complete</h2>
+          <p className="text-base text-muted-foreground mt-1 leading-relaxed">
             You scored <span className="font-semibold text-primary">{total} out of {TOTAL_QUESTIONS}</span>. Your results are shown below.
             Module 3 will give you the opportunity to apply these strategies with the help of an AI coach.
           </p>
@@ -827,8 +827,8 @@ function ResultsDashboard({ scores, saveStatus }: { scores: number[]; saveStatus
 
         {showScoreLogic && (
           <div className="mt-3 rounded-xl border border-border bg-muted/30 px-5 py-4 space-y-3">
-            <p className="text-sm font-bold text-primary">Score Logic</p>
-            <p className="text-xs text-muted-foreground">Each feedback literacy dimension is scored out of 3.</p>
+            <p className="text-base font-bold text-primary">Score Logic</p>
+            <p className="text-[13px] text-muted-foreground">Each feedback literacy dimension is scored out of 3.</p>
             <div className="space-y-2.5">
               {([
                 { score: "3 / 3", label: "Excellent", desc: "You showed strong understanding in this area." },
@@ -836,7 +836,7 @@ function ResultsDashboard({ scores, saveStatus }: { scores: number[]; saveStatus
                 { score: "1 / 3", label: "Needs Improvement", desc: "You will complete a short self-explanation task to deepen your understanding." },
                 { score: "0 / 3", label: "Needs Improvement", desc: "You will complete the same self-explanation task to deepen your understanding." },
               ] as const).map(({ score, label, desc }) => (
-                <div key={score} className="flex items-start gap-3 text-sm">
+                <div key={score} className="flex items-start gap-3 text-base">
                   <span className="font-bold text-primary shrink-0 w-10">{score}</span>
                   <p className="text-muted-foreground"><span className="font-semibold text-foreground">{label}</span> — {desc}</p>
                 </div>
@@ -848,7 +848,7 @@ function ResultsDashboard({ scores, saveStatus }: { scores: number[]; saveStatus
 
       {/* Dimension scores */}
       <div>
-        <h3 className="text-sm font-bold text-primary mb-3">Your dimension scores</h3>
+        <h3 className="text-base font-bold text-primary mb-3">Your dimension scores</h3>
         <div className="grid gap-3 md:grid-cols-2">
           {SECTIONS.map((section, i) => {
             const Icon = section.icon;
@@ -868,11 +868,11 @@ function ResultsDashboard({ scores, saveStatus }: { scores: number[]; saveStatus
                   <div className={`w-8 h-8 rounded-lg ${section.iconBg} ${section.iconColor} flex items-center justify-center shrink-0`}>
                     <Icon className="w-4 h-4" />
                   </div>
-                  <p className="flex-1 font-semibold text-primary text-sm leading-tight min-w-0">
+                  <p className="flex-1 font-semibold text-primary text-base leading-tight min-w-0">
                     {section.dim}
                   </p>
                   <span className={cn(
-                    "text-sm font-bold shrink-0",
+                    "text-base font-bold shrink-0",
                     score === 3 ? "text-teal" : score === 2 ? "text-primary" : "text-accent",
                   )}>
                     {score} / 3
@@ -911,10 +911,10 @@ function ResultsDashboard({ scores, saveStatus }: { scores: number[]; saveStatus
           <p className="text-[10px] font-bold uppercase tracking-widest text-accent mb-1.5">
             {growthDims.length === 1 ? "Your Growth Area" : "Your Growth Areas"}
           </p>
-          <p className="font-bold text-primary text-base mb-1">
+          <p className="font-bold text-primary text-lg mb-1">
             {growthDims.join(" · ")}
           </p>
-          <p className="text-sm text-muted-foreground leading-relaxed">
+          <p className="text-base text-muted-foreground leading-relaxed">
             {growthDims.length === 1 ? "This dimension" : "These dimensions"} may require additional attention as you move into Module 3.
           </p>
         </div>
@@ -923,10 +923,10 @@ function ResultsDashboard({ scores, saveStatus }: { scores: number[]; saveStatus
           <p className="text-[10px] font-bold uppercase tracking-widest text-teal mb-1.5">
             Excellent performance
           </p>
-          <p className="font-bold text-primary text-base mb-1">
+          <p className="font-bold text-primary text-lg mb-1">
             You are strong across all dimensions.
           </p>
-          <p className="text-sm text-muted-foreground leading-relaxed">
+          <p className="text-base text-muted-foreground leading-relaxed">
             Module 3 will give you the opportunity to apply these strategies with real instructor feedback.
           </p>
         </div>

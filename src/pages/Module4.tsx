@@ -116,7 +116,7 @@ export default function Module4() {
             Future scenario
           </div>
           <Quote className="w-7 h-7 text-accent/60 mb-3" aria-hidden />
-          <p className="text-base md:text-lg leading-relaxed text-white">
+          <p className="text-lg md:text-xl leading-relaxed text-white">
             You've just submitted your capstone thesis. Your supervisor writes:{" "}
             <em className="text-white/85 not-italic border-l-2 border-accent/60 pl-3 block mt-3">
               "This is ambitious work, but the methodology section is underdeveloped and you
@@ -124,7 +124,7 @@ export default function Module4() {
               Let's meet next week."
             </em>
           </p>
-          <p className="mt-5 text-sm text-white/70 font-medium">
+          <p className="mt-5 text-base text-white/70 font-medium">
             How would you respond — emotionally, intellectually, and in action — before that meeting?
           </p>
         </div>
@@ -135,13 +135,13 @@ export default function Module4() {
         <span className="text-[10px] font-bold uppercase tracking-wider text-accent shrink-0">
           Presentation
         </span>
-        <span className="text-xs text-muted-foreground flex-1 min-w-0 hidden sm:block">
+        <span className="text-[13px] text-muted-foreground flex-1 min-w-0 hidden sm:block">
           Pre-fill all four plan sections with sample responses for demo.
         </span>
         <div className="flex items-center gap-2 ml-auto shrink-0">
           <button
             onClick={() => { setResponses([...DEMO_MODULE4_RESPONSES]); setSubmitted(false); }}
-            className="text-xs font-bold text-accent border border-accent/30 bg-white rounded-md px-3 py-1.5 hover:bg-accent/5 active:scale-95 transition-all shadow-sm"
+            className="text-[13px] font-bold text-accent border border-accent/30 bg-white rounded-md px-3 py-1.5 hover:bg-accent/5 active:scale-95 transition-all shadow-sm"
           >
             Load Demo Data
           </button>
@@ -162,7 +162,7 @@ export default function Module4() {
             style={{ width: `${(filled / PLAN_COMPONENTS.length) * 100}%` }}
           />
         </div>
-        <span className="text-xs font-medium text-muted-foreground whitespace-nowrap">
+        <span className="text-[13px] font-medium text-muted-foreground whitespace-nowrap">
           {filled} of {PLAN_COMPONENTS.length} completed
         </span>
       </div>
@@ -194,14 +194,14 @@ export default function Module4() {
                   </div>
                   <div className="flex-1 min-w-0 pt-0.5">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h2 className="font-bold text-primary text-sm leading-tight">
+                      <h2 className="font-bold text-primary text-base leading-tight">
                         {component.title}
                       </h2>
                       {isDone && (
                         <CheckCircle2 className="w-3.5 h-3.5 text-teal shrink-0" />
                       )}
                     </div>
-                    <p className="text-xs text-muted-foreground mt-0.5 leading-snug">
+                    <p className="text-sm text-muted-foreground mt-0.5 leading-snug">
                       {component.explanation}
                     </p>
                   </div>
@@ -209,7 +209,7 @@ export default function Module4() {
 
                 <label
                   htmlFor={`plan-${i}`}
-                  className="block text-sm font-semibold text-primary leading-snug"
+                  className="block text-base font-semibold text-primary leading-snug"
                 >
                   {component.prompt}
                 </label>
@@ -224,13 +224,13 @@ export default function Module4() {
                   placeholder={component.placeholder}
                   rows={4}
                   className={cn(
-                    "w-full rounded-lg border bg-background px-3.5 py-3 text-sm leading-relaxed",
+                    "w-full rounded-lg border bg-background px-3.5 py-3 text-base leading-relaxed",
                     "focus:outline-none focus:ring-2 focus:ring-primary/25 focus:border-primary/40",
                     "resize-y text-foreground placeholder:text-muted-foreground/60 transition",
                     isDone ? "border-teal/30" : "border-border",
                   )}
                 />
-                <p className="mt-1.5 text-[11px] text-muted-foreground">
+                <p className="mt-1.5 text-xs text-muted-foreground">
                   {value.trim().length === 0
                     ? "Start typing your response…"
                     : isDone
@@ -246,7 +246,7 @@ export default function Module4() {
       {/* Generate button */}
       {!submitted && (
         <div className="flex items-center justify-between border-t border-border pt-6 mb-4">
-          <p className="text-sm text-muted-foreground">
+          <p className="text-base text-muted-foreground">
             {canSubmit
               ? "All sections complete — ready to generate your plan."
               : `${PLAN_COMPONENTS.length - filled} section${PLAN_COMPONENTS.length - filled !== 1 ? "s" : ""} remaining.`}
@@ -254,7 +254,7 @@ export default function Module4() {
           <button
             onClick={() => void handleGenerate()}
             disabled={!canSubmit}
-            className="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-2.5 text-sm font-bold text-white shadow-card hover:bg-accent/90 disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98] transition-all"
+            className="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-2.5 text-base font-bold text-white shadow-card hover:bg-accent/90 disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98] transition-all"
           >
             <FileText className="w-4 h-4" />
             Generate my plan →
@@ -284,8 +284,8 @@ function PlanSummary({ responses, saveStatus }: { responses: string[]; saveStatu
           <CheckCircle2 className="w-5 h-5" />
         </div>
         <div>
-          <p className="font-bold text-primary text-base">Plan generated</p>
-          <p className="text-sm text-muted-foreground mt-0.5 leading-relaxed">
+          <p className="font-bold text-primary text-lg">Plan generated</p>
+          <p className="text-base text-muted-foreground mt-0.5 leading-relaxed">
             Your Future Feedback Plan is ready. Save or screenshot this page to keep it for your next assignment.
           </p>
           {saveStatus === "saving" && (
@@ -334,10 +334,10 @@ function PlanSummary({ responses, saveStatus }: { responses: string[]; saveStatu
                     {component.title}
                   </span>
                 </div>
-                <p className="text-xs text-muted-foreground mb-1.5 leading-snug">
+                <p className="text-[13px] text-muted-foreground mb-1.5 leading-snug">
                   {component.prompt}
                 </p>
-                <p className="text-sm text-foreground leading-relaxed">
+                <p className="text-base text-foreground leading-relaxed">
                   {text}
                 </p>
               </div>

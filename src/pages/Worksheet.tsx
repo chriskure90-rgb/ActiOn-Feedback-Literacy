@@ -169,7 +169,7 @@ export default function Worksheet() {
             <img src={LOGO_URL} alt="ActiOn logo" className="w-8 h-8 rounded-lg object-contain" />
             <div className="leading-none">
               <span className="text-sm font-bold text-white tracking-tight">ActiOn</span>
-              <span className="hidden sm:block text-[10px] text-white/65 mt-0.5">
+              <span className="hidden sm:block text-[11px] text-white/65 mt-0.5">
                 Feedback to Action
               </span>
             </div>
@@ -177,14 +177,14 @@ export default function Worksheet() {
           <div className="flex items-center gap-4">
             <Link
               to="/module/1"
-              className="hidden sm:inline-flex items-center gap-1.5 text-xs font-semibold text-white/75 hover:text-white transition-colors"
+              className="hidden sm:inline-flex items-center gap-1.5 text-[13px] font-semibold text-white/75 hover:text-white transition-colors"
             >
               <BookOpen className="w-3.5 h-3.5" />
               Start Learning
             </Link>
             <Link
               to="/"
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-white hover:text-white/80 transition-colors"
+              className="inline-flex items-center gap-1.5 text-base font-semibold text-white hover:text-white/80 transition-colors"
             >
               <ArrowLeft className="w-3.5 h-3.5" /> Home
             </Link>
@@ -195,13 +195,13 @@ export default function Worksheet() {
       <main className="mx-auto max-w-3xl px-5 py-10 md:py-14">
         {/* Page header */}
         <div className="mb-10">
-          <p className="text-[11px] font-bold uppercase tracking-widest text-teal mb-2">
+          <p className="text-xs font-bold uppercase tracking-widest text-teal mb-2">
             Feedback Literacy · Worksheet
           </p>
           <h1 className="text-3xl md:text-4xl font-extrabold text-primary tracking-tight leading-tight">
             Feedback Literacy Worksheet
           </h1>
-          <p className="mt-3 text-base text-muted-foreground max-w-2xl leading-relaxed">
+          <p className="mt-3 text-lg text-muted-foreground max-w-2xl leading-relaxed">
             Use this worksheet to apply the four feedback literacy dimensions to your own assignment
             feedback. Complete each section, then generate your personalised action plan.
           </p>
@@ -213,7 +213,7 @@ export default function Worksheet() {
             <p className="text-[10px] font-bold uppercase tracking-widest text-white/55 mb-0.5">
               Step 1
             </p>
-            <h2 className="text-base font-bold text-white">Assignment Setup</h2>
+            <h2 className="text-lg font-bold text-white">Assignment Setup</h2>
           </div>
           <div className="p-5 space-y-4">
             <div>
@@ -226,13 +226,13 @@ export default function Worksheet() {
                 value={setup.title}
                 onChange={(e) => setSetup((s) => ({ ...s, title: e.target.value }))}
                 placeholder="e.g. Essay: The Ethics of Artificial Intelligence"
-                className="w-full rounded-lg border border-border bg-background px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/25 focus:border-primary/40 transition placeholder:text-muted-foreground/60"
+                className="w-full rounded-lg border border-border bg-background px-3.5 py-2.5 text-base focus:outline-none focus:ring-2 focus:ring-primary/25 focus:border-primary/40 transition placeholder:text-muted-foreground/60"
               />
             </div>
             <div>
               <label
                 htmlFor="ws-instructions"
-                className="block text-sm font-semibold text-primary mb-1.5"
+                className="block text-base font-semibold text-primary mb-1.5"
               >
                 Assignment Instructions / Task Description
               </label>
@@ -242,13 +242,13 @@ export default function Worksheet() {
                 onChange={(e) => setSetup((s) => ({ ...s, instructions: e.target.value }))}
                 placeholder="Paste or summarise the assignment brief here…"
                 rows={3}
-                className="w-full rounded-lg border border-border bg-background px-3.5 py-3 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/25 focus:border-primary/40 resize-y transition placeholder:text-muted-foreground/60"
+                className="w-full rounded-lg border border-border bg-background px-3.5 py-3 text-base leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/25 focus:border-primary/40 resize-y transition placeholder:text-muted-foreground/60"
               />
             </div>
             <div>
               <label
                 htmlFor="ws-feedback"
-                className="block text-sm font-semibold text-primary mb-1.5"
+                className="block text-base font-semibold text-primary mb-1.5"
               >
                 Feedback Text{" "}
                 <span className="text-muted-foreground font-normal">
@@ -261,7 +261,7 @@ export default function Worksheet() {
                 onChange={(e) => setSetup((s) => ({ ...s, feedback: e.target.value }))}
                 placeholder="Paste the feedback comments you received here…"
                 rows={4}
-                className="w-full rounded-lg border border-border bg-background px-3.5 py-3 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/25 focus:border-primary/40 resize-y transition placeholder:text-muted-foreground/60"
+                className="w-full rounded-lg border border-border bg-background px-3.5 py-3 text-base leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/25 focus:border-primary/40 resize-y transition placeholder:text-muted-foreground/60"
               />
             </div>
           </div>
@@ -304,19 +304,19 @@ export default function Worksheet() {
                     </div>
                     <div className="flex-1 min-w-0 pt-0.5">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <h2 className="font-bold text-primary text-sm leading-tight">
+                        <h2 className="font-bold text-primary text-base leading-tight">
                           {dim.title}
                         </h2>
                         {isDone && <CheckCircle2 className="w-3.5 h-3.5 text-teal shrink-0" />}
                       </div>
-                      <p className="text-xs text-muted-foreground mt-0.5 leading-snug">
+                      <p className="text-sm text-muted-foreground mt-0.5 leading-snug">
                         {dim.explanation}
                       </p>
                     </div>
                   </div>
                   <label
                     htmlFor={`ws-dim-${i}`}
-                    className="block text-sm font-semibold text-primary leading-snug"
+                    className="block text-base font-semibold text-primary leading-relaxed"
                   >
                     {dim.prompt}
                   </label>
@@ -329,13 +329,13 @@ export default function Worksheet() {
                     placeholder={dim.placeholder}
                     rows={3}
                     className={cn(
-                      "w-full rounded-lg border bg-background px-3.5 py-3 text-sm leading-relaxed",
+                      "w-full rounded-lg border bg-background px-3.5 py-3 text-base leading-relaxed",
                       "focus:outline-none focus:ring-2 focus:ring-primary/25 focus:border-primary/40",
                       "resize-y text-foreground placeholder:text-muted-foreground/60 transition",
                       isDone ? "border-teal/30" : "border-border",
                     )}
                   />
-                  <p className="mt-1.5 text-[11px] text-muted-foreground">
+                  <p className="mt-1.5 text-xs text-muted-foreground">
                     {value.trim().length === 0
                       ? "Start typing your response…"
                       : isDone
@@ -351,7 +351,7 @@ export default function Worksheet() {
         {/* Generate button */}
         {!submitted && (
           <div className="flex items-center justify-between border-t border-border pt-6 mb-4">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-base text-muted-foreground">
               {canSubmit
                 ? "All sections complete — ready to generate your plan."
                 : !setup.title.trim()
@@ -361,7 +361,7 @@ export default function Worksheet() {
             <button
               onClick={handleGenerate}
               disabled={!canSubmit}
-              className="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-2.5 text-sm font-bold text-white shadow-card hover:bg-accent/90 disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98] transition-all"
+              className="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-2.5 text-base font-bold text-white shadow-card hover:bg-accent/90 disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98] transition-all"
             >
               <FileText className="w-4 h-4" />
               Generate My Plan →
@@ -388,14 +388,14 @@ export default function Worksheet() {
                 <CheckCircle2 className="w-4 h-4" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="font-bold text-primary text-sm">Plan generated</p>
-                <p className="text-xs text-muted-foreground mt-0.5">
+                <p className="font-bold text-primary text-base">Plan generated</p>
+                <p className="text-[13px] text-muted-foreground mt-0.5">
                   Your Feedback Action Plan is ready. Copy, download, or print it below.
                 </p>
               </div>
               <button
                 onClick={() => setSubmitted(false)}
-                className="text-xs text-muted-foreground hover:text-primary transition-colors shrink-0"
+                className="text-[13px] text-muted-foreground hover:text-primary transition-colors shrink-0"
               >
                 ← Edit
               </button>
@@ -405,21 +405,21 @@ export default function Worksheet() {
             <div className="flex flex-wrap items-center gap-3 mb-2">
               <button
                 onClick={handleCopy}
-                className="inline-flex items-center gap-2 rounded-lg bg-teal px-5 py-2.5 text-sm font-bold text-white shadow-card hover:bg-teal/90 active:scale-[0.98] transition-all"
+                className="inline-flex items-center gap-2 rounded-lg bg-teal px-5 py-2.5 text-base font-bold text-white shadow-card hover:bg-teal/90 active:scale-[0.98] transition-all"
               >
                 <ClipboardCopy className="w-4 h-4" />
                 Copy Plan
               </button>
               <button
                 onClick={handleDownload}
-                className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-bold text-white shadow-card hover:bg-primary/90 active:scale-[0.98] transition-all"
+                className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-base font-bold text-white shadow-card hover:bg-primary/90 active:scale-[0.98] transition-all"
               >
                 <Download className="w-4 h-4" />
                 Download Plan
               </button>
               <button
                 onClick={handlePrint}
-                className="inline-flex items-center gap-2 rounded-lg border border-border bg-white px-5 py-2.5 text-sm font-bold text-primary shadow-card hover:bg-muted/40 active:scale-[0.98] transition-all"
+                className="inline-flex items-center gap-2 rounded-lg border border-border bg-white px-5 py-2.5 text-base font-bold text-primary shadow-card hover:bg-muted/40 active:scale-[0.98] transition-all"
               >
                 <Printer className="w-4 h-4" />
                 Print Plan
@@ -455,7 +455,7 @@ export default function Worksheet() {
                 <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1">
                   Assignment
                 </p>
-                <p className="text-sm font-semibold text-primary">{setup.title.trim()}</p>
+                <p className="text-base font-semibold text-primary">{setup.title.trim()}</p>
               </div>
 
               {/* Feedback Focus */}
@@ -464,7 +464,7 @@ export default function Worksheet() {
                   <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1">
                     Feedback Focus
                   </p>
-                  <p className="text-sm text-foreground leading-relaxed italic">
+                  <p className="text-base text-foreground leading-relaxed italic">
                     {setup.feedback.trim()}
                   </p>
                 </div>
@@ -486,12 +486,12 @@ export default function Worksheet() {
                         >
                           <Icon className="w-3.5 h-3.5" />
                         </div>
-                        <span className="text-xs font-bold text-primary">{dim.title}</span>
+                        <span className="text-[13px] font-bold text-primary">{dim.title}</span>
                       </div>
-                      <p className="text-xs text-muted-foreground mb-1.5 leading-snug">
+                      <p className="text-[13px] text-muted-foreground mb-1.5 leading-snug">
                         {dim.prompt}
                       </p>
-                      <p className="text-sm text-foreground leading-relaxed">
+                      <p className="text-base text-foreground leading-relaxed">
                         {responses[i]?.trim()}
                       </p>
                     </div>
@@ -507,7 +507,7 @@ export default function Worksheet() {
                     Next Step
                   </span>
                 </div>
-                <p className="text-sm text-foreground leading-relaxed font-medium">
+                <p className="text-base text-foreground leading-relaxed font-medium">
                   {responses[3]?.trim()}
                 </p>
               </div>
@@ -524,13 +524,13 @@ export default function Worksheet() {
             <div className="mt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
               <Link
                 to="/"
-                className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                className="text-base text-muted-foreground hover:text-primary transition-colors"
               >
                 ← Back to Home
               </Link>
               <Link
                 to="/module/1"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-accent hover:text-accent/80 transition-colors"
+                className="inline-flex items-center gap-2 text-base font-semibold text-accent hover:text-accent/80 transition-colors"
               >
                 <BookOpen className="w-4 h-4" />
                 Start the Learning Module →

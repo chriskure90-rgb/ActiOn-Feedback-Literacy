@@ -135,7 +135,7 @@ export default function Module1() {
           <h1 className="text-4xl md:text-5xl font-extrabold text-primary tracking-tight leading-tight mb-2">
             What is Feedback Literacy?
           </h1>
-          <p className="text-base text-muted-foreground leading-relaxed">
+          <p className="text-lg text-muted-foreground leading-relaxed">
             Learn how to understand instructor feedback and use it to improve future assignments.
           </p>
         </div>
@@ -158,7 +158,7 @@ export default function Module1() {
         {/* ── Section divider ──────────────────────────────────── */}
         <div className="mb-10">
           <div className="h-px bg-border mb-4" />
-          <p className="text-sm text-center text-muted-foreground">
+          <p className="text-base text-center text-muted-foreground">
             Continue below to explore the four dimensions of Feedback Literacy.
           </p>
           <p className="text-center text-muted-foreground/40 mt-1.5 text-sm select-none" aria-hidden="true">
@@ -208,7 +208,7 @@ export default function Module1() {
                         <p className="text-xl text-muted-foreground leading-[1.7] mb-3">
                           {dim.why}
                         </p>
-                        <p className="text-base text-muted-foreground italic">
+                        <p className="text-lg text-muted-foreground italic">
                           ({dim.reference})
                         </p>
                       </div>
@@ -249,7 +249,7 @@ export default function Module1() {
                         <button
                           type="button"
                           onClick={() => setOpenPaperIndex(isPaperOpen ? null : i)}
-                          className="flex items-center gap-2 text-lg font-semibold text-teal hover:text-primary transition-colors"
+                          className="flex items-center gap-2 text-xl font-semibold text-teal hover:text-primary transition-colors"
                         >
                           <ChevronDown className={`w-5 h-5 transition-transform duration-200 ${isPaperOpen ? "rotate-180" : ""}`} />
                           {isPaperOpen ? "Hide research" : "Read the research"}
@@ -259,7 +259,7 @@ export default function Module1() {
                           <div className="mt-5 rounded-lg border border-border bg-primary-soft px-6 py-6 space-y-5">
                             <div>
                               <p className="text-sm font-bold uppercase tracking-widest text-muted-foreground mb-2">Source</p>
-                              <p className="text-lg text-muted-foreground leading-[1.7] italic">{dim.paper.citation}</p>
+                              <p className="text-xl text-muted-foreground leading-[1.7] italic">{dim.paper.citation}</p>
                             </div>
                             <div>
                               <p className="text-sm font-bold uppercase tracking-widest text-teal mb-2">Key excerpt</p>

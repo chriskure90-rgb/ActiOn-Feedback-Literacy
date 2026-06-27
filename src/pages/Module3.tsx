@@ -198,10 +198,10 @@ export default function Module3() {
                     <Sparkles className="w-4 h-4" />
                   </div>
                   <div>
-                    <div className="font-bold text-sm text-white leading-tight">
+                    <div className="font-bold text-base text-white leading-tight">
                       AI Feedback Coach
                     </div>
-                    <div className="text-[11px] text-white/65 mt-0.5">
+                    <div className="text-xs text-white/65 mt-0.5">
                       {allComplete
                         ? "All stages complete"
                         : currentStage
@@ -212,7 +212,7 @@ export default function Module3() {
                 </div>
                 <div className="flex items-center gap-2">
                   {isLoading ? (
-                    <span className="text-[11px] text-white/70 animate-pulse font-medium">
+                    <span className="text-xs text-white/70 animate-pulse font-medium">
                       Thinking…
                     </span>
                   ) : (
@@ -276,7 +276,7 @@ export default function Module3() {
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder="Write your response to the coach… (Enter to send)"
                     rows={2}
-                    className="flex-1 resize-none rounded-lg border border-border bg-background px-3 py-2 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition placeholder:text-muted-foreground"
+                    className="flex-1 resize-none rounded-lg border border-border bg-background px-3 py-2 text-base leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition placeholder:text-muted-foreground"
                     onKeyDown={(e) => {
                       if (e.key === "Enter" && !e.shiftKey) {
                         e.preventDefault();
@@ -293,7 +293,7 @@ export default function Module3() {
                     <Send className="w-4 h-4" />
                   </button>
                 </div>
-                <p className="text-[10px] text-muted-foreground mt-1.5 ml-0.5">
+                <p className="text-[11px] text-muted-foreground mt-1.5 ml-0.5">
                   Shift + Enter for new line
                 </p>
               </div>
@@ -338,7 +338,7 @@ function SetupScreen({ setup, onSetupChange, onLoadDemo, onStart }: SetupScreenP
           value={setup.title}
           onChange={(e) => onSetupChange({ ...setup, title: e.target.value })}
           placeholder="e.g. Essay: Climate Policy in the EU"
-          className="w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition placeholder:text-muted-foreground"
+          className="w-full rounded-lg border border-border bg-background px-3 py-2.5 text-base focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition placeholder:text-muted-foreground"
         />
       </div>
 
@@ -357,7 +357,7 @@ function SetupScreen({ setup, onSetupChange, onLoadDemo, onStart }: SetupScreenP
           onChange={(e) => onSetupChange({ ...setup, instructions: e.target.value })}
           rows={3}
           placeholder="Briefly describe what the assignment asked you to do…"
-          className="w-full resize-none rounded-lg border border-border bg-background px-3 py-2.5 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition placeholder:text-muted-foreground"
+          className="w-full resize-none rounded-lg border border-border bg-background px-3 py-2.5 text-base leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition placeholder:text-muted-foreground"
         />
       </div>
 
@@ -376,10 +376,10 @@ function SetupScreen({ setup, onSetupChange, onLoadDemo, onStart }: SetupScreenP
           onChange={(e) => onSetupChange({ ...setup, feedback: e.target.value })}
           rows={6}
           placeholder="Paste your instructor's written feedback here…"
-          className="w-full resize-none rounded-lg border border-border bg-background px-3 py-2.5 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition placeholder:text-muted-foreground"
+          className="w-full resize-none rounded-lg border border-border bg-background px-3 py-2.5 text-base leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition placeholder:text-muted-foreground"
         />
         {!canStart && (
-          <p className="text-xs text-muted-foreground mt-2">
+          <p className="text-[13px] text-muted-foreground mt-2">
             Instructor feedback is required to start the coaching session.
           </p>
         )}
@@ -390,7 +390,7 @@ function SetupScreen({ setup, onSetupChange, onLoadDemo, onStart }: SetupScreenP
         <button
           type="button"
           onClick={onLoadDemo}
-          className="inline-flex items-center gap-2 rounded-lg border border-border bg-white px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-primary hover:border-primary/30 transition shadow-card"
+          className="inline-flex items-center gap-2 rounded-lg border border-border bg-white px-4 py-2.5 text-base font-medium text-muted-foreground hover:text-primary hover:border-primary/30 transition shadow-card"
         >
           <Wand2 className="w-4 h-4" />
           Load demo data
@@ -399,7 +399,7 @@ function SetupScreen({ setup, onSetupChange, onLoadDemo, onStart }: SetupScreenP
           type="button"
           onClick={onStart}
           disabled={!canStart}
-          className="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-2.5 text-sm font-bold text-white shadow-card hover:bg-accent/90 disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98] transition-all"
+          className="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-2.5 text-base font-bold text-white shadow-card hover:bg-accent/90 disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98] transition-all"
         >
           Start Coaching Session →
         </button>
@@ -415,12 +415,12 @@ function AssignmentCard({ setup }: { setup: SetupData }) {
         <FileText className="w-3.5 h-3.5" /> Assignment
       </div>
       {setup.title ? (
-        <h3 className="font-bold text-primary text-sm mb-3 leading-snug">{setup.title}</h3>
+        <h3 className="font-bold text-primary text-base mb-3 leading-snug">{setup.title}</h3>
       ) : (
-        <h3 className="font-bold text-muted-foreground text-sm mb-3 italic">Untitled assignment</h3>
+        <h3 className="font-bold text-muted-foreground text-base mb-3 italic">Untitled assignment</h3>
       )}
       {setup.feedback && (
-        <p className="text-xs text-muted-foreground leading-relaxed line-clamp-4">
+        <p className="text-[13px] text-muted-foreground leading-relaxed line-clamp-4">
           {setup.feedback}
         </p>
       )}
@@ -442,7 +442,7 @@ function ChatBubble({ message }: { message: ChatMessage }) {
       </div>
       <div
         className={cn(
-          "max-w-[78%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-line",
+          "max-w-[78%] rounded-2xl px-4 py-3 text-base leading-relaxed whitespace-pre-line",
           isAi
             ? "bg-white border border-border text-foreground rounded-bl-sm shadow-card"
             : "bg-primary text-white rounded-br-sm shadow-card",
@@ -471,8 +471,8 @@ function TypingIndicator() {
 function ProgressTracker({ progress }: { progress: ProgressItem[] }) {
   return (
     <div className="rounded-xl border border-border bg-white p-5 shadow-card">
-      <h3 className="font-bold text-primary text-sm mb-0.5">Literacy dimensions</h3>
-      <p className="text-[11px] text-muted-foreground mb-4">
+      <h3 className="font-bold text-primary text-base mb-0.5">Literacy dimensions</h3>
+      <p className="text-xs text-muted-foreground mb-4">
         Progress through the coaching session
       </p>
       <ul className="space-y-3">
@@ -490,7 +490,7 @@ function ProgressTracker({ progress }: { progress: ProgressItem[] }) {
             <div className="flex-1 min-w-0">
               <div
                 className={cn(
-                  "text-sm font-semibold truncate",
+                  "text-base font-semibold truncate",
                   p.status === "done"
                     ? "text-teal"
                     : p.status === "active"
@@ -500,7 +500,7 @@ function ProgressTracker({ progress }: { progress: ProgressItem[] }) {
               >
                 {p.dim}
               </div>
-              <div className="text-[10px] text-muted-foreground mt-0.5">
+              <div className="text-[11px] text-muted-foreground mt-0.5">
                 {p.status === "done"
                   ? "Completed"
                   : p.status === "active"

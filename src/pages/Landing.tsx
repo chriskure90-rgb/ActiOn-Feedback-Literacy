@@ -59,14 +59,14 @@ export default function Landing() {
             />
             <div className="leading-none">
               <span className="text-sm font-bold text-white tracking-tight">ActiOn</span>
-              <span className="hidden sm:block text-[10px] text-white/65 mt-0.5">
+              <span className="hidden sm:block text-[11px] text-white/65 mt-0.5">
                 Feedback to Action
               </span>
             </div>
           </div>
           <Link
             to="/module/1"
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-white hover:text-white/80 transition-colors"
+            className="inline-flex items-center gap-1.5 text-base font-semibold text-white hover:text-white/80 transition-colors"
           >
             Start course <ArrowRight className="w-3.5 h-3.5" />
           </Link>
@@ -80,14 +80,14 @@ export default function Landing() {
           alt="ActiOn logo"
           className="mx-auto w-20 h-20 mb-7 object-contain drop-shadow"
         />
-        <div className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-teal bg-teal-soft px-3 py-1.5 rounded-full mb-7">
+        <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-teal bg-teal-soft px-3 py-1.5 rounded-full mb-7">
           Adaptive learning · AI-supported
         </div>
         <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-primary leading-[1.15]">
           Turn feedback into{" "}
           <span className="text-accent">real action</span>.
         </h1>
-        <p className="mt-5 text-lg text-muted-foreground max-w-xl mx-auto leading-relaxed">
+        <p className="mt-5 text-xl text-muted-foreground max-w-xl mx-auto leading-relaxed">
           ActiOn helps university students read, reflect on, and act on the
           feedback they receive. Choose your pathway below.
         </p>
@@ -107,13 +107,13 @@ export default function Landing() {
             <h2 className="text-xl font-extrabold text-white tracking-tight mb-2">
               Start Learning Module
             </h2>
-            <p className="text-sm text-white/75 leading-relaxed flex-1 mb-6">
+            <p className="text-base text-white/75 leading-relaxed flex-1 mb-6">
               Learn feedback literacy through guided lessons, scenario-based
               practice, AI-supported action planning, and transfer activities.
             </p>
             <Link
               to="/module/1"
-              className="inline-flex items-center gap-2 self-start rounded-lg bg-accent px-6 py-2.5 text-sm font-bold text-white shadow-card hover:bg-accent/90 active:scale-[0.98] transition-all"
+              className="inline-flex items-center gap-2 self-start rounded-lg bg-accent px-6 py-2.5 text-base font-bold text-white shadow-card hover:bg-accent/90 active:scale-[0.98] transition-all"
             >
               Start Learning <ArrowRight className="w-4 h-4" />
             </Link>
@@ -130,13 +130,13 @@ export default function Landing() {
             <h2 className="text-xl font-extrabold text-primary tracking-tight mb-2">
               Open Feedback Worksheet
             </h2>
-            <p className="text-sm text-muted-foreground leading-relaxed flex-1 mb-6">
+            <p className="text-base text-muted-foreground leading-relaxed flex-1 mb-6">
               Use the feedback literacy framework with your own assignment
               feedback to create a concrete improvement plan.
             </p>
             <Link
               to="/worksheet"
-              className="inline-flex items-center gap-2 self-start rounded-lg bg-primary px-6 py-2.5 text-sm font-bold text-white shadow-card hover:bg-primary/90 active:scale-[0.98] transition-all"
+              className="inline-flex items-center gap-2 self-start rounded-lg bg-primary px-6 py-2.5 text-base font-bold text-white shadow-card hover:bg-primary/90 active:scale-[0.98] transition-all"
             >
               Open Worksheet <ArrowRight className="w-4 h-4" />
             </Link>
@@ -148,7 +148,7 @@ export default function Landing() {
       <section className="mx-auto max-w-6xl px-5 pb-24">
         <div className="flex items-center gap-4 mb-6">
           <div className="h-px flex-1 bg-border" />
-          <span className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground">
+          <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
             What's inside the learning module
           </span>
           <div className="h-px flex-1 bg-border" />
@@ -179,19 +179,19 @@ export default function Landing() {
                   <Icon className="w-5 h-5" />
                 </div>
                 <div className={[
-                  "text-[10px] font-bold uppercase tracking-wider mb-1",
+                  "text-[11px] font-bold uppercase tracking-wider mb-1",
                   s.featured ? "text-white/60" : "text-muted-foreground",
                 ].join(" ")}>
                   Module {s.num}
                 </div>
                 <div className={[
-                  "font-bold text-base",
+                  "font-bold text-lg",
                   s.featured ? "text-white" : "text-primary",
                 ].join(" ")}>
                   {s.title}
                 </div>
                 <p className={[
-                  "mt-2 text-sm leading-relaxed",
+                  "mt-2 text-base leading-relaxed",
                   s.featured ? "text-white/80" : "text-muted-foreground",
                 ].join(" ")}>
                   {s.text}

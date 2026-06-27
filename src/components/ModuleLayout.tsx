@@ -57,13 +57,13 @@ export function ModuleLayout({ current, children, fullHeight }: ModuleLayoutProp
                 <span className="text-sm font-bold text-white tracking-tight">
                   ActiOn
                 </span>
-                <span className="hidden sm:block text-[10px] text-white/65 font-normal mt-0.5">
+                <span className="hidden sm:block text-[11px] text-white/65 font-normal mt-0.5">
                   Feedback to Action
                 </span>
               </div>
             </Link>
             {/* Frosted pill on navy */}
-            <span className="text-xs font-medium text-white/85 bg-white/15 px-2.5 py-1 rounded-full">
+            <span className="text-[13px] font-medium text-white/85 bg-white/15 px-2.5 py-1 rounded-full">
               Module {current} of {MODULES.length}
             </span>
           </div>
@@ -126,14 +126,14 @@ function ProgressBar({ current }: { current: number }) {
               {/* Step labels */}
               <div className="hidden md:block min-w-0">
                 <div className={cn(
-                  "text-xs font-semibold truncate leading-tight",
+                  "text-[13px] font-semibold truncate leading-tight",
                   active ? "text-white"    :
                   done   ? "text-teal"     :
                            "text-white/55",
                 )}>
                   {m.title}
                 </div>
-                <div className="text-[10px] text-white/45 truncate mt-0.5">
+                <div className="text-[11px] text-white/45 truncate mt-0.5">
                   {m.subtitle}
                 </div>
               </div>
@@ -181,7 +181,7 @@ export function NavFooter({ prev, next, nextLabel = "Continue" }: NavFooterProps
       {prev ? (
         <Link
           to={prev.path}
-          className="inline-flex items-center gap-1.5 text-base font-medium text-muted-foreground hover:text-primary transition-colors"
+          className="inline-flex items-center gap-1.5 text-lg font-medium text-muted-foreground hover:text-primary transition-colors"
         >
           ← {prev.label}
         </Link>
@@ -190,7 +190,7 @@ export function NavFooter({ prev, next, nextLabel = "Continue" }: NavFooterProps
       {next && (
         <Link
           to={next.path}
-          className="inline-flex items-center gap-2 rounded-lg bg-accent px-7 py-3 text-base font-bold text-white shadow-card hover:bg-accent/90 active:scale-[0.98] transition-all"
+          className="inline-flex items-center gap-2 rounded-lg bg-accent px-7 py-3 text-lg font-bold text-white shadow-card hover:bg-accent/90 active:scale-[0.98] transition-all"
         >
           {next.label ?? nextLabel} →
         </Link>
