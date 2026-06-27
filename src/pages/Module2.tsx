@@ -357,12 +357,16 @@ export default function Module2() {
   function select(sIdx: number, qIdx: number, optIdx: number) {
     const k = key(sIdx, qIdx);
     if (k in answers) return;
+    // Lock scroll position before any state update or browser focus event
+    const y = window.scrollY;
     const newAnswers = { ...answers, [k]: optIdx };
     setAnswers(newAnswers);
     const allDone = SECTIONS[sIdx]?.questions.every((_, qI) => newAnswers[key(sIdx, qI)] !== undefined) ?? false;
     if (allDone) {
       setOpenSection(sIdx < SECTIONS.length - 1 ? sIdx + 1 : null);
     }
+    // Restore after React re-render and any browser-native focus scroll
+    requestAnimationFrame(() => window.scrollTo(0, y));
   }
 
   return (
