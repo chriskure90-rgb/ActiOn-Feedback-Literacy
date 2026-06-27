@@ -42,7 +42,7 @@ export function ModuleLayout({ current, children, fullHeight }: ModuleLayoutProp
     )}>
       {/* Navy header — bg-primary (#163A5F) */}
       <header className="sticky top-0 z-40 border-b border-primary/30 bg-primary shadow-[0_2px_8px_0_rgb(22_58_95/0.35)]">
-        <div className="mx-auto max-w-6xl px-5 py-3">
+        <div className="mx-auto max-w-[900px] lg:max-w-[1100px] 2xl:max-w-[1280px] px-5 py-3">
 
           {/* Brand row */}
           <div className="flex items-center justify-between mb-3">
@@ -73,7 +73,7 @@ export function ModuleLayout({ current, children, fullHeight }: ModuleLayoutProp
       </header>
 
       <main className={cn(
-        "mx-auto w-full max-w-6xl px-5",
+        "mx-auto w-full max-w-[900px] lg:max-w-[1100px] 2xl:max-w-[1280px] px-5",
         fullHeight
           ? "min-h-0 overflow-hidden flex flex-col py-4"
           : "py-10 md:py-14",

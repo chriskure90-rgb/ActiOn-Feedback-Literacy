@@ -9,7 +9,7 @@ const PROGRAM_MODULES = [
     num: 1,
     label: "Module 1 – Learn",
     description:
-      "Build a foundation in Feedback Literacy by learning its four dimensions.",
+      "Learn the four dimensions of Feedback Literacy and build a foundation for using feedback effectively.",
   },
   {
     num: 2,
@@ -21,7 +21,7 @@ const PROGRAM_MODULES = [
     num: 3,
     label: "Module 3 – Practice",
     description:
-      "Apply feedback to one of your own assignments with the support of an AI coach and create a personalised revision plan.",
+      "Practice applying feedback to one of your own assignments with the support of an AI coach and create a personalised revision plan.",
   },
   {
     num: 4,

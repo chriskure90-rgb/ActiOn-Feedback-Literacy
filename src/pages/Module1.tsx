@@ -125,7 +125,7 @@ export default function Module1() {
   return (
     <ModuleLayout current={1}>
       {showModal && <WelcomeModal onDismiss={dismissModal} />}
-      <div className="max-w-4xl mx-auto">
+      <div className="w-full">
 
         {/* ── Compact hero ─────────────────────────────────────── */}
         <div className="mb-4 max-w-[720px]">
@@ -168,7 +168,7 @@ export default function Module1() {
 
         {/* ── Dimension sections ───────────────────────────────── */}
         <section className="mb-20">
-          <h2 className="text-4xl font-bold text-primary mb-12">
+          <h2 className="text-4xl font-bold text-primary mb-12 max-w-[760px]">
             The four dimensions
           </h2>
 
@@ -198,7 +198,7 @@ export default function Module1() {
 
                   {/* Expanded content */}
                   {isOpen && (
-                    <div className="pl-6 pr-3 pt-4 pb-12 space-y-12">
+                    <div className="pl-6 pr-3 pt-4 pb-12 space-y-12 max-w-[760px]">
 
                       {/* Why is this important */}
                       <div>
