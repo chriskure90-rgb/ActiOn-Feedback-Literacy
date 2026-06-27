@@ -284,21 +284,7 @@ export default function Module1() {
           </div>
         </section>
 
-        {/* ── Module summary ───────────────────────────────────── */}
-        <section className="mb-4">
-          <div className="rounded-xl bg-primary-soft border border-primary/10 px-7 py-6 shadow-card">
-            <div>
-              <p className="text-sm font-bold uppercase tracking-widest text-teal mb-2">
-                Module summary
-              </p>
-              <p className="text-xl text-foreground leading-[1.7]">
-                You have explored the four dimensions of feedback literacy. In Module 2, you will assess your current strengths and areas for growth. In Module 3, you will work with an AI coach to turn your feedback into a concrete action plan.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <NavFooter
+<NavFooter
           prev={{ path: "/", label: "Home" }}
           next={{ path: "/module/2", label: "Continue to Assessment" }}
         />
