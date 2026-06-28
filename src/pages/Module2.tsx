@@ -357,16 +357,7 @@ export default function Module2() {
   function select(sIdx: number, qIdx: number, optIdx: number) {
     const k = key(sIdx, qIdx);
     if (k in answers) return;
-    // Lock scroll position before any state update or browser focus event
-    const y = window.scrollY;
-    const newAnswers = { ...answers, [k]: optIdx };
-    setAnswers(newAnswers);
-    const allDone = SECTIONS[sIdx]?.questions.every((_, qI) => newAnswers[key(sIdx, qI)] !== undefined) ?? false;
-    if (allDone) {
-      setOpenSection(sIdx < SECTIONS.length - 1 ? sIdx + 1 : null);
-    }
-    // Restore after React re-render and any browser-native focus scroll
-    requestAnimationFrame(() => window.scrollTo(0, y));
+    setAnswers({ ...answers, [k]: optIdx });
   }
 
   return (
@@ -471,6 +462,7 @@ export default function Module2() {
 
                   {/* Questions */}
                   {isOpen && (
+                    <>
                     <div className="border-t border-border space-y-4 px-5 py-4">
                       {section.questions.map((q, qIdx) => {
                       const selected = answers[key(sIdx, qIdx)];
@@ -562,6 +554,7 @@ export default function Module2() {
                               return (
                                 <label
                                   key={optIdx}
+                                  onPointerDown={(e) => e.preventDefault()}
                                   className={cn(
                                     "flex items-start gap-3 rounded-lg border p-3.5 transition-all select-none",
                                     optClass,
@@ -635,6 +628,18 @@ export default function Module2() {
                       );
                       })}
                     </div>
+                    {isCompleted && (
+                      <div className="px-5 pb-5 pt-4 border-t border-border flex justify-end">
+                        <button
+                          onClick={() => setOpenSection(sIdx < SECTIONS.length - 1 ? sIdx + 1 : null)}
+                          className="inline-flex items-center gap-2 rounded-lg bg-teal px-6 py-2.5 text-base font-bold text-white shadow-card hover:bg-teal/90 active:scale-[0.98] transition-all"
+                        >
+                          {sIdx < SECTIONS.length - 1 ? "Continue to Next Section" : "Review Results"}
+                          <ChevronRight className="w-4 h-4" />
+                        </button>
+                      </div>
+                    )}
+                    </>
                   )}
                 </div>
               );
