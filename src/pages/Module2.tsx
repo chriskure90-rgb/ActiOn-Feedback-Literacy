@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { CheckCircle2, ChevronDown, ChevronRight, Heart, Rocket, Scale, ThumbsUp, XCircle } from "lucide-react";
 import { supabase } from "../lib/supabase";
@@ -309,10 +309,19 @@ export default function Module2() {
   const [selfExplanations, setSelfExplanations] = useState<Record<string, string>>({});
   const [answeredDims, setAnsweredDims] = useState<Record<string, boolean>>({});
   const [openSection, setOpenSection] = useState<number | null>(0);
+  const sectionRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const pendingScrollRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (submitted) window.scrollTo({ top: 0, behavior: "smooth" });
   }, [submitted]);
+
+  useEffect(() => {
+    const target = pendingScrollRef.current;
+    if (target === null || openSection !== target) return;
+    pendingScrollRef.current = null;
+    sectionRefs.current[target]?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [openSection]);
 
   const answered = Object.keys(answers).length;
 
@@ -430,8 +439,9 @@ export default function Module2() {
                 >
                   {/* Toggle header */}
                   <button
+                    ref={(el) => { sectionRefs.current[sIdx] = el; }}
                     onClick={() => setOpenSection(isOpen ? null : sIdx)}
-                    className="w-full flex items-center gap-3 px-5 py-4 text-left hover:bg-primary-soft/60 transition-colors"
+                    className="w-full flex items-center gap-3 px-5 py-4 text-left hover:bg-primary-soft/60 transition-colors scroll-mt-[140px]"
                     aria-expanded={isOpen}
                   >
                     <div className={cn(
@@ -631,7 +641,11 @@ export default function Module2() {
                     {isCompleted && (
                       <div className="px-5 pb-5 pt-4 border-t border-border flex justify-end">
                         <button
-                          onClick={() => setOpenSection(sIdx < SECTIONS.length - 1 ? sIdx + 1 : null)}
+                          onClick={() => {
+                            const next = sIdx < SECTIONS.length - 1 ? sIdx + 1 : null;
+                            if (next !== null) pendingScrollRef.current = next;
+                            setOpenSection(next);
+                          }}
                           className="inline-flex items-center gap-2 rounded-lg bg-teal px-6 py-2.5 text-base font-bold text-white shadow-card hover:bg-teal/90 active:scale-[0.98] transition-all"
                         >
                           {sIdx < SECTIONS.length - 1 ? "Continue to Next Section" : "Review Results"}
