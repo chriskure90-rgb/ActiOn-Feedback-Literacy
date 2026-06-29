@@ -282,7 +282,7 @@ export default function Module4() {
         <button
           onClick={() => void handleFinishCourse()}
           disabled={!canSubmit}
-          className="inline-flex items-center gap-2 rounded-lg bg-teal px-6 py-2.5 text-base font-bold text-white shadow-card hover:bg-teal/90 disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98] transition-all"
+          className="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-2.5 text-base font-bold text-white shadow-card hover:bg-accent/90 disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98] transition-all"
         >
           Finish Course →
         </button>
