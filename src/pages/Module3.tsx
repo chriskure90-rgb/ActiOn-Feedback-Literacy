@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Bot,
   CheckCircle2,
+  ChevronDown,
   Circle,
   FileText,
   Send,
@@ -411,6 +412,8 @@ function SetupScreen({ setup, onSetupChange, onLoadDemo, onStart }: SetupScreenP
 }
 
 function AssignmentCard({ setup }: { setup: SetupData }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
   return (
     <div className="rounded-xl border border-border bg-white p-5 shadow-card">
       <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-3">
@@ -422,9 +425,27 @@ function AssignmentCard({ setup }: { setup: SetupData }) {
         <h3 className="font-bold text-muted-foreground text-base mb-3 italic">Untitled assignment</h3>
       )}
       {setup.feedback && (
-        <p className="text-[13px] text-muted-foreground leading-relaxed line-clamp-4">
-          {setup.feedback}
-        </p>
+        <>
+          {isExpanded ? (
+            <div className="text-[13px] text-foreground leading-relaxed whitespace-pre-line bg-primary-soft rounded-lg px-3 py-3 max-h-72 overflow-y-auto">
+              {setup.feedback}
+            </div>
+          ) : (
+            <p className="text-[13px] text-muted-foreground leading-relaxed line-clamp-4">
+              {setup.feedback}
+            </p>
+          )}
+          <button
+            type="button"
+            onClick={() => setIsExpanded((v) => !v)}
+            className="mt-3 flex items-center gap-1 text-[12px] font-semibold text-teal hover:text-primary transition-colors"
+          >
+            <ChevronDown
+              className={cn("w-3.5 h-3.5 transition-transform duration-200", isExpanded && "rotate-180")}
+            />
+            {isExpanded ? "Hide feedback" : "View full feedback"}
+          </button>
+        </>
       )}
     </div>
   );
