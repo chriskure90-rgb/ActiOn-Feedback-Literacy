@@ -230,7 +230,9 @@ export default function Module3() {
                     {p.status === "done" ? (
                       <CheckCircle2 className="w-3.5 h-3.5 text-teal shrink-0" />
                     ) : p.status === "active" ? (
-                      <div className="w-3.5 h-3.5 rounded-full border-2 border-primary border-t-transparent animate-spin shrink-0" />
+                      <div className="w-3.5 h-3.5 rounded-full border-2 border-primary flex items-center justify-center shrink-0">
+                        <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                      </div>
                     ) : (
                       <Circle className="w-3.5 h-3.5 text-border shrink-0" />
                     )}
@@ -483,7 +485,9 @@ function ProgressTracker({ progress }: { progress: ProgressItem[] }) {
                 <CheckCircle2 className="w-3.5 h-3.5 text-white" />
               </div>
             ) : p.status === "active" ? (
-              <div className="w-5 h-5 rounded-full border-2 border-primary border-t-transparent animate-spin shrink-0" />
+              <div className="w-5 h-5 rounded-full border-2 border-primary flex items-center justify-center shrink-0">
+                <div className="w-2 h-2 rounded-full bg-primary" />
+              </div>
             ) : (
               <div className="w-5 h-5 rounded-full border-2 border-border shrink-0" />
             )}
