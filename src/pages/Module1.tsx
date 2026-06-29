@@ -25,6 +25,7 @@ const DIMENSIONS = [
     paper: {
       citation: "Carless, D., & Boud, D. (2018). The development of student feedback literacy: enabling uptake of feedback. Assessment & Evaluation in Higher Education, 43(8), 1315–1325.",
       excerpt: "Affect refers to feelings, emotions and attitudes. Students often exhibit defensive responses to feedback, particularly when comments are critical or grades are low. Under these circumstances, feedback often provokes negative affective reactions and threats to identity, so how students manage their emotional equilibrium impacts on their engagement with critical commentary.",
+      pdfUrl: "/papers/carless-boud-2018-feedback-literacy.pdf",
     },
   },
   {
@@ -48,6 +49,7 @@ const DIMENSIONS = [
     paper: {
       citation: "Winstone, N. E., & Boud, D. (2021). The need to disentangle assessment and feedback in higher education. Studies in Higher Education. https://doi.org/10.1080/03075079.2020.1779687",
       excerpt: "Feedback is defined as 'processes where the learner makes sense of performance-relevant information to promote their learning'. In this sense, feedback is not about grade justification but forward-looking information that helps students further develop their work.",
+      pdfUrl: "/papers/winstone-boud-2020-assessment-feedback.pdf",
     },
   },
   {
@@ -71,6 +73,7 @@ const DIMENSIONS = [
     paper: {
       citation: "Panadero, E., & Broadbent, J. (2018). Developing evaluative judgement: A self-regulated learning perspective. In D. Boud, R. Ajjawi, P. Dawson, & J. Tai (Eds.), Developing Evaluative Judgement: Assessment for Knowing and Producing Quality Work. Routledge.",
       excerpt: "Evaluative judgement is the ability to assess a piece of work (one's own or that of others) while attending to the context, quality, standards and criteria built upon previous experience.",
+      pdfUrl: "/papers/panadero-broadbent-2018-evaluative-judgement.pdf",
     },
   },
   {
@@ -94,6 +97,7 @@ const DIMENSIONS = [
     paper: {
       citation: "Zimmerman, B. J. (2002). Becoming a self-regulated learner: An overview. Theory Into Practice, 41(2), 64–70.",
       excerpt: "Self-regulation is not a mental ability or an academic performance skill; rather it is the self-directive process by which learners transform their mental abilities into academic skills.",
+      pdfUrl: "/papers/zimmerman-2002-self-regulated-learner.pdf",
     },
   },
 ];
@@ -271,6 +275,16 @@ export default function Module1() {
                               <p className="text-sm font-bold uppercase tracking-widest text-teal mb-2">Key excerpt</p>
                               <p className="text-xl text-foreground leading-[1.7]">"{dim.paper.excerpt}"</p>
                             </div>
+                            {dim.paper.pdfUrl && (
+                              <a
+                                href={dim.paper.pdfUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1.5 text-base text-muted-foreground hover:text-teal transition-colors underline underline-offset-4"
+                              >
+                                Open full paper ↗
+                              </a>
+                            )}
                           </div>
                         )}
                       </div>
