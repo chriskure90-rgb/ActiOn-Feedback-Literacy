@@ -17,7 +17,11 @@ const STEPS = [
     title: "Learn",
     text: "Understand what feedback literacy is and the four core dimensions.",
     path: "/module/1",
-    featured: false,
+    core: false,
+    topBorder: "border-t-sky-400",
+    iconBg: "bg-sky-50",
+    iconColor: "text-sky-500",
+    labelColor: "text-sky-500",
   },
   {
     num: 2,
@@ -25,7 +29,11 @@ const STEPS = [
     title: "Assess",
     text: "Take a short self-assessment to find your strengths and gaps.",
     path: "/module/2",
-    featured: false,
+    core: false,
+    topBorder: "border-t-blue-500",
+    iconBg: "bg-blue-50",
+    iconColor: "text-blue-600",
+    labelColor: "text-blue-600",
   },
   {
     num: 3,
@@ -33,7 +41,11 @@ const STEPS = [
     title: "Practice",
     text: "Work with an AI coach on real teacher feedback to build an improvement plan.",
     path: "/module/3",
-    featured: true,
+    core: true,
+    topBorder: "border-t-primary",
+    iconBg: "bg-primary-soft",
+    iconColor: "text-primary",
+    labelColor: "text-primary",
   },
   {
     num: 4,
@@ -41,7 +53,11 @@ const STEPS = [
     title: "Transfer",
     text: "Apply what you learned to a future scenario and get personalised advice.",
     path: "/module/4",
-    featured: false,
+    core: false,
+    topBorder: "border-t-teal",
+    iconBg: "bg-teal-soft",
+    iconColor: "text-teal",
+    labelColor: "text-teal",
   },
 ] as const;
 
@@ -160,40 +176,23 @@ export default function Landing() {
               <Link
                 key={s.num}
                 to={s.path}
-                className={[
-                  "group relative rounded-xl border p-6 transition-all duration-200 hover:-translate-y-1",
-                  s.featured
-                    ? "border-primary/30 bg-primary shadow-card-md"
-                    : "border-border bg-white shadow-card hover:shadow-card-md",
-                ].join(" ")}
+                className={`group relative rounded-xl border-t-4 border border-border bg-white shadow-card hover:shadow-card-md hover:-translate-y-1 transition-all duration-200 p-6 ${s.topBorder}`}
               >
-                {s.featured && (
+                {s.core && (
                   <span className="absolute -top-2.5 right-4 text-[10px] font-extrabold uppercase tracking-wider bg-accent text-white px-2.5 py-0.5 rounded-full shadow-sm">
                     Core
                   </span>
                 )}
-                <div className={[
-                  "w-10 h-10 rounded-lg flex items-center justify-center mb-4",
-                  s.featured ? "bg-white/15 text-white" : "bg-primary-soft text-primary",
-                ].join(" ")}>
+                <div className={`w-10 h-10 rounded-lg flex items-center justify-center mb-4 ${s.iconBg} ${s.iconColor}`}>
                   <Icon className="w-5 h-5" />
                 </div>
-                <div className={[
-                  "text-[11px] font-bold uppercase tracking-wider mb-1",
-                  s.featured ? "text-white/60" : "text-muted-foreground",
-                ].join(" ")}>
+                <div className={`text-[11px] font-bold uppercase tracking-wider mb-1 ${s.labelColor}`}>
                   Module {s.num}
                 </div>
-                <div className={[
-                  "font-bold text-lg",
-                  s.featured ? "text-white" : "text-primary",
-                ].join(" ")}>
+                <div className="font-bold text-lg text-primary">
                   {s.title}
                 </div>
-                <p className={[
-                  "mt-2 text-base leading-relaxed",
-                  s.featured ? "text-white/80" : "text-muted-foreground",
-                ].join(" ")}>
+                <p className="mt-2 text-base leading-relaxed text-muted-foreground">
                   {s.text}
                 </p>
               </Link>
