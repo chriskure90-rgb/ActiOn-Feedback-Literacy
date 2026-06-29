@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { Check } from "lucide-react";
+import { Check, HelpCircle } from "lucide-react";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { MODULES } from "@/lib/constants";
@@ -62,10 +62,19 @@ export function ModuleLayout({ current, children, fullHeight }: ModuleLayoutProp
                 </span>
               </div>
             </Link>
-            {/* Frosted pill on navy */}
-            <span className="text-[13px] font-medium text-white/85 bg-white/15 px-2.5 py-1 rounded-full">
-              Module {current} of {MODULES.length}
-            </span>
+            <div className="flex items-center gap-3">
+              {/* Frosted pill on navy */}
+              <span className="text-[13px] font-medium text-white/85 bg-white/15 px-2.5 py-1 rounded-full">
+                Module {current} of {MODULES.length}
+              </span>
+              <Link
+                to="/help"
+                title="Help Center"
+                className="w-8 h-8 rounded-full flex items-center justify-center text-white/70 hover:text-white hover:bg-white/15 transition-colors"
+              >
+                <HelpCircle className="w-5 h-5" />
+              </Link>
+            </div>
           </div>
 
           <ProgressBar current={current} />

@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes, useLocation } from "react-router";
 import "./styles/globals.css";
 
 import Landing from "./pages/Landing";
+import Help from "./pages/Help";
 import Module1 from "./pages/Module1";
 import Module2 from "./pages/Module2";
 import Module3 from "./pages/Module3";
@@ -29,6 +30,7 @@ createRoot(root).render(
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Landing />} />
+        <Route path="/help" element={<Help />} />
         <Route path="/module/1" element={<Module1 />} />
         <Route path="/module/2" element={<Module2 />} />
         <Route path="/module/3" element={<Module3 />} />

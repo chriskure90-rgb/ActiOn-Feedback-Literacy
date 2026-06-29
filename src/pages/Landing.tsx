@@ -5,6 +5,7 @@ import {
   ClipboardCheck,
   Compass,
   FileText,
+  HelpCircle,
   MessageSquareHeart,
 } from "lucide-react";
 
@@ -80,12 +81,21 @@ export default function Landing() {
               </span>
             </div>
           </div>
-          <Link
-            to="/module/1"
-            className="inline-flex items-center gap-1.5 text-base font-semibold text-white hover:text-white/80 transition-colors"
-          >
-            Start course <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
+          <div className="flex items-center gap-4">
+            <Link
+              to="/help"
+              title="Help Center"
+              className="w-8 h-8 rounded-full flex items-center justify-center text-white/70 hover:text-white hover:bg-white/15 transition-colors"
+            >
+              <HelpCircle className="w-5 h-5" />
+            </Link>
+            <Link
+              to="/module/1"
+              className="inline-flex items-center gap-1.5 text-base font-semibold text-white hover:text-white/80 transition-colors"
+            >
+              Start course <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
         </div>
       </header>
 
