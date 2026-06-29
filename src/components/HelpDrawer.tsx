@@ -18,6 +18,7 @@ const SECTIONS = [
     id: "getting-started",
     icon: Rocket,
     title: "Getting Started",
+    subtitle: "Learn how to navigate the app, complete the modules, and get started.",
     iconBg: "bg-accent-soft",
     iconColor: "text-accent",
     items: [
@@ -39,6 +40,7 @@ const SECTIONS = [
     id: "activities",
     icon: BookOpen,
     title: "Learning Activities",
+    subtitle: "Find guidance for reflection activities, learning tasks, and module questions.",
     iconBg: "bg-primary-soft",
     iconColor: "text-primary",
     items: [
@@ -56,6 +58,7 @@ const SECTIONS = [
     id: "technical",
     icon: Settings,
     title: "Technical Support",
+    subtitle: "Solve common technical issues, browser problems, and AI loading errors.",
     iconBg: "bg-sky-50",
     iconColor: "text-sky-600",
     items: [
@@ -77,6 +80,7 @@ const SECTIONS = [
     id: "about",
     icon: Info,
     title: "About Feedback Literacy",
+    subtitle: "Learn what feedback literacy is and why these activities matter.",
     iconBg: "bg-teal-soft",
     iconColor: "text-teal",
     items: [
@@ -221,9 +225,14 @@ export function HelpDrawer() {
                   )}>
                     <Icon className="w-4 h-4" />
                   </div>
-                  <span className="flex-1 font-bold text-primary text-sm">
-                    {section.title}
-                  </span>
+                  <div className="flex-1 min-w-0">
+                    <span className="block font-bold text-primary text-sm leading-tight">
+                      {section.title}
+                    </span>
+                    <span className="block text-xs text-muted-foreground mt-0.5 leading-snug">
+                      {section.subtitle}
+                    </span>
+                  </div>
                   <ChevronDown className={cn(
                     "w-4 h-4 text-muted-foreground shrink-0 transition-transform duration-200",
                     isActive && "rotate-180",
@@ -255,9 +264,14 @@ export function HelpDrawer() {
               <div className="shrink-0 w-8 h-8 rounded-lg bg-rose-50 text-rose-500 flex items-center justify-center">
                 <Mail className="w-4 h-4" />
               </div>
-              <span className="flex-1 font-bold text-primary text-sm">
-                Contact Your Instructor
-              </span>
+              <div className="flex-1 min-w-0">
+                <span className="block font-bold text-primary text-sm leading-tight">
+                  Contact Your Instructor
+                </span>
+                <span className="block text-xs text-muted-foreground mt-0.5 leading-snug">
+                  Get additional help if your question isn't answered in the Help Center.
+                </span>
+              </div>
               <ChevronDown className={cn(
                 "w-4 h-4 text-muted-foreground shrink-0 transition-transform duration-200",
                 activeSection === "contact" && "rotate-180",
