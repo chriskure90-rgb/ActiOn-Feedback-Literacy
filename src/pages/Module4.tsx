@@ -390,14 +390,14 @@ function ReflectionPage({ responses, saveStatus, onComplete }: ReflectionPagePro
             Reflection
           </p>
           <div className="rounded-xl border border-teal/30 bg-teal-soft px-6 py-6 shadow-card">
-            <div className="flex items-center gap-2.5 mb-4">
+            <div className="flex items-center gap-2.5 mb-5">
               <div className="w-8 h-8 rounded-full bg-teal text-white flex items-center justify-center shrink-0">
                 <Sparkles className="w-4 h-4" />
               </div>
-              <p className="font-bold text-primary text-base">A note on your progress</p>
+              <p className="font-bold text-primary text-lg">A note on your progress</p>
             </div>
-            <p className="text-base text-foreground leading-[1.8]">
-              You've just done something most students never do — you've moved from reacting to feedback to actively planning how to use it. By working through all four dimensions, you've built a personalised, research-backed strategy you can carry into every future assignment. The most meaningful step you've taken is committing to concrete action before the next piece of feedback even arrives. Feedback literacy grows stronger every time you practise it deliberately — each assignment is a new opportunity to refine your approach. Return to this plan whenever feedback feels difficult or unclear; the strategies you've built here will serve you well beyond this course.
+            <p className="text-lg text-foreground leading-[1.9]">
+              You've taken an important step toward using feedback more effectively. Rather than simply reacting to comments, you've learned how to understand feedback, identify priorities, and turn it into a clear action plan. Continue applying these strategies in future assignments to make feedback a regular part of your learning process.
             </p>
           </div>
         </section>
