@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes, useLocation } from "react-router";
 
 import "./styles/globals.css";
 
+import { HelpDrawer } from "./components/HelpDrawer";
 import Landing from "./pages/Landing";
 import Help from "./pages/Help";
 import Module1 from "./pages/Module1";
@@ -28,6 +29,7 @@ createRoot(root).render(
   <StrictMode>
     <BrowserRouter>
       <ScrollToTop />
+      <HelpDrawer />
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/help" element={<Help />} />
