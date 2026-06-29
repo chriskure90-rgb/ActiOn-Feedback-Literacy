@@ -114,6 +114,7 @@ export default function Module4() {
       },
     });
     setSaveStatus(error ? "error" : "saved");
+    window.scrollTo(0, 0);
     setStep("reflection");
   }
 
@@ -126,7 +127,7 @@ export default function Module4() {
       <ReflectionPage
         responses={responses}
         saveStatus={saveStatus}
-        onComplete={() => setStep("complete")}
+        onComplete={() => { window.scrollTo(0, 0); setStep("complete"); }}
       />
     );
   }

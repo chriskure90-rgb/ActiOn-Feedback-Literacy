@@ -313,7 +313,7 @@ export default function Module2() {
   const pendingScrollRef = useRef<number | null>(null);
 
   useEffect(() => {
-    if (submitted) window.scrollTo({ top: 0, behavior: "smooth" });
+    if (submitted) window.scrollTo(0, 0);
   }, [submitted]);
 
   useEffect(() => {

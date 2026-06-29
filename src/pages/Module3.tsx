@@ -109,6 +109,7 @@ export default function Module3() {
     setProgress(makeInitialProgress());
     setChat([{ role: "ai", text: OPENING_MESSAGE }]);
     setMessage("");
+    window.scrollTo(0, 0);
     setStep(2);
   }
 
