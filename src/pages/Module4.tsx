@@ -226,21 +226,21 @@ export default function Module4() {
                   </div>
                   <div className="flex-1 min-w-0 pt-0.5">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h2 className="font-bold text-primary text-base leading-tight">
+                      <h2 className="font-bold text-primary text-lg leading-tight">
                         {component.title}
                       </h2>
                       {isDone && (
                         <CheckCircle2 className="w-3.5 h-3.5 text-teal shrink-0" />
                       )}
                     </div>
-                    <p className="text-sm text-muted-foreground mt-0.5 leading-snug">
+                    <p className="text-base text-muted-foreground mt-0.5 leading-snug">
                       {component.explanation}
                     </p>
                   </div>
                 </div>
                 <label
                   htmlFor={`plan-${i}`}
-                  className="block text-base font-semibold text-primary leading-snug"
+                  className="block text-lg font-semibold text-primary leading-snug"
                 >
                   {component.prompt}
                 </label>
@@ -253,7 +253,7 @@ export default function Module4() {
                   placeholder={component.placeholder}
                   rows={4}
                   className={cn(
-                    "w-full rounded-lg border bg-background px-3.5 py-3 text-base leading-relaxed",
+                    "w-full rounded-lg border bg-background px-3.5 py-3 text-lg leading-relaxed",
                     "focus:outline-none focus:ring-2 focus:ring-primary/25 focus:border-primary/40",
                     "resize-y text-foreground placeholder:text-muted-foreground/60 transition",
                     isDone ? "border-teal/30" : "border-border",
@@ -322,14 +322,14 @@ function ReflectionPage({ responses, saveStatus, onComplete }: ReflectionPagePro
 
         {/* Scenario recap */}
         <section className="mb-8">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-3">
+          <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-3">
             The scenario
           </p>
           <div className="rounded-xl border border-border bg-white px-6 py-5 shadow-card">
-            <p className="text-base text-muted-foreground leading-relaxed">
+            <p className="text-lg text-muted-foreground leading-relaxed">
               You've just submitted your capstone thesis. Your supervisor writes:
             </p>
-            <p className="mt-3 text-base text-foreground leading-relaxed border-l-2 border-accent/60 pl-4 italic">
+            <p className="mt-3 text-lg text-foreground leading-relaxed border-l-2 border-accent/60 pl-4 italic">
               {SCENARIO_QUOTE}
             </p>
           </div>
@@ -337,7 +337,7 @@ function ReflectionPage({ responses, saveStatus, onComplete }: ReflectionPagePro
 
         {/* Transfer plan */}
         <section className="mb-8">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-3">
+          <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-3">
             Your transfer plan
           </p>
           <div className="rounded-xl border border-border bg-white shadow-card-md overflow-hidden">
@@ -369,10 +369,10 @@ function ReflectionPage({ responses, saveStatus, onComplete }: ReflectionPagePro
                         {component.title}
                       </span>
                     </div>
-                    <p className="text-[13px] text-muted-foreground mb-1.5 leading-snug">
+                    <p className="text-sm text-muted-foreground mb-1.5 leading-snug">
                       {component.prompt}
                     </p>
-                    <p className="text-base text-foreground leading-relaxed">{text}</p>
+                    <p className="text-lg text-foreground leading-relaxed">{text}</p>
                   </div>
                 );
               })}
@@ -387,7 +387,7 @@ function ReflectionPage({ responses, saveStatus, onComplete }: ReflectionPagePro
 
         {/* Reflection */}
         <section className="mb-10">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-3">
+          <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-3">
             Reflection
           </p>
           <div className="rounded-xl border border-teal/30 bg-teal-soft px-6 py-6 shadow-card">

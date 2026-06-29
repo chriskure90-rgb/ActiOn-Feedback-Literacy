@@ -450,16 +450,16 @@ export default function Module2() {
                     )}>
                       {isCompleted ? <CheckCircle2 className="w-4 h-4" /> : <Icon className="w-4 h-4" />}
                     </div>
-                    <h2 className="flex-1 font-bold text-primary text-lg leading-tight min-w-0">
+                    <h2 className="flex-1 font-bold text-primary text-xl leading-tight min-w-0">
                       {section.dim}
                     </h2>
                     {isCompleted ? (
-                      <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-teal text-white shrink-0">
+                      <span className="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-teal text-white shrink-0">
                         ✓ Completed
                       </span>
                     ) : (
                       <span className={cn(
-                        "text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full shrink-0",
+                        "text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full shrink-0",
                         sectionAnswered > 0 ? `${section.chipColor} text-white` : "bg-muted text-muted-foreground",
                       )}>
                         {sectionAnswered} / 3
@@ -503,7 +503,7 @@ export default function Module2() {
                               )}>
                                 {isAnswered ? (isCorrect ? "✓" : "✗") : qIdx + 1}
                               </span>
-                              <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                              <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
                                 Scenario {qIdx + 1}
                               </span>
                             </div>
@@ -513,10 +513,10 @@ export default function Module2() {
                               <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1.5">
                                 Scenario
                               </p>
-                              <p className="text-base text-foreground leading-relaxed">{q.scenario}</p>
+                              <p className="text-lg text-foreground leading-relaxed">{q.scenario}</p>
                             </div>
 
-                            <p className="font-semibold text-primary text-base leading-relaxed">{q.question}</p>
+                            <p className="font-semibold text-primary text-lg leading-relaxed">{q.question}</p>
                           </div>
 
                           {/* Options */}
@@ -598,7 +598,7 @@ export default function Module2() {
                                       {OPTION_LABELS[optIdx]}
                                     </span>
                                     <span className={cn(
-                                      "text-base leading-relaxed",
+                                      "text-lg leading-relaxed",
                                       isAnswered && !isSelected && !isCorrectOpt
                                         ? "text-muted-foreground"
                                         : "text-foreground",
@@ -606,7 +606,7 @@ export default function Module2() {
                                       {opt}
                                     </span>
                                     {isAnswered && isCorrectOpt && !isSelected && (
-                                      <span className="ml-1 shrink-0 text-[10px] font-bold text-teal uppercase tracking-wide mt-1">
+                                      <span className="ml-1 shrink-0 text-xs font-bold text-teal uppercase tracking-wide mt-1">
                                         correct answer
                                       </span>
                                     )}
@@ -629,7 +629,7 @@ export default function Module2() {
                               ) : (
                                 <XCircle className="w-4 h-4 text-accent shrink-0 mt-0.5" />
                               )}
-                              <p className="text-base leading-relaxed text-foreground">
+                              <p className="text-lg leading-relaxed text-foreground">
                                 {isCorrect ? q.feedbackCorrect : q.feedbackIncorrect}
                               </p>
                             </div>
@@ -662,7 +662,7 @@ export default function Module2() {
 
           {/* Submit row */}
           <div className="flex items-center justify-between pt-6 mt-4 border-t border-border">
-            <p className="text-base text-muted-foreground">
+            <p className="text-lg text-muted-foreground">
               {answered < TOTAL_QUESTIONS
                 ? `${TOTAL_QUESTIONS - answered} question${TOTAL_QUESTIONS - answered !== 1 ? "s" : ""} remaining`
                 : "All questions answered — ready to submit!"}
@@ -685,7 +685,7 @@ export default function Module2() {
           {growthAreas.length > 0 && (
             <div className="mt-6 space-y-4">
               <div className="flex items-center gap-3 pb-1">
-                <h3 className="text-base font-bold text-primary">Before you practise</h3>
+                <h3 className="text-lg font-bold text-primary">Before you practise</h3>
                 <span className="text-[13px] text-muted-foreground">
                   {growthAreas.length === 1 ? "1 Growth Area" : `${growthAreas.length} Growth Areas`} to reflect on
                 </span>
@@ -696,27 +696,27 @@ export default function Module2() {
                 return (
                   <div key={dim} className="rounded-xl border border-accent/25 bg-white p-6 shadow-card">
                     <div className="flex items-center gap-2.5 mb-4">
-                      <span className="text-[10px] font-bold uppercase tracking-widest bg-accent/10 text-accent px-2.5 py-1 rounded-full">
+                      <span className="text-xs font-bold uppercase tracking-widest bg-accent/10 text-accent px-2.5 py-1 rounded-full">
                         Growth Area
                       </span>
-                      <span className="font-bold text-primary text-base">{dim}</span>
+                      <span className="font-bold text-primary text-lg">{dim}</span>
                     </div>
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1.5">
+                    <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-1.5">
                       What this means
                     </p>
-                    <p className="text-base text-foreground leading-relaxed mb-3">
+                    <p className="text-lg text-foreground leading-relaxed mb-3">
                       {content.description}
                     </p>
-                    <p className="text-[13px] font-semibold text-primary mb-2">Effective learners:</p>
+                    <p className="text-sm font-semibold text-primary mb-2">Effective learners:</p>
                     <ul className="space-y-1.5 mb-5">
                       {content.bullets.map((bullet) => (
-                        <li key={bullet} className="flex items-center gap-2 text-base text-muted-foreground">
+                        <li key={bullet} className="flex items-center gap-2 text-lg text-muted-foreground">
                           <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
                           {bullet}
                         </li>
                       ))}
                     </ul>
-                    <p className="font-semibold text-primary text-base mb-2">{content.question}</p>
+                    <p className="font-semibold text-primary text-lg mb-2">{content.question}</p>
                     <textarea
                       value={selfExplanations[dim] ?? ""}
                       onChange={(e) =>
@@ -724,7 +724,7 @@ export default function Module2() {
                       }
                       rows={3}
                       placeholder="Type your explanation here…"
-                      className="w-full rounded-lg border border-border bg-background px-3 py-2.5 text-base leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 resize-y text-foreground placeholder:text-muted-foreground transition mb-3"
+                      className="w-full rounded-lg border border-border bg-background px-3 py-2.5 text-lg leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 resize-y text-foreground placeholder:text-muted-foreground transition mb-3"
                     />
                     {!answeredDims[dim] ? (
                       <button
@@ -736,10 +736,10 @@ export default function Module2() {
                       </button>
                     ) : (
                       <div className="rounded-lg bg-muted/50 border border-border px-4 py-3">
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1.5">
+                        <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-1.5">
                           Example answer
                         </p>
-                        <p className="text-base text-muted-foreground italic leading-relaxed">
+                        <p className="text-lg text-muted-foreground italic leading-relaxed">
                           {content.example}
                         </p>
                       </div>
@@ -806,8 +806,8 @@ function ResultsDashboard({ scores, saveStatus }: { scores: number[]; saveStatus
           <CheckCircle2 className="w-5 h-5" />
         </div>
         <div>
-          <h2 className="font-bold text-primary text-lg">Assessment complete</h2>
-          <p className="text-base text-muted-foreground mt-1 leading-relaxed">
+          <h2 className="font-bold text-primary text-xl">Assessment complete</h2>
+          <p className="text-lg text-muted-foreground mt-1 leading-relaxed">
             You scored <span className="font-semibold text-primary">{total} out of {TOTAL_QUESTIONS}</span>. Your results are shown below.
             Module 3 will give you the opportunity to apply these strategies with the help of an AI coach.
           </p>
@@ -858,7 +858,7 @@ function ResultsDashboard({ scores, saveStatus }: { scores: number[]; saveStatus
 
       {/* Dimension scores */}
       <div>
-        <h3 className="text-base font-bold text-primary mb-3">Your dimension scores</h3>
+        <h3 className="text-lg font-bold text-primary mb-3">Your dimension scores</h3>
         <div className="grid gap-3 md:grid-cols-2">
           {SECTIONS.map((section, i) => {
             const Icon = section.icon;
@@ -878,11 +878,11 @@ function ResultsDashboard({ scores, saveStatus }: { scores: number[]; saveStatus
                   <div className={`w-8 h-8 rounded-lg ${section.iconBg} ${section.iconColor} flex items-center justify-center shrink-0`}>
                     <Icon className="w-4 h-4" />
                   </div>
-                  <p className="flex-1 font-semibold text-primary text-base leading-tight min-w-0">
+                  <p className="flex-1 font-semibold text-primary text-lg leading-tight min-w-0">
                     {section.dim}
                   </p>
                   <span className={cn(
-                    "text-base font-bold shrink-0",
+                    "text-lg font-bold shrink-0",
                     score === 3 ? "text-teal" : score === 2 ? "text-primary" : "text-accent",
                   )}>
                     {score} / 3
@@ -900,7 +900,7 @@ function ResultsDashboard({ scores, saveStatus }: { scores: number[]; saveStatus
                 </div>
 
                 <p className={cn(
-                  "mt-2.5 text-[10px] font-bold uppercase tracking-widest",
+                  "mt-2.5 text-xs font-bold uppercase tracking-widest",
                   classification === "strength" && "text-teal",
                   classification === "developing" && "text-primary",
                   classification === "growth" && "text-accent",
@@ -918,25 +918,25 @@ function ResultsDashboard({ scores, saveStatus }: { scores: number[]; saveStatus
       {/* Growth areas / strength callout */}
       {growthDims.length > 0 ? (
         <div className="rounded-xl bg-accent-soft border border-accent/20 px-6 py-5">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-accent mb-1.5">
+          <p className="text-xs font-bold uppercase tracking-widest text-accent mb-1.5">
             {growthDims.length === 1 ? "Your Growth Area" : "Your Growth Areas"}
           </p>
-          <p className="font-bold text-primary text-lg mb-1">
+          <p className="font-bold text-primary text-xl mb-1">
             {growthDims.join(" · ")}
           </p>
-          <p className="text-base text-muted-foreground leading-relaxed">
+          <p className="text-lg text-muted-foreground leading-relaxed">
             {growthDims.length === 1 ? "This dimension" : "These dimensions"} may require additional attention as you move into Module 3.
           </p>
         </div>
       ) : (
         <div className="rounded-xl bg-teal-soft border border-teal/20 px-6 py-5">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-teal mb-1.5">
+          <p className="text-xs font-bold uppercase tracking-widest text-teal mb-1.5">
             Excellent performance
           </p>
-          <p className="font-bold text-primary text-lg mb-1">
+          <p className="font-bold text-primary text-xl mb-1">
             You are strong across all dimensions.
           </p>
-          <p className="text-base text-muted-foreground leading-relaxed">
+          <p className="text-lg text-muted-foreground leading-relaxed">
             Module 3 will give you the opportunity to apply these strategies with real instructor feedback.
           </p>
         </div>

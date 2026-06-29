@@ -136,10 +136,10 @@ export default function Module1() {
           <p className="text-xs font-bold uppercase tracking-widest text-teal mb-2">
             Module 1 · Learn
           </p>
-          <h1 className="text-4xl md:text-5xl font-extrabold text-primary tracking-tight leading-tight mb-2">
+          <h1 className="text-4xl md:text-[60px] font-extrabold text-primary tracking-tight leading-tight mb-2">
             What is Feedback Literacy?
           </h1>
-          <p className="text-lg text-muted-foreground leading-relaxed">
+          <p className="text-xl text-muted-foreground leading-relaxed">
             Learn how to understand instructor feedback and use it to improve future assignments.
           </p>
         </div>

@@ -158,14 +158,14 @@ function ProgressBar({ current }: { current: number }) {
 export function ModuleHeader({ eyebrow, title, description }: ModuleHeaderProps) {
   return (
     <div className="mb-14">
-      <p className="text-xs font-bold uppercase tracking-widest text-teal mb-3">
+      <p className="text-[11px] font-bold uppercase tracking-widest text-teal mb-3">
         {eyebrow}
       </p>
-      <h1 className="text-4xl md:text-[56px] font-extrabold text-primary tracking-tight leading-[1.1]">
+      <h1 className="text-4xl md:text-[60px] font-extrabold text-primary tracking-tight leading-[1.1]">
         {title}
       </h1>
       {description && (
-        <p className="mt-5 text-xl text-muted-foreground max-w-2xl leading-[1.7]">
+        <p className="mt-5 text-xl text-muted-foreground max-w-2xl leading-[1.75]">
           {description}
         </p>
       )}

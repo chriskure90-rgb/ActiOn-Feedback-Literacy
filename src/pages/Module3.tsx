@@ -280,7 +280,7 @@ export default function Module3() {
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder="Write your response to the coach… (Enter to send)"
                     rows={2}
-                    className="flex-1 resize-none rounded-lg border border-border bg-background px-3 py-2 text-base leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition placeholder:text-muted-foreground"
+                    className="flex-1 resize-none rounded-lg border border-border bg-background px-3 py-2 text-lg leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition placeholder:text-muted-foreground"
                     onKeyDown={(e) => {
                       if (e.key === "Enter" && !e.shiftKey) {
                         e.preventDefault();
@@ -332,7 +332,7 @@ function SetupScreen({ setup, onSetupChange, onLoadDemo, onStart }: SetupScreenP
       <div className="rounded-xl border border-border bg-white p-6 shadow-card">
         <label
           htmlFor="setup-title"
-          className="block text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2"
+          className="block text-xs font-bold uppercase tracking-widest text-muted-foreground mb-2"
         >
           Assignment Title
         </label>
@@ -342,7 +342,7 @@ function SetupScreen({ setup, onSetupChange, onLoadDemo, onStart }: SetupScreenP
           value={setup.title}
           onChange={(e) => onSetupChange({ ...setup, title: e.target.value })}
           placeholder="e.g. Essay: Climate Policy in the EU"
-          className="w-full rounded-lg border border-border bg-background px-3 py-2.5 text-base focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition placeholder:text-muted-foreground"
+          className="w-full rounded-lg border border-border bg-background px-3 py-2.5 text-lg focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition placeholder:text-muted-foreground"
         />
       </div>
 
@@ -350,7 +350,7 @@ function SetupScreen({ setup, onSetupChange, onLoadDemo, onStart }: SetupScreenP
       <div className="rounded-xl border border-border bg-white p-6 shadow-card">
         <label
           htmlFor="setup-instructions"
-          className="block text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2"
+          className="block text-xs font-bold uppercase tracking-widest text-muted-foreground mb-2"
         >
           Task Description{" "}
           <span className="normal-case font-normal tracking-normal">(optional)</span>
@@ -361,7 +361,7 @@ function SetupScreen({ setup, onSetupChange, onLoadDemo, onStart }: SetupScreenP
           onChange={(e) => onSetupChange({ ...setup, instructions: e.target.value })}
           rows={3}
           placeholder="Briefly describe what the assignment asked you to do…"
-          className="w-full resize-none rounded-lg border border-border bg-background px-3 py-2.5 text-base leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition placeholder:text-muted-foreground"
+          className="w-full resize-none rounded-lg border border-border bg-background px-3 py-2.5 text-lg leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition placeholder:text-muted-foreground"
         />
       </div>
 
@@ -369,7 +369,7 @@ function SetupScreen({ setup, onSetupChange, onLoadDemo, onStart }: SetupScreenP
       <div className="rounded-xl border border-border bg-white p-6 shadow-card">
         <label
           htmlFor="setup-feedback"
-          className="block text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2"
+          className="block text-xs font-bold uppercase tracking-widest text-muted-foreground mb-2"
         >
           Instructor&apos;s Feedback{" "}
           <span className="text-accent font-bold">*</span>
@@ -380,7 +380,7 @@ function SetupScreen({ setup, onSetupChange, onLoadDemo, onStart }: SetupScreenP
           onChange={(e) => onSetupChange({ ...setup, feedback: e.target.value })}
           rows={6}
           placeholder="Paste your instructor's written feedback here…"
-          className="w-full resize-none rounded-lg border border-border bg-background px-3 py-2.5 text-base leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition placeholder:text-muted-foreground"
+          className="w-full resize-none rounded-lg border border-border bg-background px-3 py-2.5 text-lg leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition placeholder:text-muted-foreground"
         />
         {!canStart && (
           <p className="text-[13px] text-muted-foreground mt-2">
@@ -417,13 +417,13 @@ function AssignmentCard({ setup }: { setup: SetupData }) {
 
   return (
     <div className="rounded-xl border border-border bg-white p-5 shadow-card">
-      <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-3">
+      <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground mb-3">
         <FileText className="w-3.5 h-3.5" /> Assignment
       </div>
       {setup.title ? (
-        <h3 className="font-bold text-primary text-base mb-3 leading-snug">{setup.title}</h3>
+        <h3 className="font-bold text-primary text-lg mb-3 leading-snug">{setup.title}</h3>
       ) : (
-        <h3 className="font-bold text-muted-foreground text-base mb-3 italic">Untitled assignment</h3>
+        <h3 className="font-bold text-muted-foreground text-lg mb-3 italic">Untitled assignment</h3>
       )}
       {setup.feedback && (
         <>
@@ -466,7 +466,7 @@ function ChatBubble({ message }: { message: ChatMessage }) {
       </div>
       <div
         className={cn(
-          "max-w-[78%] rounded-2xl px-4 py-3 text-base leading-relaxed whitespace-pre-line",
+          "max-w-[78%] rounded-2xl px-4 py-3 text-lg leading-relaxed whitespace-pre-line",
           isAi
             ? "bg-white border border-border text-foreground rounded-bl-sm shadow-card"
             : "bg-primary text-white rounded-br-sm shadow-card",
@@ -495,7 +495,7 @@ function TypingIndicator() {
 function ProgressTracker({ progress }: { progress: ProgressItem[] }) {
   return (
     <div className="rounded-xl border border-border bg-white p-5 shadow-card">
-      <h3 className="font-bold text-primary text-base mb-0.5">Literacy dimensions</h3>
+      <h3 className="font-bold text-primary text-lg mb-0.5">Literacy dimensions</h3>
       <p className="text-xs text-muted-foreground mb-4">
         Progress through the coaching session
       </p>
@@ -516,7 +516,7 @@ function ProgressTracker({ progress }: { progress: ProgressItem[] }) {
             <div className="flex-1 min-w-0">
               <div
                 className={cn(
-                  "text-base font-semibold truncate",
+                  "text-lg font-semibold truncate",
                   p.status === "done"
                     ? "text-teal"
                     : p.status === "active"
